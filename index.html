@@ -34,7 +34,7 @@
 
     .content-container {
       display: flex;
-      height: 100%;
+      
     }
 
     .two-column {
@@ -91,6 +91,18 @@
       padding: 8px;
       text-align: left;
     }
+    @media print {
+      body {
+        background: none;
+        box-shadow: none;
+      }
+      .newspaper {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        page-break-after: always; /* Create page breaks */
+      }
+    }
   </style>
 </head>
 
@@ -109,6 +121,7 @@
       dfskadfjhsakdjfhsdfjhsakdfjhsakdfskadfjhsakdjfhsdfjhsakdfjhsakdfhaskdjfahsdkfjhsakdsgddfskadfjhsakdjfhsdfjhsakdfjhsakdfhaskdjfahsdkfjhsakdsgddfskadfjhsakdjfhsdfjhsakdfjhsakdfhaskdjfahsdkfjhsakdsgddfskadfjhsakdjfhsdfjhsakdfjhsakdfhaskdjfahsdkfjhsakdsgddfskadfjhsakdjfhsdfjhsakdfjhsakdfhaskdjfahsdkfjhsakdsgddfskadfjhsakdjfhsdfjhsakdfjhsakdfhaskdjfahsdkfjhsakdsgddfskadfjhsakdjfhsdfjhsakdfjhsakdfhaskdjfahsdkfjhsakdsgddfskadfjhsakdjfhsdfjhsakdfjhsakdfhaskdjfahsdkfjhsakdsgddfskadfjhsakdjfhsdfjhsakdfjhsakdfhaskdjfahsdkfjhsakdsgddfskadfjhsakdjfhsdfjhsakdfjhsakdfhaskdjfahsdkfjhsakdsgddfskadfjhsakdjfhsdfjhsakdfjhsakdfhaskdjfahsdkfjhsakdsgddfskadfjhsakdjfhsdfjhsakdfjhsakdfhaskdjfahsdkfjhsakdsgddfhaskdjfahsdkfjhsakdsgd</p>`.repeat(10); // Repeat for testing
 
     const pages = document.getElementById('pages-container');
+    const containerHeight = 297 * (96 / 25.4);
 
     const tempContainer = document.createElement('div');
     tempContainer.innerHTML = content;
@@ -152,12 +165,11 @@
       let currentPageHeight = document.querySelector('.content-container').clientHeight;
 
       Array.from(tempContainer.children).forEach(element => {
-        //const currentColumn = currentColumn;
-        currentColumn.appendChild(element.cloneNode(true)); // Add element to current column
+        
+        currentColumn.appendChild(element.cloneNode(true));
+        
+        if (currentColumn.scrollHeight > containerHeight) {
 
-        if (currentColumn.scrollHeight > currentPageHeight) {
-
-          // If the column overflows, remove the element and continue
           currentColumn.removeChild(currentColumn.lastChild);
 
           currentColumn = createNewOneColumnPage();
@@ -171,32 +183,26 @@
       
       resetBodyContent()
 
-      createNewTwoColumnsPage()
-
-      let currentColumns = document.querySelectorAll('.two-column');
+      let currentColumns = createNewTwoColumnsPage();
 
       let currentColumnIndex = 0;
       let currentPageHeight = document.querySelector('.content-container').clientHeight;
 
       Array.from(tempContainer.children).forEach(element => {
         const currentColumn = currentColumns[currentColumnIndex];
-        currentColumn.appendChild(element.cloneNode(true)); // Add element to current column
+        currentColumn.appendChild(element.cloneNode(true));
 
-        if (currentColumn.scrollHeight > currentPageHeight) {
+        if (currentColumn.scrollHeight > containerHeight) {
 
-          // If the column overflows, remove the element and continue
           currentColumn.removeChild(currentColumn.lastChild);
 
-          // Switch column or create new page if needed
           if (currentColumnIndex === 0) {
-            currentColumnIndex = 1; // Move to second column
+            currentColumnIndex = 1;
           } else {
-            const newColumns = createNewTwoColumnsPage();
-            currentColumns = newColumns;
-            currentColumnIndex = 0; // Reset to first column on new page
+            currentColumns = createNewTwoColumnsPage();
+            currentColumnIndex = 0;
           }
 
-          // Add the element to the new column
           currentColumns[currentColumnIndex].appendChild(element.cloneNode(true));
         }
       });
