@@ -20,7 +20,7 @@
       height: 297mm;
       /* A4 height */
       margin: 10mm auto;
-      padding: 1cm;
+      padding: 10mm;
       background: white;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       display: flex;
@@ -34,7 +34,7 @@
 
     .content-container {
       display: flex;
-      
+      height: 100%;
     }
 
     .two-column {
@@ -45,6 +45,10 @@
       /* Match container height */
       display: flex;
       flex-direction: column;
+    }
+
+    .content-column {
+
     }
 
     .one-column {
@@ -91,16 +95,28 @@
       padding: 8px;
       text-align: left;
     }
+
     @media print {
       body {
-        background: none;
-        box-shadow: none;
-      }
-      .newspaper {
-        box-shadow: none;
+        background: none; /* Remove background for print */
         margin: 0;
-        padding: 0;
-        page-break-after: always; /* Create page breaks */
+      }
+
+      .page {
+        box-shadow: none; /* Remove shadow for print */
+        margin: 0; /* No margin for print */
+        width: 210mm; /* Ensure A4 width */
+        height: 297mm; /* Ensure A4 height */
+        page-break-after: always; /* Ensure page breaks */
+        
+      }
+
+      .content-container {
+        display: flex;
+      }
+
+      .column {
+        overflow: visible; /* Allow visible overflow */
       }
     }
   </style>
@@ -131,11 +147,13 @@
       newPage.className = 'page';
       newPage.innerHTML = `
         <div class="content-container">
-          <div class="one-column tiptap"></div>
+          <div class="one-column tiptap">
+            <div class="content-column"></div>
+          </div>
         </div>
       `;
       pages.appendChild(newPage);
-      return newPage.querySelector('.one-column');
+      return newPage.querySelector('.one-column > .content-column');
     }
 
     // Helper function to create a new page
@@ -144,12 +162,16 @@
       newPage.className = 'page';
       newPage.innerHTML = `
         <div class="content-container">
-          <div class="two-column tiptap"></div>
-          <div class="two-column tiptap"></div>
+          <div class="two-column tiptap">
+            <div class="content-column"></div>  
+          </div>
+          <div class="two-column tiptap">
+            <div class="content-column"></div>  
+          </div>
         </div>
       `;
       pages.appendChild(newPage);
-      return newPage.querySelectorAll('.two-column');
+      return newPage.querySelectorAll('.two-column > .content-column');
     }
 
     function resetBodyContent() {
