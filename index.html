@@ -16,6 +16,7 @@
     }
     
     .answer-table {
+      max-width: 100%;
       width: 100%;
       border-collapse: collapse;
     }
@@ -1447,7 +1448,7 @@
           </div>
           ${att.questao.visualizaQuestao}
           ${
-            att.tipoLinha != null ? createAnswerLinesTable(att.numeroLinhas) : ''
+            att.tipoLinha != null ? createAnswerLinesTable(6) : ''
            }
         </div>
       `
@@ -1505,8 +1506,6 @@
 
       let currentColumn = createNewOneColumnPage();
 
-      let currentPageHeight = document.querySelector('.content-container').clientHeight;
-
       Array.from(tempContainer.children).forEach(element => {
         
         currentColumn.appendChild(element.cloneNode(true));
@@ -1529,7 +1528,6 @@
       let currentColumns = createNewTwoColumnsPage();
 
       let currentColumnIndex = 0;
-      let currentPageHeight = document.querySelector('.content-container').clientHeight;
 
       Array.from(tempContainer.children).forEach(element => {
         const currentColumn = currentColumns[currentColumnIndex];
