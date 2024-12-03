@@ -294,3 +294,11 @@ sup, sub {
 .aba-lateral * img{
 	max-width: fit-content !important;
 }
+
+figure.image {
+    display: table;
+    clear: both;
+    text-align: center;
+    margin: 0.9em auto;
+    min-width: 50px;
+}

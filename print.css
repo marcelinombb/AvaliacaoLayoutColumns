@@ -1,0 +1,24 @@
+@page {
+    margin: 0;
+}
+
+@media print {
+  body {
+    background: none; /* Remove background for print */
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .page {
+    box-shadow: none; /* Remove shadow for print */
+    margin: 0;
+    width: 794px;
+    height: 1123px;
+    page-break-after: always; /* Ensure page breaks */
+    
+  }
+
+  .content-container {
+    display: flex;
+  }
+}
