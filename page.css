@@ -33,6 +33,19 @@ body {
     height: 100%;
   }
 
+  .page-header {
+    border: 1px solid black;
+    box-sizing: border-box;
+    height: 50px;
+    margin-bottom: 5px;
+  }
+
+  .page-footer {
+    border: 1px solid black;
+    box-sizing: border-box;
+    height: 50px;
+  }
+  
   .two-column {
     width: calc(50%);
     /* Two equal columns with gap */

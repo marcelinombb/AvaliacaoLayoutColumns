@@ -1344,8 +1344,8 @@
 
       acc += `
         <div>
-          <div>
-            <div style="background:#A9A9A9;border:0px;padding:1px 1px;">
+          <div class='questao-completa'>
+            <div class='cabecalho-questao' style="background:#A9A9A9;border:0px;padding:1px 1px;">
               <span style="font-size:12px"><strong>QUESTÃO ${index + 1}</strong> ( valor: XX ponto(s) )</span>
             </div>
             ${provaQuestao.questao.visualizaQuestao}  
@@ -1434,20 +1434,28 @@
       const newPage = document.createElement('div');
       newPage.className = 'page';
       newPage.innerHTML = `
+        <div class='page-header'></div>
         <div class="content-container">
           <div class="one-column tiptap">
             <div class="content-column"></div>
           </div>
         </div>
+        <div class='page-footer'></div>
       `;
       pages.appendChild(newPage);
-      return newPage.querySelector('.one-column > .content-column');
+      return {
+        pageHeader: newPage.querySelector('.page-header'),
+        pageContent: newPage.querySelector('.content-container'),
+        pageColumn: newPage.querySelector('.one-column > .content-column'),
+        pageFooter: newPage.querySelector('.page-footer')
+      };
     }
 
     function createNewTwoColumnsPage() {
       const newPage = document.createElement('div');
       newPage.className = 'page';
       newPage.innerHTML = `
+        <div class='page-header'></div>
         <div class="content-container">
           <div class="two-column tiptap">
             <div class="content-column"></div>  
@@ -1456,6 +1464,7 @@
             <div class="content-column"></div>  
           </div>
         </div>
+        <div class='page-footer'></div>
       `;
       pages.appendChild(newPage);
       return newPage.querySelectorAll('.two-column > .content-column');
@@ -1469,15 +1478,19 @@
 
       resetBodyContent()
 
-      let currentColumn = createNewOneColumnPage();
+      let pageObjects = createNewOneColumnPage();
 
+      const remainingHeight = pageObjects.pageContent.scrollHeight      
+  
       Array.from(tempContainer.children).forEach(element => {
 
-        currentColumn.appendChild(element.cloneNode(true));
+        let { pageColumn, pageContent } = pageObjects
 
-        if (currentColumn.scrollHeight > containerHeight) {
+        pageColumn.appendChild(element.cloneNode(true));
+        
+        if (pageColumn.scrollHeight > remainingHeight) {
 
-          currentColumn.removeChild(currentColumn.lastChild);
+          pageColumn.removeChild(pageColumn.lastChild);
 
           const overflowElement = element.cloneNode(true)
 
@@ -1485,11 +1498,15 @@
           // eles serão adicionados; o restante irá para a próxima coluna ou página
           if (overflowElement.childNodes.length > 0) {
 
-            for (child of overflowElement.children) {
-              currentColumn.appendChild(child.cloneNode(true));
+            let elements = [...overflowElement.children]
 
-              if (currentColumn.scrollHeight > containerHeight) {
-                currentColumn.removeChild(currentColumn.lastChild);
+            console.log(elements)
+
+            for (child of elements) {
+              pageColumn.appendChild(child.cloneNode(true));
+
+              if (pageColumn.scrollHeight > remainingHeight) {
+                pageColumn.removeChild(pageColumn.lastChild);
                 break;
               } else {
                 overflowElement.removeChild(child)
@@ -1498,9 +1515,8 @@
             }
           }
 
-          currentColumn = createNewOneColumnPage();
-
-          currentColumn.appendChild(overflowElement);
+          pageObjects = createNewOneColumnPage()
+          pageObjects.pageColumn.appendChild(overflowElement);
         }
       });
     }
@@ -1595,6 +1611,8 @@
     }
 
     oneColumnPage()
+
+    //createNewOneColumnPage()
   </script>
 </body>
 
