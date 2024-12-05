@@ -33,6 +33,14 @@
       .content-container {
         display: flex;
       }
+
+      .toggle-layout {
+        display: none;
+      }
+    }
+
+    .toggle-layout {
+      position: fixed; bottom: 10%; right: 5%;
     }
   </style>
 </head>
@@ -40,7 +48,7 @@
 <body>
   <div id="pages-container"></div>
 
-  <div style="position: fixed; bottom: 10%; right: 5%;">
+  <div class="toggle-layout">
     <button onclick="oneColumnPage()">uma coluna</button>
     <button onclick="twoColumnPage()">duas coluna</button>
   </div>
@@ -1338,6 +1346,8 @@
       ...shuffle(questoesVisualizaQuestao),
       ...shuffle(questoesVisualizaQuestao),
       ...shuffle(questoesVisualizaQuestao),
+      
+      
     ].reduce((acc, provaQuestao, index) => {
 
       const tipoLinhaResposta = getTipoLinhaResposta(provaQuestao)
@@ -1355,6 +1365,50 @@
       `
       return acc
     }, '');
+
+    const setPagination = () => {
+      const pages = document.querySelectorAll('.page')
+
+      pages.forEach((page, index) => {
+        page.querySelector('span.pageNum').innerHTML = index + 1
+        page.querySelector('span.pages').innerHTML = pages.length
+      })
+    }
+
+    const templateLayoutOneColumn = (header, footer) => { 
+      return `
+        <div class='page-header'>
+          ${header}
+        </div>
+        <div class="content-container">
+          <div class="one-column tiptap">
+            <div class="content-column"></div>
+          </div>
+        </div>
+        <div class='page-footer'>
+          ${footer}
+        </div>
+      `;
+    }
+
+    const templateLayoutTwoColumn = (header, footer) => {
+      return `
+        <div class='page-header'>
+          ${header}
+        </div>
+        <div class="content-container">
+          <div class="two-column tiptap">
+            <div class="content-column"></div>  
+          </div>
+          <div class="two-column tiptap">
+            <div class="content-column"></div>  
+          </div>
+        </div>
+        <div class='page-footer'>
+          ${footer}
+        </div>
+      `
+    } 
 
     function createNumberedLines(numberOfLines, withHeader = true) {
       const header = `
@@ -1430,18 +1484,10 @@
       return tipoLinhaQuestao
     }
 
-    function createNewOneColumnPage() {
+    function createNewOneColumnPage(templateLayout) {
       const newPage = document.createElement('div');
       newPage.className = 'page';
-      newPage.innerHTML = `
-        <div class='page-header'></div>
-        <div class="content-container">
-          <div class="one-column tiptap">
-            <div class="content-column"></div>
-          </div>
-        </div>
-        <div class='page-footer'></div>
-      `;
+      newPage.innerHTML = templateLayout
       pages.appendChild(newPage);
       return {
         pageHeader: newPage.querySelector('.page-header'),
@@ -1451,23 +1497,19 @@
       };
     }
 
-    function createNewTwoColumnsPage() {
+    function createNewTwoColumnsPage(templateLayout) {
       const newPage = document.createElement('div');
       newPage.className = 'page';
-      newPage.innerHTML = `
-        <div class='page-header'></div>
-        <div class="content-container">
-          <div class="two-column tiptap">
-            <div class="content-column"></div>  
-          </div>
-          <div class="two-column tiptap">
-            <div class="content-column"></div>  
-          </div>
-        </div>
-        <div class='page-footer'></div>
-      `;
+      newPage.innerHTML = templateLayout;
       pages.appendChild(newPage);
-      return newPage.querySelectorAll('.two-column > .content-column');
+      return {
+        pageHeader: newPage.querySelector('.page-header'),
+        pageContent: newPage.querySelector('.content-container'),
+        pageColumns: newPage.querySelectorAll('.two-column > .content-column'),
+        pageFooter: newPage.querySelector('.page-footer')
+      }; 
+      
+      
     }
 
     function resetBodyContent() {
@@ -1478,9 +1520,12 @@
 
       resetBodyContent()
 
-      let pageObjects = createNewOneColumnPage();
+      const layout = templateLayoutOneColumn(prova2.modelo.prova.layout.cabecalhoPagina, 
+      `<div>${prova2.modelo.prova.layout.rodape}</div><div>${prova2.modelo.prova.layout.paginacao}</div>`)
 
-      const remainingHeight = pageObjects.pageContent.scrollHeight      
+      let pageObjects = createNewOneColumnPage(layout);
+  
+      const remainingHeight = containerHeight - (pageObjects.pageHeader.scrollHeight + pageObjects.pageFooter.scrollHeight)           
   
       Array.from(tempContainer.children).forEach(element => {
 
@@ -1499,9 +1544,8 @@
           if (overflowElement.childNodes.length > 0) {
 
             let elements = [...overflowElement.children]
-
-            console.log(elements)
-
+            console.log(elements);
+            
             for (child of elements) {
               pageColumn.appendChild(child.cloneNode(true));
 
@@ -1515,25 +1559,35 @@
             }
           }
 
-          pageObjects = createNewOneColumnPage()
+          pageObjects = createNewOneColumnPage(layout)
           pageObjects.pageColumn.appendChild(overflowElement);
         }
       });
+
+      setPagination()
     }
 
     function twoColumnLayout() {
 
       resetBodyContent()
 
-      let currentColumns = createNewTwoColumnsPage();
+      const layout = templateLayoutTwoColumn(prova2.modelo.prova.layout.cabecalhoPagina, 
+      `<div>${prova2.modelo.prova.layout.rodape}</div><div>${prova2.modelo.prova.layout.paginacao}</div>`)
+
+      let pageObjects = createNewTwoColumnsPage(layout);
+
+      const remainingHeight = containerHeight - (pageObjects.pageHeader.scrollHeight + pageObjects.pageFooter.scrollHeight)   
 
       let currentColumnIndex = 0;
 
       Array.from(tempContainer.children).forEach(element => {
-        const currentColumn = currentColumns[currentColumnIndex];
+        const { pageColumns } = pageObjects
+
+        const currentColumn = pageColumns[currentColumnIndex];
+
         currentColumn.appendChild(element.cloneNode(true));
 
-        if (currentColumn.scrollHeight > containerHeight) {
+        if (currentColumn.scrollHeight > remainingHeight) {
 
           currentColumn.removeChild(currentColumn.lastChild);
 
@@ -1546,7 +1600,7 @@
             for (child of overflowElement.children) {
               currentColumn.appendChild(child.cloneNode(true));
 
-              if (currentColumn.scrollHeight > containerHeight) {
+              if (currentColumn.scrollHeight > remainingHeight) {
                 currentColumn.removeChild(currentColumn.lastChild);
                 break;
               } else {
@@ -1559,13 +1613,15 @@
           if (currentColumnIndex === 0) {
             currentColumnIndex = 1;
           } else {
-            currentColumns = createNewTwoColumnsPage();
+            pageObjects = createNewTwoColumnsPage(layout);
             currentColumnIndex = 0;
           }
 
-          currentColumns[currentColumnIndex].appendChild(overflowElement);
+          pageObjects.pageColumns[currentColumnIndex].appendChild(overflowElement);
         }
       });
+
+      setPagination()
     }
 
     function waitForImages(container) {
@@ -1612,7 +1668,6 @@
 
     oneColumnPage()
 
-    //createNewOneColumnPage()
   </script>
 </body>
 
