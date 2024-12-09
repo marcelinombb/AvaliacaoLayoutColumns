@@ -26,6 +26,7 @@
         margin: 0;
         width: 794px;
         height: 1123px;
+        aspect-ratio: 794/1123;
         page-break-after: always;
 
       }
@@ -49,14 +50,15 @@
   <div id="pages-container"></div>
 
   <div class="toggle-layout">
-    <button onclick="oneColumnPage()">uma coluna</button>
-    <button onclick="twoColumnPage()">duas coluna</button>
+    <button onclick="oneColumnPage(pages)">uma coluna</button>
+    <button onclick="twoColumnPage(pages)">duas coluna</button>
   </div>
   <script src="scripts.js"></script>
   <script>
 
+    const pages = document.getElementById('pages-container');
 
-    oneColumnPage()
+    oneColumnPage(pages)
 
   </script>
 </body>

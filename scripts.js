@@ -1,118 +1,251 @@
 
 const prova2 = {
-    "modelo": {
+  "modelo": {
       "prova": {
-        "codigo": 9011,
-        "totalPontos": 10,
-        "duracao": "00:50",
-        "usuario": {
-          "codigo": 489,
-          "nome": "PESSOA 489",
-          "login": "PESSOA489",
-          "senha": null,
-          "cpf": null,
-          "dataDesativacao": null,
-          "dataCadastro": null,
-          "alterarSenha": false,
-          "email": "489@gmail.com",
-          "codigoImportacao": null,
-          "listaGrupo": [],
-          "listaCursoCategoria": [],
-          "status": 1,
-          "foto": null,
-          "instituicao": null,
-          "aluno": null
-        },
-        "listaProvaModelo": [
-          {
-            "prova": {
-              "codigo": 9011,
-              "totalPontos": null,
-              "duracao": null,
-              "usuario": null,
-              "listaProvaModelo": null,
-              "listaProvaAnexo": null,
-              "instrucaoEspecifica": null,
-              "tipoProva": null,
-              "listaTurma": null,
-              "status": null,
-              "dataCriacao": null,
-              "dataModeracao": null,
-              "dataAprovacao": null,
-              "usuarioAprovacao": null,
+          "codigo": 9162,
+          "totalPontos": 2,
+          "duracao": "00:50",
+          "usuario": {
+              "codigo": 2,
+              "nome": "Admin Christus",
+              "login": "ADM.CHRISTUS",
+              "senha": null,
+              "cpf": null,
+              "dataDesativacao": null,
+              "dataCadastro": null,
+              "alterarSenha": false,
+              "email": "werysson.dantas@px.com.br",
+              "codigoImportacao": null,
+              "listaGrupo": [],
+              "listaCursoCategoria": [],
+              "status": 1,
+              "foto": null,
               "instituicao": null,
-              "modo": null,
-              "novo": null,
-              "listaProvaAgendamento": null
-            },
-            "modelo": 1,
-            "nome": "A",
-            "fonteTamanho": 14,
-            "listaProvaQuestao": [
+              "aluno": null
+          },
+          "listaProvaAnexo": [],
+          "instrucaoEspecifica": null,
+          "tipoProva": {
+              "codigo": 7,
+              "nome": "TESTE DE RECUPERAÇÃO",
+              "notaParcial": "REC",
+              "cor": null,
+              "instituicao": null,
+              "multiploAgendamento": true,
+              "bloqueioQuestao": true,
+              "listaLayout": []
+          },
+          "listaTurma": [
               {
-                "codigo": 898449,
-                "provaModelo": null,
-                "questao": {
-                  "codigo": "CHR-98233",
-                  "tipoFonte": 1,
-                  "privacidade": 1,
-                  "dificuldade": "M",
-                  "instrucao": null,
-                  "textoBase": null,
-                  "comando": null,
-                  "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\t\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">A reação química elementar de decomposição do dióxido de nitrogênio, representada a seguir, é um exemplo de modelo cinético não linear.</p><figure class=\"image\"><img src=\"data:image/png;base64,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\"></figure><p style=\"text-align:justify;\">Observe no gráfico a variação da velocidade dessa reação em função da concentração de dióxido de nitrogênio:</p><figure class=\"image\"><img src=\"data:image/jpeg;base64,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\"></figure></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\t\t\t\t\t\t\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Considerando os dados, a constante cinética da reação corresponde a:&nbsp;</p></div>\n\t\t\n\t\t<div class=\"coluna-sm-12 adaptive-margin-bottom\">\n\t\t\t<div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >a)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>0,1.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >b)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>0,3.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >c)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>0,5.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >d)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>0,7.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >e)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>0,9.</p></span>\n\t\t\t</div>\n\t\t</div>\t\n\t</div>",
-                  "provaAprovada": false,
-                  "tipoQuestao": "Múltipla Escolha - Resposta Única",
-                  "dataCriacao": "2024-10-06T23:07:56.385+00:00",
-                  "ultimaAplicacao": null,
-                  "fonte": null,
-                  "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>   \n\t\t\t\t<p>\n\t\t\t\t\t<span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t<span   class=\"ng-binding ng-scope\">Item: c)</span>\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span> \n\t\t\t      <span style=\"margin-left:10px;\"  class=\"ng-binding\"></span>\n\t\t\t    </p> \t\t\t\t\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-                  "referencia": null,
-                  "listaTag": [],
-                  "listaCategoria": [],
-                  "listaCursos": [],
-                  "categoriasEmTexto": null,
-                  "tagsEmTexto": null,
-                  "cursoEmTexto": null,
-                  "instituicao": null,
-                  "status": {
-                    "codigo": 16,
-                    "cor": "#ff9801",
-                    "descricao": "Em moderação",
-                    "nome": "EM_MODERACAO",
-                    "tipo": "Q"
+                  "codigo": 37465,
+                  "codigoTurma": "21BS21MMED1BIO1",
+                  "nome": "MED1",
+                  "disciplina": "BIOLOGIA I",
+                  "periodoLetivo": {
+                      "codigo": 24,
+                      "nome": "RECUPERAÇÃO - 2024",
+                      "ativo": true,
+                      "instituicao": null
                   },
-                  "dataModeracao": "2024-10-06T23:08:33.000+00:00",
-                  "categoriaSup": null,
-                  "geradaPorIA": false,
-                  "usuario": null
-                },
-                "valor": 1,
-                "ordem": 1,
-                "ordemPersonalizada": null,
-                "origem": "I",
-                "tipoLinha": null,
-                "linhasBranco": 2,
-                "mostrarReferencia": false,
-                "infoReferencia": null,
-                "numeroLinhas": null,
-                "quebraPagina": false
+                  "professor": {
+                      "codigo": 187,
+                      "nome": "PESSOA 187",
+                      "login": null,
+                      "senha": null,
+                      "cpf": null,
+                      "dataDesativacao": null,
+                      "dataCadastro": null,
+                      "alterarSenha": null,
+                      "email": null,
+                      "codigoImportacao": null,
+                      "listaGrupo": [],
+                      "listaCursoCategoria": [],
+                      "status": null,
+                      "foto": null,
+                      "instituicao": null,
+                      "aluno": null
+                  },
+                  "cursoUnidade": {
+                      "codigo": 19,
+                      "unidade": {
+                          "codigo": 1,
+                          "nome": "asdfsadfsdfsdf",
+                          "instituicao": null
+                      },
+                      "curso": {
+                          "codigo": 21,
+                          "nome": "1ª SÉRIE / EM",
+                          "instituicao": null,
+                          "categoria": null,
+                          "listaCategorias": [],
+                          "listaTipoProvaCurso": [],
+                          "check": false
+                      },
+                      "turno": {
+                          "codigo": 1,
+                          "nome": "Manhã"
+                      },
+                      "graficaPadrao": null,
+                      "listaGrafica": [],
+                      "listaCoordenador": [],
+                      "listaLayout": []
+                  },
+                  "dataDesativacao": null,
+                  "listaCoordenador": [],
+                  "listaAluno": [],
+                  "listaAgendamento": null,
+                  "novo": null,
+                  "listaAgrupamento": []
+              }
+          ],
+          "status": {
+              "codigo": 1,
+              "nome": "EM_EDICAO",
+              "descricao": "Em edição",
+              "tipo": null,
+              "cor": "#2196f3"
+          },
+          "dataCriacao": "2024-10-31T03:00:00.000+00:00",
+          "dataModeracao": null,
+          "dataAprovacao": null,
+          "usuarioAprovacao": null,
+          "instituicao": {
+              "auth": 1,
+              "codigo": 1,
+              "emailAlt": true,
+              "exitusUrl": "https://exitus.christus.com.br",
+              "googleChave": null,
+              "instituicaoExterna": 1,
+              "linkFile": "",
+              "logo": null,
+              "mesesBloqueioQuestao": 12,
+              "nome": "Christus",
+              "nomeFile": "logo/2022-10-11-132142464.png",
+              "prefixoQuestao": "CHR",
+              "provaVisualiza": false,
+              "site": "www.christus.com.br",
+              "textoBaseObg": false
+          },
+          "modo": "I",
+          "novo": false,
+          "listaProvaAgendamento": [],
+          "layout": {
+              "codigo": 149,
+              "nome": "Atividade/Teste - Clássica (Sem valor da questão)",
+              "cabecalho": "<div id=\"cabecalho_colegio\">\n\t<p style=\"text-align:right\">\n\t\t<img id=\"logo_prova\" class=\"logo-cabecalho\" alt=\"\" src=\"#LOGO#\" style=\"border:0px; solid black; float:left; margin:0px; height:70px; width:200px;\"/>&nbsp; &nbsp; &nbsp; &nbsp;\n\t</p>\n\t\t\n\t<p style=\"text-align:center;\">\n\t\t<span style=\"font-size:20px\">\n\t\t\t<strong>#CURSO# - #PERIODO#</strong>\n\t\t</span>\n\t</p>\n\t<p style=\"text-align:center\">\n\t\t<span style=\"font-size:16px\">\n\t\t\t<strong>#TIPOPROVANOME# DE #DISCIPLINA#</strong>\n\t\t</span>\n\t</p>\n</div>",
+              "rodape": "<hr style=\"border-color: black;\" /><p style=\"font-size:11px; text-align: center;\"><strong>#site# | <img alt=\"\" style=\"height: 15px; vertical-align: middle;\" src=\"data:image/png;base64,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\"/> @colegiochristus | <img alt=\"\" style=\"height: 15px; vertical-align: middle;\" src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAIAAABuYg/PAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANtSURBVFhHzZdNKD1RGMZ9XyxYWOhufISkfISk5DtRNoq1rKRYECU2FlciK4kICUWUKImw8bFTipCyscEK+f6W/9OcZ+6duXdm7gyl/293zvu87zNz5pz33Ovz/Yf892YfHx9fX18cWMGU2cvLy+HhYWdnZ0tLS21tbWlpaXl5eX19PYbd3d0nJyfv7++UGuLF7OnpaXR0NCcnJzg42EcHhEpKSmZmZt7e3pimg5HZzs5OZmYmS5qgoKBgf3+fyVromvX19YWEhLCMaSIiIiYnJ1nCA22zrq4uZlvH19e3v7+fhdRomOGdmPdT4DcxMcFyCtzNNjc3DfaCeUJDQ/f29lhURmV2fX2dmppKuUxYWFhDQ0N8fDzHpikqKnp+fmZpCZXZ4OAghTI2m212dhah4+PjmJgYzppmYWFBVBa4zHBy09LSqJKprq5mWPJLSEhgwBw4f5+fn8xXmm1tbQUEBFAls7KywrAE+oinxgB8OTwik5VmPT09lChYXV1lWGqJzc3N2GmMmWN+fp75SrPCwkLGFQwNDYkoWlFTUxNnrVBVVSUqAJdZSkoK4wqysrLEop+ennLKIsXFxaI+cJl5bnoQGBi4uLiI6MXFRWRkJGetkJ+fL+oDL2YgPT394eEBgvX19R90S20zzWUUtLW1Cc3w8LCl3QhwFYhc4DLDpcW4B0FBQdPT00I2MjKCDc2A9P2Xl5fj4uI49qCsrEwkApdZe3s741pgAZ2beGNjIyoqCpMVFRW3t7eYOTo6io2NFUo3BgYGRBZwma2trfn5+VGiBfycvfzs7AytSHxLAQ5vUlISpTLYXwcHB1QozR4fHxMTE6nSAU/T2Nh4c3PDHDV4Cepk8vLyXl9fGVaaAYfDQZUhycnJU1NT9/f3TJPY3t4Wa6tkfHycYQmV2eXlZXR0NIXeyMjIQE/Z3d3FQuF1w8PDGZDB9hZf1InKDOBZqDUHFtbf358DBZhcWlpiURl3M4Crkhm/oKOjg+UUaJhhp1RWVjLpR9TU1Ljd0QINM4C1rqurY6pFWltbcQ+zkBptMwGahd5R1QTnbG5ujslaGJmB8/NzdBa73c56OuDnUG9vL34vMU0HL2aCq6ursbExXNPZ2dnoI05yc3Px3wJ30N3dHaWGmDJzgs+Os+hE2R3MYM3sl/yh2ff3P5bv1d6146b9AAAAAElFTkSuQmCC\"/> (85) 3277.1515</strong></p>",
+              "folhaRosto": "<table cellpadding=\"2\" cellspacing=\"0\" style=\"margin-top:10px; width:100%; max-width:100% !important; border:solid black 1px;\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td style=\"height:20px; width:625px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Aluno(a)</small></td>\n\t\t\t<td style=\"width:90px !important; font-size:10px; padding-left:5px;\"><small>Data</small></td>\t\t\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td style=\"text-align:center; height:25px; width:625px !important; font-size:13px; border-right:solid black 1px;\">&nbsp;</td>\n\t\t\t<td style=\"text-align:center; width:90px !important; font-size:13px;\">#DATA#</td>\n\t\t</tr>\n\t</tbody>\n</table>\n\n<table cellpadding=\"2\" cellspacing=\"0\" style=\"width:100%; max-width:100% !important; margin-top:-1px; border:solid black 1px;\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td style=\"height:20px; width:90px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Número</small></td>\n\t\t\t<td style=\"width:175px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Sede</small></td>\n\t\t\t<td style=\"width:90px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Turno</small></td>\n\t\t\t<td style=\"width:90px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Turma</small></td>\n\t\t\t<td style=\"width:90px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Nº Questões</small></td>\n\t\t\t<td style=\"width:90px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Nota Máxima</small></td>\t\n\t\t\t<td style=\"width:90px !important; font-size:10px; padding-left:5px;\"><small>Nota</small></td>\t\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td style=\"text-align:center; height:25px; width:90px !important; font-size:13px; border-right:solid black 1px;\">&nbsp;</td>\n\t\t\t<td style=\"text-align:center; width:175px !important; font-size:13px; border-right:solid black 1px;\">&nbsp;</td>\n\t\t\t<td style=\"text-align:center; width:90px !important; font-size:13px; border-right:solid black 1px;\">#TURNO#</td>\n\t\t\t<td style=\"text-align:center; width:90px !important; font-size:13px; border-right:solid black 1px;\">&nbsp;</td>\n\t\t\t<td style=\"text-align:center; width:90px !important; font-size:13px; border-right:solid black 1px;\">#TOTALQUEST#</td>\n\t\t\t<td style=\"text-align:center; width:90px !important; font-size:13px; border-right:solid black 1px;\">#PONTOS#</td>\n\t\t\t<td style=\"text-align:center; width:90px !important; font-size:13px;\">&nbsp;</td>\n\t\t</tr>\n\t</tbody>\n</table>\n\n<p style=\"margin-top:10px; text-align:center; border:solid black 1px; background-color:#ebebeb; padding-top:3px; padding-bottom:3px;\"><strong>LEIA ATENTAMENTE AS INSTRUÇÕES SEGUINTES:</strong></p>\n\n<div style=\"border:solid black 1px; padding:5px 5px; margin-top:-1px\">\n\t<ol style=\"margin-top:5px; margin-bottom:5px; padding-right:5px; padding-left:30px;\">\n\t\t<li style=\"text-align:justify;\">Preencha o cabeçalho de todas as páginas corretamente.</li>\n\t\t<li style=\"text-align:justify;\">Verifique se o exemplar de sua avaliação está completo. Nenhuma folha poderá ser destacada ou substituída.</li>\n\t\t<li style=\"text-align:justify;\">Verifique, após autorizado o início da avaliação, se existem falhas ou imperfeições gráficas que lhe causem dúvidas. Reclamações só serão aceitas durante a primeira hora da avaliação.</li>\n\t\t<li style=\"text-align:justify;\">A interpretação do conteúdo, a compreensão vocabular e o conhecimento da norma-padrão são inerentes à avaliação, por isso leia e analise atentamente cada questão.</li>\n\t\t<li style=\"text-align:justify;\">Não rasure nem use corretivo. Questões rasuradas ou com corretivo equivalem a questões erradas.</li>\n\t\t<li style=\"text-align:justify;\">Para as questões de múltipla escolha (do tipo a, b, c, d, e), assinale uma única resposta.</li>\n\t\t<li style=\"text-align:justify;\">A inobservância ao comando integral da questão poderá acarretar perda da pontuação.</li>\n\t\t<li style=\"text-align:justify;\">Os cálculos são necessários e podem ser feitos a lápis. As respostas devem ser grafadas com caneta esferográfica de cor azul ou preta e com corpo transparente.</li>\n\t\t<li style=\"text-align:justify;\">Sempre que houver gabarito, este deverá ser preenchido com letra de forma.</li>\n\t\t<li style=\"text-align:justify;\">Não é permitido ao aluno portar celular, <i>smartphone</i>, <i>smartwatch</i> ou outro dispositivo eletrônico durante a avaliação, mesmo que este esteja desligado, nem fazer uso de recursos impróprios à sua avaliação pessoal.</li>\n\t\t<li style=\"text-align:justify;\">Não é permitida a utilização de livros, cadernos, calculadoras etc.</li>\n\t\t<li style=\"text-align:justify;\">Não é permitida a troca de material entre os alunos.</li>\n\t\t<li style=\"text-align:justify;\">A fraude, a indisciplina e o desrespeito ao(s) funcionário(s) encarregado(s) da fiscalização são faltas passíveis de punição.</li>\n\t\t<li style=\"text-align:justify;\">O aluno está ciente de que, caso a sala possua câmeras, suas imagens poderão ser registradas e utilizadas para análise de ocorrências.</li>\n\t\t<li style=\"text-align:justify;\">Não é permitido o uso de marca-texto em nenhum local da avaliação.</li>\n\t\t<li style=\"text-align:justify;\">Contestações acerca da avaliação somente poderão ser analisadas em até 72 horas depois da devolução da atividade ou do teste corrigido pelo professor.</li>\n\t</ol>\n</div>\n<p style=\"margin-top:5px; text-align: center;\"><strong>BOM DESEMPENHO!</strong></p>\n<div class=\"page-break\"></div>",
+              "paginacao": "<p style=\"float: left; text-align: right; font-size:12px;\"><span>Admin Christus - 09/12/2024</span></p> <p style=\"text-align: right; font-size:12px; margin-top:-15px;\"><span class=\"pageNum\"></span>/<span class=\"pages\"></span></p>",
+              "tipoFolha": "A4",
+              "margem": 1,
+              "cabecalhoQuestao": "<div style=\"background-color:#c6c6c6; border:0px; padding:1px 1px; margin-top:15px; margin-bottom:5px; \"><span style=\"font-size:12px\"><strong>QUESTÃO #ORDEM#</strong></span></div>",
+              "orientacaoFolha": "portrait",
+              "rodapeRosto": null,
+              "rascunho": "<div class=\"ng-hide source-back-header\">\n\t\t\t<p style=\"text-align:right\"><img alt=\"\"  src=\"#logo#\" style=\"border:0px solid black; float:left; height:auto; margin:0px; width:auto; max-height:60px;\"  />&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>\n\t\t</div>\n\t\t<div class=\"ng-hide source-back\"></div>\n\t\t<div id=\"page2el\" class=\"ng-hide source-back-footer\">\n\t\t\t<p style=\"text-align:center\"><span style=\"color:#696969\"><span style=\"font-family:times new roman,times,serif\"><span style=\"font-size:28px\"><strong>RASCUNHO</strong></span></span></span></p>\n\t\t</div>",
+              "colunas": 1,
+              "marcaDagua": "https://storage.googleapis.com/exitus-christus/logo/Christus%20-%20px.png",
+              "cabecalhoPagina": "<div id=\"cabecalho2\" class=\"ng-hide source-back-header\">\n\t<div style=\"display: flow-root;\">\n\t\t<p style=\"text-align:right\">\n\t\t\t<img id=\"logo_prova\" class=\"logo-cabecalho\" alt=\"\" src=\"#LOGO#\" style=\"border:0px; solid black; float:left; margin:0px; height:55px; width:185px;\"/>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;\n\t\t</p>\n\t\t<p style=\"text-align:center; margin-top:-15px;\">\n\t\t\t<span style=\"font-size:16px\">\n\t\t\t\t<strong>#CURSO# - #PERIODO#</strong>\n\t\t\t</span>\n\t\t</p>\n\t\t<p style=\"text-align:center\">\n\t\t\t<span style=\"font-size:16px\">\n\t\t\t\t<strong>#TIPOPROVANOME# DE #DISCIPLINA#</strong>\n\t\t\t</span>\n\t\t</p>\n\t</div>\n\t\n\t<table cellpadding=\"2\" cellspacing=\"0\" style=\"width:100%; max-width:100% !important; margin-top:10px; border:solid black 1px;\">\n\t\t<tbody>\n\t\t\t<tr>\n\t\t\t\t<td style=\"height:20px; width:500px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Aluno(a)</small></td>\n\t\t\t\t<td style=\"width:100px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Número</small></td>\n\t\t\t\t<td style=\"width:120px !important; font-size:10px; padding-left:5px;\"><small>Turma</small></td>\t\n\t\t\t</tr>\n\t\t\t<tr>\n\t\t\t\t<td style=\"text-align:center; height:25px; width:500px !important; font-size:13px; border-right:solid black 1px;\">&nbsp;</td>\n\t\t\t\t<td style=\"text-align:center; width:100px !important; font-size:13px; border-right:solid black 1px;\">&nbsp;</td>\n\t\t\t\t<td style=\"text-align:center; width:120px !important; font-size:13px;\">&nbsp;</td>\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n</div>",
+              "fonte": "Arial",
+              "fonteTamanho": 14,
+              "origemQuestao": false,
+              "cabecalhoPrimeiraQuestao": "<div style=\"background-color:#c6c6c6; border:0px; padding:1px 1px; margin-top:15px; margin-bottom:5px; \"><span style=\"font-size:12px\"><strong>QUESTÃO #ORDEM#</strong></span></div>",
+              "ordemQuestaoPersonalizada": false,
+              "ativo": null,
+              "tamanhosSuportados": "12, 14, 16, 18"
+          },
+          "dataRealizacao": "19/12/2024",
+          "folhasRascunho": 0,
+          "corImpressao": "P",
+          "tipoImpressao": "FV",
+          "obs": null,
+          "dataAplicacao": null,
+          "listaCTE": [],
+          "turmasEmTexto": null,
+          "ctesEmTexto": null,
+          "quebraQuestao": true,
+          "$promise": {},
+          "$resolved": true,
+          "turma": {
+              "codigo": 37465,
+              "codigoTurma": "21BS21MMED1BIO1",
+              "nome": "MED1",
+              "disciplina": "BIOLOGIA I",
+              "periodoLetivo": {
+                  "codigo": 24,
+                  "nome": "RECUPERAÇÃO - 2024",
+                  "ativo": true,
+                  "instituicao": null
               },
-              {
-                "codigo": 898450,
-                "provaModelo": null,
-                "questao": {
-                  "codigo": "CHR-98235",
+              "professor": {
+                  "codigo": 187,
+                  "nome": "PESSOA 187",
+                  "login": null,
+                  "senha": null,
+                  "cpf": null,
+                  "dataDesativacao": null,
+                  "dataCadastro": null,
+                  "alterarSenha": null,
+                  "email": null,
+                  "codigoImportacao": null,
+                  "listaGrupo": [],
+                  "listaCursoCategoria": [],
+                  "status": null,
+                  "foto": null,
+                  "instituicao": null,
+                  "aluno": null
+              },
+              "cursoUnidade": {
+                  "codigo": 19,
+                  "unidade": {
+                      "codigo": 1,
+                      "nome": "asdfsadfsdfsdf",
+                      "instituicao": null
+                  },
+                  "curso": {
+                      "codigo": 21,
+                      "nome": "1ª SÉRIE / EM",
+                      "instituicao": null,
+                      "categoria": null,
+                      "listaCategorias": [],
+                      "listaTipoProvaCurso": [],
+                      "check": false
+                  },
+                  "turno": {
+                      "codigo": 1,
+                      "nome": "Manhã"
+                  },
+                  "graficaPadrao": null,
+                  "listaGrafica": [],
+                  "listaCoordenador": [],
+                  "listaLayout": []
+              },
+              "dataDesativacao": null,
+              "listaCoordenador": [],
+              "listaAluno": [],
+              "listaAgendamento": null,
+              "novo": null,
+              "listaAgrupamento": []
+          }
+      },
+      "modelo": 1,
+      "nome": "A",
+      "fonteTamanho": 14,
+      "listaProvaQuestao": [
+          {
+              "codigo": 923779,
+              "provaModelo": null,
+              "questao": {
+                  "codigo": "CHR-101267",
                   "tipoFonte": 1,
                   "privacidade": 1,
                   "dificuldade": "M",
                   "instrucao": null,
                   "textoBase": null,
                   "comando": null,
-                  "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Dada a reação elementar 2 HCl → H<sub>2</sub> + Cl<sub>2</sub>, quando se duplica a concentração do HCl a velocidade da reação&nbsp;</p></div>\n\t\t\n\t\t<div class=\"coluna-sm-12 adaptive-margin-bottom\">\n\t\t\t<div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >a)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>diminui 8 vezes.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >b)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>aumenta 4 vezes.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >c)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>aumenta 2 vezes.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >d)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>diminui duas vezes.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >e)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>não sofre alteração</p></span>\n\t\t\t</div>\n\t\t</div>\t\n\t</div>",
+                  "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\t\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>&nbsp;Em 2022, o total de pessoas com 65 anos ou mais no país (22.169.101) chegou a 10,9% da população, com alta de 57,4% frente a 2010, quando esse contingente era de 14.081.477, ou 7,4% da população. É o que revelam os resultados do universo da população do Brasil desagregada por idade e sexo, do Censo Demográfico 2022. Esta segunda apuração do Censo mostra uma população de 203.080.756 habitantes, com 18.244 pessoas a mais do que na primeira apuração. “Após a divulgação dos primeiros resultados foi necessário realizar, pontualmente, alguns procedimentos de revisão, que acarretaram nessa diferença ínfima em termos percentuais”, explica o gerente técnico do Censo, Luciano Duarte. Em relação aos resultados do Censo 2022 divulgados anteriormente, 566 municípios sofreram alteração de população. O aumento da população de 65 anos ou mais em conjunto com a diminuição da parcela da população de até 14 anos no mesmo período, que passou de 24,1% para 19,8%, evidenciam o franco envelhecimento da população brasileira.</p><p>BRASIL. Secretaria de Comunicação Social.&nbsp;<i>Censo 2022: número de idosos na população do país cresceu 57,4% em 12 anos</i>. 2023. Disponível em:&nbsp;<u>https://www.gov.br/secom/pt-br/assuntos/noticias/2023/10/censo-2022-numero-de-idosos-na-populacao-do-pais-cresceu-57-4-em-12-anos</u>. Acesso em: 17 set. 2024.</p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\t\t\t\t\t\t\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>O processo reflete um envelhecimento acentuado da população brasileira, fenômeno que tem se intensificado nas últimas décadas. Esse cenário ocorre principalmente em função de:</p></div>\n\t\t\n\t\t<div class=\"coluna-sm-12 adaptive-margin-bottom\">\n\t\t\t<div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >a)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>O aumento da população idosa ser causado pelo crescimento rápido da imigração de pessoas mais velhas para o Brasil.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >b)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>Ao maior acesso à informação e à conscientização da população sobre a necessidade de cuidado com o corpo.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >c)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>A substituição completa da população rural por urbana, o que levou ao aumento do número de idosos em áreas de difícil acesso.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >d)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>O aumento da fecundidade nas regiões menos urbanizadas, que proporcionou uma maior longevidade entre as pessoas mais velhas.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >e)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>A eliminação total de doenças transmissíveis, resultando na ausência de mortalidade entre a população idosa.</p></span>\n\t\t\t</div>\n\t\t</div>\t\n\t</div>",
                   "provaAprovada": false,
                   "tipoQuestao": "Múltipla Escolha - Resposta Única",
-                  "dataCriacao": "2024-10-06T23:13:28.901+00:00",
+                  "dataCriacao": "2024-10-31T07:42:48.544+00:00",
                   "ultimaAplicacao": null,
                   "fonte": null,
                   "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>   \n\t\t\t\t<p>\n\t\t\t\t\t<span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t<span   class=\"ng-binding ng-scope\">Item: b)</span>\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span> \n\t\t\t      <span style=\"margin-left:10px;\"  class=\"ng-binding\"></span>\n\t\t\t    </p> \t\t\t\t\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
@@ -125,1150 +258,82 @@ const prova2 = {
                   "cursoEmTexto": null,
                   "instituicao": null,
                   "status": {
-                    "codigo": 16,
-                    "cor": "#ff9801",
-                    "descricao": "Em moderação",
-                    "nome": "EM_MODERACAO",
-                    "tipo": "Q"
+                      "codigo": 16,
+                      "cor": "#ff9801",
+                      "descricao": "Em moderação",
+                      "nome": "EM_MODERACAO",
+                      "tipo": "Q"
                   },
-                  "dataModeracao": "2024-10-06T23:13:28.870+00:00",
+                  "dataModeracao": "2024-10-31T07:42:48.519+00:00",
                   "categoriaSup": null,
                   "geradaPorIA": false,
                   "usuario": null
-                },
-                "valor": 1,
-                "ordem": 2,
-                "ordemPersonalizada": null,
-                "origem": "I",
-                "tipoLinha": null,
-                "linhasBranco": 0,
-                "mostrarReferencia": false,
-                "infoReferencia": null,
-                "numeroLinhas": null,
-                "quebraPagina": true
               },
-              {
-                "codigo": 898451,
-                "provaModelo": null,
-                "questao": {
-                  "codigo": "CHR-98234",
-                  "tipoFonte": 1,
-                  "privacidade": 1,
-                  "dificuldade": "M",
-                  "instrucao": null,
-                  "textoBase": null,
-                  "comando": null,
-                  "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\t\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">O airbag, componente de segurança passiva dos veículos automotores, possui um balão de ar muito resistente que contém, entre outras substâncias, o sólido azida de sódio (NaN<sub>3</sub>). Quando ocorre uma colisão, os sensores distribuídos em partes especificas dos veículos transmitem um impulso elétrico (faísca) que provoca a rápida decomposição desse sólido, em gás nitrogênio (N<sub>2</sub>), responsável por inflar o airbag, e o sólido sódio (Na), conforme a equação da reação:</p><p style=\"text-align:center;\"><img src=\"data:image/png;base64,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\" alt=\"Tabela\n\nDescrição gerada automaticamente\" width=\"290\" height=\"107\"></p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\t\t\t\t\t\t\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>A velocidade média de formação do gás nitrogênio, no intervalo entre 0 e 10 minutos, é igual a&nbsp;</p></div>\n\t\t\n\t\t<div class=\"coluna-sm-12 adaptive-margin-bottom\">\n\t\t\t<div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >a)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>4,5 x 10<sup>– 2</sup> mol/s.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >b)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>5,0 x 10<sup>– 2</sup> mol/s.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >c)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>3,0 x 10<sup>– 3</sup> mol/s.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >d)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>5,0 x 10<sup>– 4</sup> mol/s.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >e)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>7,5 x 10<sup>– 4</sup> mol/s.</p></span>\n\t\t\t</div>\n\t\t</div>\t\n\t</div>",
-                  "provaAprovada": false,
-                  "tipoQuestao": "Múltipla Escolha - Resposta Única",
-                  "dataCriacao": "2024-10-06T23:11:01.819+00:00",
-                  "ultimaAplicacao": null,
-                  "fonte": null,
-                  "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>   \n\t\t\t\t<p>\n\t\t\t\t\t<span  class=\"ng-scope\">\n\t\t\t    \t\t<span   class=\"ng-binding ng-scope\">Item: a)</span>\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span> \n\t\t\t      <span style=\"margin-left:10px;\"  class=\"ng-binding\"></span>\n\t\t\t    </p> \t\t\t\t\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-                  "referencia": null,
-                  "listaTag": [],
-                  "listaCategoria": [],
-                  "listaCursos": [],
-                  "categoriasEmTexto": null,
-                  "tagsEmTexto": null,
-                  "cursoEmTexto": null,
-                  "instituicao": null,
-                  "status": {
-                    "codigo": 16,
-                    "cor": "#ff9801",
-                    "descricao": "Em moderação",
-                    "nome": "EM_MODERACAO",
-                    "tipo": "Q"
-                  },
-                  "dataModeracao": "2024-10-06T23:11:01.788+00:00",
-                  "categoriaSup": null,
-                  "geradaPorIA": false,
-                  "usuario": null
-                },
-                "valor": 1,
-                "ordem": 3,
-                "ordemPersonalizada": null,
-                "origem": "I",
-                "tipoLinha": null,
-                "linhasBranco": 2,
-                "mostrarReferencia": false,
-                "infoReferencia": null,
-                "numeroLinhas": null,
-                "quebraPagina": false
-              },
-              {
-                "codigo": 898452,
-                "provaModelo": null,
-                "questao": {
-                  "codigo": "CHR-98236",
-                  "tipoFonte": 1,
-                  "privacidade": 1,
-                  "dificuldade": "M",
-                  "instrucao": null,
-                  "textoBase": null,
-                  "comando": null,
-                  "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\t\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>O iodeto de hidrogênio é um gás incolor, muito solúvel em água, que pode ser preparado a partir da mistura de hidrogênio com iodo, de acordo com a seguinte equação em equilíbrio:</p><p style=\"text-align:center;\">H<sub>2</sub>(g) + l<sub>2</sub>(g)&nbsp;⇌ 2Hl(g)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;∆H = + 26,46 kJ/mol</p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\t\t\t\t\t\t\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>A adição, de uma certa quantidade de iodo gasoso no sistema provocará:&nbsp;</p></div>\n\t\t\n\t\t<div class=\"coluna-sm-12 adaptive-margin-bottom\">\n\t\t\t<div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >a)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>deslocamento do equilíbrio para a esquerda.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >b)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>aumento da temperatura.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >c)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>redução da quantidade de HI.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >d)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>diminuição do valor de ∆H.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >e)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>redução de gás hidrogênio.</p></span>\n\t\t\t</div>\n\t\t</div>\t\n\t</div>",
-                  "provaAprovada": false,
-                  "tipoQuestao": "Múltipla Escolha - Resposta Única",
-                  "dataCriacao": "2024-10-06T23:14:50.692+00:00",
-                  "ultimaAplicacao": null,
-                  "fonte": null,
-                  "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>   \n\t\t\t\t<p>\n\t\t\t\t\t<span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t<span   class=\"ng-binding ng-scope\">Item: e)</span>\n\t\t\t      \t</span> \n\t\t\t      <span style=\"margin-left:10px;\"  class=\"ng-binding\"></span>\n\t\t\t    </p> \t\t\t\t\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-                  "referencia": null,
-                  "listaTag": [],
-                  "listaCategoria": [],
-                  "listaCursos": [],
-                  "categoriasEmTexto": null,
-                  "tagsEmTexto": null,
-                  "cursoEmTexto": null,
-                  "instituicao": null,
-                  "status": {
-                    "codigo": 16,
-                    "cor": "#ff9801",
-                    "descricao": "Em moderação",
-                    "nome": "EM_MODERACAO",
-                    "tipo": "Q"
-                  },
-                  "dataModeracao": "2024-10-06T23:14:50.662+00:00",
-                  "categoriaSup": null,
-                  "geradaPorIA": false,
-                  "usuario": null
-                },
-                "valor": 1,
-                "ordem": 4,
-                "ordemPersonalizada": null,
-                "origem": "I",
-                "tipoLinha": null,
-                "linhasBranco": 0,
-                "mostrarReferencia": false,
-                "infoReferencia": null,
-                "numeroLinhas": null,
-                "quebraPagina": true
-              },
-              {
-                "codigo": 898453,
-                "provaModelo": null,
-                "questao": {
-                  "codigo": "CHR-98239",
-                  "tipoFonte": 1,
-                  "privacidade": 1,
-                  "dificuldade": "M",
-                  "instrucao": null,
-                  "textoBase": null,
-                  "comando": null,
-                  "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Um técnico de laboratório químico precisa preparar algumas soluções aquosas, que são obtidas a partir das pastilhas da substância precursora no estado sólido. A solubilização desta substância consiste em um processo endotérmico. Ele está atrasado e precisa otimizar o tempo ao máximo, a fim de que essas soluções fiquem prontas.&nbsp;</p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Desse modo, indique soluções duas soluções que o técnico deve aplicar para tornar o processo de dissolução das pastilhas mais rápido.&nbsp;</p></div>\n\t</div>",
-                  "provaAprovada": false,
-                  "tipoQuestao": "Aberta - Resposta Única",
-                  "dataCriacao": "2024-10-06T23:20:12.799+00:00",
-                  "ultimaAplicacao": null,
-                  "fonte": null,
-                  "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>\n\t\t\t\t<p  class=\"ng-binding\"><p style=\"text-align:justify;\">Aumentar a superfície de contato.</p></p>\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-                  "referencia": null,
-                  "listaTag": [],
-                  "listaCategoria": [],
-                  "listaCursos": [],
-                  "categoriasEmTexto": null,
-                  "tagsEmTexto": null,
-                  "cursoEmTexto": null,
-                  "instituicao": null,
-                  "status": {
-                    "codigo": 16,
-                    "cor": "#ff9801",
-                    "descricao": "Em moderação",
-                    "nome": "EM_MODERACAO",
-                    "tipo": "Q"
-                  },
-                  "dataModeracao": "2024-10-06T23:20:12.770+00:00",
-                  "categoriaSup": null,
-                  "geradaPorIA": false,
-                  "usuario": null
-                },
-                "valor": 1,
-                "ordem": 5,
-                "ordemPersonalizada": null,
-                "origem": "I",
-                "tipoLinha": {
-                  "codigo": 5,
-                  "nome": "Linhas de Resposta Sem Título Resposta"
-                },
-                "linhasBranco": 1,
-                "mostrarReferencia": false,
-                "infoReferencia": null,
-                "numeroLinhas": 4,
-                "quebraPagina": false
-              },
-              {
-                "codigo": 898454,
-                "provaModelo": null,
-                "questao": {
-                  "codigo": "CHR-98240",
-                  "tipoFonte": 1,
-                  "privacidade": 1,
-                  "dificuldade": "M",
-                  "instrucao": null,
-                  "textoBase": null,
-                  "comando": null,
-                  "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">A equação iônica balanceada representa a reação do ácido bromídrico com o ácido brômico em meio aquoso.</p><p style=\"text-align:center;\">1 BrO<sub>3</sub><sup>– </sup><sub>(aq)&nbsp;</sub>+&nbsp; 5 Br<sup>–&nbsp;</sup><sub>(aq)</sub>+ 6 H<sup>+</sup><sub>(aq)</sub> → 3 Br<sub>2(g)</sub> + 3 H<sub>2</sub>O<sub>(l)</sub></p><p style=\"text-align:justify;\">Em um estudo cinético dessa reação, em temperatura controlada, mediu-se a velocidade de consumo de cada reagente em diferentes concentrações. A tabela apresenta os resultados obtidos.</p><figure class=\"image image-style-align-center\"><img style=\"aspect-ratio:420/132;\" src=\"data:image/png;base64,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\" alt=\"Tabela\n\nDescrição gerada automaticamente\" width=\"420\" height=\"132\"></figure></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Determine a ordem da reação com relação ao&nbsp;BrO<sub>3</sub><sup>– &nbsp;</sup>na reação.</p></div>\n\t</div>",
-                  "provaAprovada": false,
-                  "tipoQuestao": "Aberta - Resposta Única",
-                  "dataCriacao": "2024-10-06T23:22:59.406+00:00",
-                  "ultimaAplicacao": null,
-                  "fonte": null,
-                  "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>\n\t\t\t\t<p  class=\"ng-binding\"><p>Reação de primeira ordem</p></p>\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-                  "referencia": null,
-                  "listaTag": [],
-                  "listaCategoria": [],
-                  "listaCursos": [],
-                  "categoriasEmTexto": null,
-                  "tagsEmTexto": null,
-                  "cursoEmTexto": null,
-                  "instituicao": null,
-                  "status": {
-                    "codigo": 16,
-                    "cor": "#ff9801",
-                    "descricao": "Em moderação",
-                    "nome": "EM_MODERACAO",
-                    "tipo": "Q"
-                  },
-                  "dataModeracao": "2024-10-06T23:22:59.376+00:00",
-                  "categoriaSup": null,
-                  "geradaPorIA": false,
-                  "usuario": null
-                },
-                "valor": 1,
-                "ordem": 6,
-                "ordemPersonalizada": null,
-                "origem": "I",
-                "tipoLinha": {
-                  "codigo": 4,
-                  "nome": "Quadro"
-                },
-                "linhasBranco": 0,
-                "mostrarReferencia": false,
-                "infoReferencia": null,
-                "numeroLinhas": 9,
-                "quebraPagina": false
-              },
-              {
-                "codigo": 898455,
-                "provaModelo": null,
-                "questao": {
-                  "codigo": "CHR-98241",
-                  "tipoFonte": 1,
-                  "privacidade": 1,
-                  "dificuldade": "M",
-                  "instrucao": null,
-                  "textoBase": null,
-                  "comando": null,
-                  "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Em água, o ácido carbônico, H<sub>2</sub>CO<sub>3</sub>, encontra-se ionizado conforme indicação simplificada nas equações a seguir:</p><p style=\"text-align:justify;\">I. H<sub>2</sub>CO<sub>3(aq) </sub>⇌ HCO<sub>3</sub><sup> –&nbsp;</sup><sub>(aq)&nbsp;</sub>+ H<sup>+</sup><sub>(aq)&nbsp;</sub>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K<sub>1</sub> = 2,5 × 10<sup> –4</sup>&nbsp;</p><p style=\"text-align:justify;\">II. HCO<sub>3</sub><sup> –&nbsp;</sup><sub>(aq)</sub>⇌ CO<sub>3</sub><sup> –2</sup><sub>(aq)&nbsp;</sub>+ H<sup>+</sup><sub>(aq)</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; K<sub>2</sub> = 5,6 × 10<sup>-11</sup>&nbsp;</p><p style=\"text-align:justify;\">III H<sub>2</sub>CO<sub>3(aq) </sub>⇌&nbsp;CO<sub>3</sub><sup> –2&nbsp;</sup><sub>(aq)&nbsp;</sub>+ 2H<sup>+</sup><sub>(aq)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</sub>K<sub>3</sub> = ?</p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>Determine o valor da constante K<sub>3</sub> na da reação de ionização do ácido carbônico.</p></div>\n\t</div>",
-                  "provaAprovada": false,
-                  "tipoQuestao": "Aberta - Resposta Única",
-                  "dataCriacao": "2024-10-06T23:25:38.603+00:00",
-                  "ultimaAplicacao": null,
-                  "fonte": null,
-                  "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>\n\t\t\t\t<p  class=\"ng-binding\"><p>K = 1,4 x 10<sup>– 14</sup></p></p>\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-                  "referencia": null,
-                  "listaTag": [],
-                  "listaCategoria": [],
-                  "listaCursos": [],
-                  "categoriasEmTexto": null,
-                  "tagsEmTexto": null,
-                  "cursoEmTexto": null,
-                  "instituicao": null,
-                  "status": {
-                    "codigo": 16,
-                    "cor": "#ff9801",
-                    "descricao": "Em moderação",
-                    "nome": "EM_MODERACAO",
-                    "tipo": "Q"
-                  },
-                  "dataModeracao": "2024-10-06T23:25:38.576+00:00",
-                  "categoriaSup": null,
-                  "geradaPorIA": false,
-                  "usuario": null
-                },
-                "valor": 1,
-                "ordem": 7,
-                "ordemPersonalizada": null,
-                "origem": "I",
-                "tipoLinha": {
-                  "codigo": 4,
-                  "nome": "Quadro"
-                },
-                "linhasBranco": 0,
-                "mostrarReferencia": false,
-                "infoReferencia": null,
-                "numeroLinhas": 8,
-                "quebraPagina": false
-              },
-              {
-                "codigo": 898456,
-                "provaModelo": null,
-                "questao": {
-                  "codigo": "CHR-98244",
-                  "tipoFonte": 1,
-                  "privacidade": 1,
-                  "dificuldade": "M",
-                  "instrucao": null,
-                  "textoBase": null,
-                  "comando": null,
-                  "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Dois fatores que podem alterar o pH sanguíneo são: a intensidade da respiração (quanto maior a intensidade, menor o teor de CO<sub>2</sub> no sangue) e o teor de bicarbonato na urina (quanto maior o teor de bicarbonato na urina, maior a diminuição de sua concentração no sangue).</p><p style=\"text-align:center;\">CO<sub>2(g)</sub> + H<sub>2</sub>O<sub>(ℓ)</sub>&nbsp;⇌ H<sup>+</sup><sub>(aq)</sub> + HCO<sub>3</sub><sup>–</sup><sub> (aq)</sub></p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Quais os efeitos do aumento da intensidade da respiração sobre os valores do pH sanguíneo? Justifique sua resposta.</p></div>\n\t</div>",
-                  "provaAprovada": false,
-                  "tipoQuestao": "Aberta - Resposta Única",
-                  "dataCriacao": "2024-10-06T23:28:02.406+00:00",
-                  "ultimaAplicacao": null,
-                  "fonte": null,
-                  "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>\n\t\t\t\t<p  class=\"ng-binding\"><p>Aumento do pH sanguíneo.</p></p>\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-                  "referencia": null,
-                  "listaTag": [],
-                  "listaCategoria": [],
-                  "listaCursos": [],
-                  "categoriasEmTexto": null,
-                  "tagsEmTexto": null,
-                  "cursoEmTexto": null,
-                  "instituicao": null,
-                  "status": {
-                    "codigo": 16,
-                    "cor": "#ff9801",
-                    "descricao": "Em moderação",
-                    "nome": "EM_MODERACAO",
-                    "tipo": "Q"
-                  },
-                  "dataModeracao": "2024-10-06T23:28:02.369+00:00",
-                  "categoriaSup": null,
-                  "geradaPorIA": false,
-                  "usuario": null
-                },
-                "valor": 1,
-                "ordem": 8,
-                "ordemPersonalizada": null,
-                "origem": "I",
-                "tipoLinha": {
-                  "codigo": 5,
-                  "nome": "Linhas de Resposta Sem Título Resposta"
-                },
-                "linhasBranco": 1,
-                "mostrarReferencia": false,
-                "infoReferencia": null,
-                "numeroLinhas": 4,
-                "quebraPagina": false
-              },
-              {
-                "codigo": 898457,
-                "provaModelo": null,
-                "questao": {
-                  "codigo": "CHR-98246",
-                  "tipoFonte": 1,
-                  "privacidade": 1,
-                  "dificuldade": "M",
-                  "instrucao": null,
-                  "textoBase": null,
-                  "comando": null,
-                  "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Considere o equilíbrio entre os íons cromato (CrO<sub>4</sub><sup>2-</sup>) e dicromato (Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup>) em solução aquosa, descrito a seguir.</p><p style=\"text-align:center;\">Cr<sub>2</sub>O<sub>7 </sub><sup>2–</sup><sub>(aq)&nbsp;</sub>+ H<sub>2</sub>O<sub>(ℓ)&nbsp;</sub>⇌ 2 H<sup>+</sup><sub>(aq) </sub>+ 2 CrO<sub>4&nbsp;</sub><sup>2–</sup><sub>(aq)</sub></p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>Escreva a equação da constante de equilíbrio iônica entre os íons cromato e dicromato.</p></div>\n\t</div>",
-                  "provaAprovada": false,
-                  "tipoQuestao": "Aberta - Resposta Única",
-                  "dataCriacao": "2024-10-06T23:34:14.808+00:00",
-                  "ultimaAplicacao": null,
-                  "fonte": null,
-                  "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>\n\t\t\t\t<p  class=\"ng-binding\"><p>Equacionamento padrão do equilíbrio.</p></p>\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-                  "referencia": null,
-                  "listaTag": [],
-                  "listaCategoria": [],
-                  "listaCursos": [],
-                  "categoriasEmTexto": null,
-                  "tagsEmTexto": null,
-                  "cursoEmTexto": null,
-                  "instituicao": null,
-                  "status": {
-                    "codigo": 16,
-                    "cor": "#ff9801",
-                    "descricao": "Em moderação",
-                    "nome": "EM_MODERACAO",
-                    "tipo": "Q"
-                  },
-                  "dataModeracao": "2024-10-06T23:34:14.779+00:00",
-                  "categoriaSup": null,
-                  "geradaPorIA": false,
-                  "usuario": null
-                },
-                "valor": 1,
-                "ordem": 9,
-                "ordemPersonalizada": null,
-                "origem": "I",
-                "tipoLinha": null,
-                "linhasBranco": 0,
-                "mostrarReferencia": false,
-                "infoReferencia": null,
-                "numeroLinhas": null,
-                "quebraPagina": true
-              },
-              {
-                "codigo": 898458,
-                "provaModelo": null,
-                "questao": {
-                  "codigo": "CHR-98247",
-                  "tipoFonte": 1,
-                  "privacidade": 1,
-                  "dificuldade": "M",
-                  "instrucao": null,
-                  "textoBase": null,
-                  "comando": null,
-                  "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">O metanol pode ser obtido industrialmente pela reação entre o monóxido de carbono e o hidrogênio conforme a equação adiante:</p><p style=\"text-align:center;\">CO<sub>(g)</sub> + 2 H<sub>2(g)</sub>&nbsp;⇌ CH<sub>3</sub>OH<sub>(g)</sub></p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Há uma certa temperatura, em um recipiente de 2L. Após um certo tempo, o equilíbrio é atingido com 3 mols de monóxido de carbono, 2 mols de hidrogênio e 1 mol de metanol. Assim, determine o valor da constante de equilíbrio da reação.&nbsp;</p></div>\n\t</div>",
-                  "provaAprovada": false,
-                  "tipoQuestao": "Aberta - Resposta Única",
-                  "dataCriacao": "2024-10-06T23:37:37.629+00:00",
-                  "ultimaAplicacao": null,
-                  "fonte": null,
-                  "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>\n\t\t\t\t<p  class=\"ng-binding\"><p>K = 0,333</p></p>\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-                  "referencia": null,
-                  "listaTag": [],
-                  "listaCategoria": [],
-                  "listaCursos": [],
-                  "categoriasEmTexto": null,
-                  "tagsEmTexto": null,
-                  "cursoEmTexto": null,
-                  "instituicao": null,
-                  "status": {
-                    "codigo": 16,
-                    "cor": "#ff9801",
-                    "descricao": "Em moderação",
-                    "nome": "EM_MODERACAO",
-                    "tipo": "Q"
-                  },
-                  "dataModeracao": "2024-10-06T23:37:37.510+00:00",
-                  "categoriaSup": null,
-                  "geradaPorIA": false,
-                  "usuario": null
-                },
-                "valor": 1,
-                "ordem": 10,
-                "ordemPersonalizada": null,
-                "origem": "I",
-                "tipoLinha": null,
-                "linhasBranco": 0,
-                "mostrarReferencia": false,
-                "infoReferencia": null,
-                "numeroLinhas": null,
-                "quebraPagina": false
-              }
-            ]
-          }
-        ],
-        "listaProvaAnexo": [],
-        "instrucaoEspecifica": null,
-        "tipoProva": {
-          "codigo": 7,
-          "nome": "TESTE DE RECUPERAÇÃO",
-          "notaParcial": "REC",
-          "cor": null,
-          "instituicao": null,
-          "multiploAgendamento": true,
-          "bloqueioQuestao": true,
-          "listaLayout": []
-        },
-        "listaTurma": [
+              "valor": 1,
+              "ordem": 1,
+              "ordemPersonalizada": null,
+              "origem": "I",
+              "tipoLinha": null,
+              "linhasBranco": 0,
+              "mostrarReferencia": false,
+              "infoReferencia": null,
+              "numeroLinhas": null,
+              "quebraPagina": false
+          },
           {
-            "codigo": 38861,
-            "codigoTurma": "21SU22MAQUI2",
-            "nome": "A",
-            "disciplina": "QUÍMICA II",
-            "periodoLetivo": {
-              "codigo": 24,
-              "nome": "RECUPERAÇÃO - 2024",
-              "ativo": true,
-              "instituicao": null
-            },
-            "professor": {
-              "codigo": 489,
-              "nome": "PESSOA 489",
-              "login": null,
-              "senha": null,
-              "cpf": null,
-              "dataDesativacao": null,
-              "dataCadastro": null,
-              "alterarSenha": null,
-              "email": null,
-              "codigoImportacao": null,
-              "listaGrupo": [],
-              "listaCursoCategoria": [],
-              "status": null,
-              "foto": null,
-              "instituicao": null,
-              "aluno": null
-            },
-            "cursoUnidade": {
-              "codigo": 31,
-              "unidade": {
-                "codigo": 5,
-                "nome": "SUL",
-                "instituicao": null
+              "codigo": 923780,
+              "provaModelo": null,
+              "questao": {
+                  "codigo": "CHR-101266",
+                  "tipoFonte": 1,
+                  "privacidade": 1,
+                  "dificuldade": "M",
+                  "instrucao": null,
+                  "textoBase": null,
+                  "comando": null,
+                  "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\t\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>&nbsp;</p><figure class=\"image\"><img src=\"data:image/jpeg;base64,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\"></figure></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\t\t\t\t\t\t\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>A transição demográfica refere-se à mudança nos padrões de natalidade e mortalidade de uma população ao longo do tempo. No Brasil, esse fenômeno é claramente perceptível ao observarmos as pirâmides etárias das últimas décadas. Um dos fatores que intensificou esse processo foi:</p></div>\n\t\t\n\t\t<div class=\"coluna-sm-12 adaptive-margin-bottom\">\n\t\t\t<div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >a)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>Industrialização, que acelerou a migração do campo para as cidades na primeira metade do século XIX.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >b)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>Expansão das telecomunicações, que facilitou a disseminação de informações e a integração social nas últimas décadas.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >c)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>Urbanização, intensificada na segunda metade do século XX, alterando os padrões demográficos brasileiros.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >d)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>Coletivização dos meios de produção permitindo que todos os trabalhadores brasileiros tivessem acesso ao trabalho.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >e)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>Modernização agrícola, que reduziu a dependência da mão de obra rural e impulsionou a mecanização no século XXI.</p><p>&nbsp;</p></span>\n\t\t\t</div>\n\t\t</div>\t\n\t</div>",
+                  "provaAprovada": false,
+                  "tipoQuestao": "Múltipla Escolha - Resposta Única",
+                  "dataCriacao": "2024-10-31T07:41:19.518+00:00",
+                  "ultimaAplicacao": null,
+                  "fonte": null,
+                  "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>   \n\t\t\t\t<p>\n\t\t\t\t\t<span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t<span   class=\"ng-binding ng-scope\">Item: c)</span>\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span> \n\t\t\t      <span style=\"margin-left:10px;\"  class=\"ng-binding\"></span>\n\t\t\t    </p> \t\t\t\t\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
+                  "referencia": null,
+                  "listaTag": [],
+                  "listaCategoria": [],
+                  "listaCursos": [],
+                  "categoriasEmTexto": null,
+                  "tagsEmTexto": null,
+                  "cursoEmTexto": null,
+                  "instituicao": null,
+                  "status": {
+                      "codigo": 16,
+                      "cor": "#ff9801",
+                      "descricao": "Em moderação",
+                      "nome": "EM_MODERACAO",
+                      "tipo": "Q"
+                  },
+                  "dataModeracao": "2024-10-31T07:41:19.495+00:00",
+                  "categoriaSup": null,
+                  "geradaPorIA": false,
+                  "usuario": null
               },
-              "curso": {
-                "codigo": 22,
-                "nome": "2ª SÉRIE / EM",
-                "instituicao": null,
-                "categoria": null,
-                "listaCategorias": [],
-                "listaTipoProvaCurso": [],
-                "check": false
-              },
-              "turno": {
-                "codigo": 1,
-                "nome": "Manhã"
-              },
-              "graficaPadrao": null,
-              "listaGrafica": [],
-              "listaCoordenador": [],
-              "listaLayout": []
-            },
-            "dataDesativacao": null,
-            "listaCoordenador": [],
-            "listaAluno": [],
-            "listaAgendamento": null,
-            "novo": null,
-            "listaAgrupamento": []
+              "valor": 1,
+              "ordem": 2,
+              "ordemPersonalizada": null,
+              "origem": "I",
+              "tipoLinha": null,
+              "linhasBranco": 0,
+              "mostrarReferencia": false,
+              "infoReferencia": null,
+              "numeroLinhas": null,
+              "quebraPagina": false
           }
-        ],
-        "status": {
-          "codigo": 2,
-          "nome": "EM_MODERACAO",
-          "descricao": "Em moderação",
-          "tipo": null,
-          "cor": "#ff9801"
-        },
-        "dataCriacao": "2024-10-17T03:00:00.000+00:00",
-        "dataModeracao": "2024-10-17T03:00:00.000+00:00",
-        "dataAprovacao": null,
-        "usuarioAprovacao": null,
-        "instituicao": {
-          "auth": 1,
-          "codigo": 1,
-          "emailAlt": true,
-          "exitusUrl": "https://exitus.christus.com.br",
-          "googleChave": null,
-          "instituicaoExterna": 1,
-          "linkFile": "",
-          "logo": null,
-          "mesesBloqueioQuestao": 12,
-          "nome": "Christus",
-          "nomeFile": "logo/2022-10-11-132142464.png",
-          "prefixoQuestao": "CHR",
-          "provaVisualiza": false,
-          "site": "www.christus.com.br",
-          "textoBaseObg": false
-        },
-        "modo": "I",
-        "novo": true,
-        "listaProvaAgendamento": [],
-        "layout": {
-          "codigo": 149,
-          "nome": "Atividade/Teste - Clássica (Sem valor da questão)",
-          "cabecalho": "<div id=\"cabecalho_colegio\">\n\t<p style=\"text-align:right\">\n\t\t<img id=\"logo_prova\" class=\"logo-cabecalho\" alt=\"\" src=\"#LOGO#\" style=\"border:0px; solid black; float:left; margin:0px; height:70px; width:200px;\"/>&nbsp; &nbsp; &nbsp; &nbsp;\n\t</p>\n\t\t\n\t<p style=\"text-align:center;\">\n\t\t<span style=\"font-size:20px\">\n\t\t\t<strong>#CURSO# - #PERIODO#</strong>\n\t\t</span>\n\t</p>\n\t<p style=\"text-align:center\">\n\t\t<span style=\"font-size:16px\">\n\t\t\t<strong>#TIPOPROVANOME# DE #DISCIPLINA#</strong>\n\t\t</span>\n\t</p>\n</div>",
-          "rodape": "<hr style=\"border-color: black;\" /><p style=\"font-size:11px; text-align: center;\"><strong>#site# | <img alt=\"\" style=\"height: 15px; vertical-align: middle;\" src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH8AAAAkCAAAAACFn7r7AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAAd0SU1FB+gBHQsyK+RJ120AAAjiSURBVFjDxVh5UFXnFf/d7fHAJYhWGqwLLpiISzBWwD06dbRZqmOUqNMqWsUNdIy2nWh0okkwk9RUq1ZJFB1RK9qaGJcyBmq01oCihhEaq9QlixFE0cj23n339Hx3e++h40ynf+TMwLvvnu+c3znnO+d853ugH5bw0BvDeNz6x3P/d+FQfCNgPOIxhO0+/j/ccNUh+H7B9NVdKKv3ia96uIaA+O73XS2u8YknPRzDEMK6r6b4qk8I64FwYSER8H1/pvie3whXjVAN5evGtPeoakTs+J2Vlj2hGmqOZiVGaIrWKjn7XB0FQiHYpbpTryW3Zm5kt7l/qwm3nlX7z68c0dKjKJ72Y9aVE/kewmdtZ9O9cKnt/GuhcdSpLicpyMXoAlMkKPzJyBBuUk5diAGs5eR4OciNmFEezAS4Gt6MAhRZMklWgbhtpqjNLk4FVFkyFUiKDPXXt90A+anmVyyr2FwhnFrsmhcg/+oIyA5XUoCY913rYa+5/zLg0RRY+FA0D7DUMUCn/BioimW+orEvAuKG7aNONwbBE+ngiyURiMm3UyRAjS8BWkh0JFY9z1ENa03TzyCpITFiHaowwLDS5SOvq0Gy/tjJZ2+YOgy6PiDIMolF4f2rlXVU/zw8EZonhDSvijm2AQKfQV6FzOgj1+TlbmfKzXtzIEMAm0WMA1QWY6q0MFKzulsGYpCVRr4h6DYz67V1GUH4hAkaWp5nSa672XgkvWFFD6Z/B4RQm301h7buEPg7Pviseo14FX1BrGoaHoSXkE8fsbEiBFjO5vlpOW/of75ZtKJ8CmTLsM4lC1hieJNQvR/oNG3RO1s/DNKyzEnRUArN/IGIw91kDq98sLRz0LzeZdmQPUjT2YmNUNy9Az6kxunms4yYc9RIp1uxcJfP4tDxRB9hp4IOJdNMMzYy/N2+eP5as27AISsbgRcaxQ6Y+PuhqZhZFcOZrVgpNjgq6U4qlwM+J6MxIbiz7P92CjRkdeRigQeZ1ECZ/Kkg40JbjD3OXiiIKMyEKrFMQiPRdnjLeIN1n8/X0OCzSJhTAhSJGjDz7+fgeOathcjAn6anJUGqWI6i1QL/t0Qfe5vhN3G3Sed3MhKuUGWCFfVtO4H3/sQB8Bx+S6hjvvdjolF44YHVSALBjsZZUdVbpKCFX+0VevdmgssmV7zM0Z76CXZvEW+7GzTHCb9kmrHdVPO2sEnFIdpn5oaMFsWZwNFZiDqU7VQQMuhqNMOIIjLo9m9OuyeQQfdGob1u4ht0TARLOpUFJeoITYmLT6/7C4vnbxSA2peUamefIjoPkEt31n9Fqy38N+h1i8vlWJGKHsVPr98Ku02pSKGdEVhh1+F3sZ6ltXYM2Ir50Er5E8zZZAbrX3OBaTRcSI6gicDeTQJfPno93knr1rOPnBvA/t/pETVvnPXqlfqpdnRUzP28DV6q3g3YfURGl285Fn+gJhP/Vk/uqdsbnJ68FOoH/FbgrzTxy+fBc6hQ9FG0qnyX/TfxkXclzlSoILaQBScJ/EQ3wlMe/MKBk7AtD1izwa1VGU9efxV438HvLiwdebSJwXkbFkNeZ+Lr9IoA8pbPR/SZfFk8R53Z6OLvruwgEGS0OcZm14y18K1eq2Dq/dFB/NZFc6AWzHAMkBF3Y6nA97n4XB29qkRbMjve+ub+Y/MVDR4POlGWE3/ssvA1zCYqS+7UQux/ol0QHP+6NLc5qPgd9cPTJYn2Gxff9R+IWlbtczvuH238zQI/soL3P5WW8SJt/53ODr5SVC30Md5Oqhsj1O6gO71c/GlN0x18FRlHVv2jHdKOeZ3d6XV3s4Lf2/5XJUAbd9k9k5fAs8/EN+ifAl87P4/rL4uKFmSdpTT214p/qyoS3VdGbAlVtxAnbw7VOP5r2EAb7JNJxYjLffDnreyw3S9VDKNPIrHYPGoDdLPDwCPOIGaQbzLkS2b+E92PFfoOLhaaXiz0+w6niBLanSPwU4gzlZMCEQfofn9R58epNsH1v4AKXLALPCK0uZgBrWC6aZOMJVTVDukGmfV/d+89d2oz6PuxSHTP3wUi6dfnQVW5fcXFafwAlCwUR/4aohMtRHhYmVEQI8mvE1W46T/gJt0cIAxQMbhssOifg64P5BToyy8ktDwh6mVQLfkDVt+xat8wAn76qh1W2vgBOi2QhtQMCD0ff3mtMytp9w3XxyDWpSC+kozvTlZy/KbCaTDZVE/Z/KmiS8VEPgd42aJLbZFW5BURTGbZ05A+taaUxvqGJqZG6zDaAuWi3f85PpPhUfDWt+ld4+O7MsV36bmoYQpUjQG4d//d6nWjrlvBW+W63/MWu8R9xYOOxdPMsuMdO5gfgbXvifAfZgB9HJ7ad6nW3xg8/Or99y7viLUnEOv8v9hOSM/78uvb1RbdKh0LWUOfWjN55ov95Kliy7/p9qEJ9qDD//awqE57gD6lThkoiD5/9VQFzQBmmapLWwNdB48e9fKsmYJmzB7/3OghXIpdbpLu7L+fdphDU8yzyRalJLUQE1b0abFlBtUOhkcSC+ISu3rtY4iPgkw7s7PwZF+nC7EBPxo6fEj/nhhyX/jn5xNYwsMUVWRlgzN/ruVqCp//PIg+YM1IOl3oBk1yGr3V+iRM9Nvzn29S6IBpa+lujk6i0yyBFKGoqmYTJ7lXnAp6+P1j0xPQFNklHj9/fNIZknW68pzwTJJl62yTOBYZDTabR8w5jlkmU2ZbR16xAdjENUoI1xR+ItcZ7YP3j9JhlrCDMfly8Iah04NVkWHcbnsoZMKnPXFhwpGrHrgXEAY62j9c9bBSV9b13091u1JcG70vHg+7Q/HjFwuiXHaPd79uduG88XbH4N4u+CJU2GDrN/YM+p+yqy54t0MohHHxnenP9OuXNCunkppdQMV1rzp34dDeSYnjln3a1OwCaogpuXDZuMSk3kMX5lZT+O1QaPKfXTG9f79+z0xYVeoLVR1y/w2/nT90iQ7TaDyWS80H3vDlod/Cf38wArqfSQ88+meEgK4/hmsJ63rgMdyHhEE/LP0XaV7Q0aPG4d4AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjQtMDEtMjlUMTE6NTA6MjkrMDA6MDBo6z2sAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI0LTAxLTI5VDExOjUwOjI5KzAwOjAwGbaFEAAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNC0wMS0yOVQxMTo1MDo0MyswMDowMCy88gYAAAAASUVORK5CYII=\"/> @colegiochristus | <img alt=\"\" style=\"height: 15px; vertical-align: middle;\" src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAIAAABuYg/PAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANtSURBVFhHzZdNKD1RGMZ9XyxYWOhufISkfISk5DtRNoq1rKRYECU2FlciK4kICUWUKImw8bFTipCyscEK+f6W/9OcZ+6duXdm7gyl/293zvu87zNz5pz33Ovz/Yf892YfHx9fX18cWMGU2cvLy+HhYWdnZ0tLS21tbWlpaXl5eX19PYbd3d0nJyfv7++UGuLF7OnpaXR0NCcnJzg42EcHhEpKSmZmZt7e3pimg5HZzs5OZmYmS5qgoKBgf3+fyVromvX19YWEhLCMaSIiIiYnJ1nCA22zrq4uZlvH19e3v7+fhdRomOGdmPdT4DcxMcFyCtzNNjc3DfaCeUJDQ/f29lhURmV2fX2dmppKuUxYWFhDQ0N8fDzHpikqKnp+fmZpCZXZ4OAghTI2m212dhah4+PjmJgYzppmYWFBVBa4zHBy09LSqJKprq5mWPJLSEhgwBw4f5+fn8xXmm1tbQUEBFAls7KywrAE+oinxgB8OTwik5VmPT09lChYXV1lWGqJzc3N2GmMmWN+fp75SrPCwkLGFQwNDYkoWlFTUxNnrVBVVSUqAJdZSkoK4wqysrLEop+ennLKIsXFxaI+cJl5bnoQGBi4uLiI6MXFRWRkJGetkJ+fL+oDL2YgPT394eEBgvX19R90S20zzWUUtLW1Cc3w8LCl3QhwFYhc4DLDpcW4B0FBQdPT00I2MjKCDc2A9P2Xl5fj4uI49qCsrEwkApdZe3s741pgAZ2beGNjIyoqCpMVFRW3t7eYOTo6io2NFUo3BgYGRBZwma2trfn5+VGiBfycvfzs7AytSHxLAQ5vUlISpTLYXwcHB1QozR4fHxMTE6nSAU/T2Nh4c3PDHDV4Cepk8vLyXl9fGVaaAYfDQZUhycnJU1NT9/f3TJPY3t4Wa6tkfHycYQmV2eXlZXR0NIXeyMjIQE/Z3d3FQuF1w8PDGZDB9hZf1InKDOBZqDUHFtbf358DBZhcWlpiURl3M4Crkhm/oKOjg+UUaJhhp1RWVjLpR9TU1Ljd0QINM4C1rqurY6pFWltbcQ+zkBptMwGahd5R1QTnbG5ujslaGJmB8/NzdBa73c56OuDnUG9vL34vMU0HL2aCq6ursbExXNPZ2dnoI05yc3Px3wJ30N3dHaWGmDJzgs+Os+hE2R3MYM3sl/yh2ff3P5bv1d6146b9AAAAAElFTkSuQmCC\"/> (85) 3277.1515</strong></p>",
-          "folhaRosto": "<table cellpadding=\"2\" cellspacing=\"0\" style=\"margin-top:10px; width:100%; max-width:100% !important; border:solid black 1px;\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td style=\"height:20px; width:625px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Aluno(a)</small></td>\n\t\t\t<td style=\"width:90px !important; font-size:10px; padding-left:5px;\"><small>Data</small></td>\t\t\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td style=\"text-align:center; height:25px; width:625px !important; font-size:13px; border-right:solid black 1px;\">&nbsp;</td>\n\t\t\t<td style=\"text-align:center; width:90px !important; font-size:13px;\">#DATA#</td>\n\t\t</tr>\n\t</tbody>\n</table>\n\n<table cellpadding=\"2\" cellspacing=\"0\" style=\"width:100%; max-width:100% !important; margin-top:-1px; border:solid black 1px;\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td style=\"height:20px; width:90px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Número</small></td>\n\t\t\t<td style=\"width:175px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Sede</small></td>\n\t\t\t<td style=\"width:90px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Turno</small></td>\n\t\t\t<td style=\"width:90px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Turma</small></td>\n\t\t\t<td style=\"width:90px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Nº Questões</small></td>\n\t\t\t<td style=\"width:90px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Nota Máxima</small></td>\t\n\t\t\t<td style=\"width:90px !important; font-size:10px; padding-left:5px;\"><small>Nota</small></td>\t\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td style=\"text-align:center; height:25px; width:90px !important; font-size:13px; border-right:solid black 1px;\">&nbsp;</td>\n\t\t\t<td style=\"text-align:center; width:175px !important; font-size:13px; border-right:solid black 1px;\">&nbsp;</td>\n\t\t\t<td style=\"text-align:center; width:90px !important; font-size:13px; border-right:solid black 1px;\">#TURNO#</td>\n\t\t\t<td style=\"text-align:center; width:90px !important; font-size:13px; border-right:solid black 1px;\">&nbsp;</td>\n\t\t\t<td style=\"text-align:center; width:90px !important; font-size:13px; border-right:solid black 1px;\">#TOTALQUEST#</td>\n\t\t\t<td style=\"text-align:center; width:90px !important; font-size:13px; border-right:solid black 1px;\">#PONTOS#</td>\n\t\t\t<td style=\"text-align:center; width:90px !important; font-size:13px;\">&nbsp;</td>\n\t\t</tr>\n\t</tbody>\n</table>\n\n<p style=\"margin-top:10px; text-align:center; border:solid black 1px; background-color:#ebebeb; padding-top:3px; padding-bottom:3px;\"><strong>LEIA ATENTAMENTE AS INSTRUÇÕES SEGUINTES:</strong></p>\n\n<div style=\"border:solid black 1px; padding:5px 5px; margin-top:-1px\">\n\t<ol style=\"margin-top:5px; margin-bottom:5px; padding-right:5px; padding-left:30px;\">\n\t\t<li style=\"text-align:justify;\">Preencha o cabeçalho de todas as páginas corretamente.</li>\n\t\t<li style=\"text-align:justify;\">Verifique se o exemplar de sua avaliação está completo. Nenhuma folha poderá ser destacada ou substituída.</li>\n\t\t<li style=\"text-align:justify;\">Verifique, após autorizado o início da avaliação, se existem falhas ou imperfeições gráficas que lhe causem dúvidas. Reclamações só serão aceitas durante a primeira hora da avaliação.</li>\n\t\t<li style=\"text-align:justify;\">A interpretação do conteúdo, a compreensão vocabular e o conhecimento da norma-padrão são inerentes à avaliação, por isso leia e analise atentamente cada questão.</li>\n\t\t<li style=\"text-align:justify;\">Não rasure nem use corretivo. Questões rasuradas ou com corretivo equivalem a questões erradas.</li>\n\t\t<li style=\"text-align:justify;\">Para as questões de múltipla escolha (do tipo a, b, c, d, e), assinale uma única resposta.</li>\n\t\t<li style=\"text-align:justify;\">A inobservância ao comando integral da questão poderá acarretar perda da pontuação.</li>\n\t\t<li style=\"text-align:justify;\">Os cálculos são necessários e podem ser feitos a lápis. As respostas devem ser grafadas com caneta esferográfica de cor azul ou preta e com corpo transparente.</li>\n\t\t<li style=\"text-align:justify;\">Sempre que houver gabarito, este deverá ser preenchido com letra de forma.</li>\n\t\t<li style=\"text-align:justify;\">Não é permitido ao aluno portar celular, <i>smartphone</i>, <i>smartwatch</i> ou outro dispositivo eletrônico durante a avaliação, mesmo que este esteja desligado, nem fazer uso de recursos impróprios à sua avaliação pessoal.</li>\n\t\t<li style=\"text-align:justify;\">Não é permitida a utilização de livros, cadernos, calculadoras etc.</li>\n\t\t<li style=\"text-align:justify;\">Não é permitida a troca de material entre os alunos.</li>\n\t\t<li style=\"text-align:justify;\">A fraude, a indisciplina e o desrespeito ao(s) funcionário(s) encarregado(s) da fiscalização são faltas passíveis de punição.</li>\n\t\t<li style=\"text-align:justify;\">O aluno está ciente de que, caso a sala possua câmeras, suas imagens poderão ser registradas e utilizadas para análise de ocorrências.</li>\n\t\t<li style=\"text-align:justify;\">Não é permitido o uso de marca-texto em nenhum local da avaliação.</li>\n\t\t<li style=\"text-align:justify;\">Contestações acerca da avaliação somente poderão ser analisadas em até 72 horas depois da devolução da atividade ou do teste corrigido pelo professor.</li>\n\t</ol>\n</div>\n<p style=\"margin-top:5px; text-align: center;\"><strong>BOM DESEMPENHO!</strong></p>\n<div class=\"page-break\"></div>",
-          "paginacao": "<p style=\"float: left; text-align: right; font-size:12px;\"><span>Admin Christus - 03/12/2024</span></p> <p style=\"text-align: right; font-size:12px; margin-top:-15px;\"><span class=\"pageNum\"></span>/<span class=\"pages\"></span></p>",
-          "tipoFolha": "A4",
-          "margem": 1,
-          "cabecalhoQuestao": "<div style=\"background-color:#c6c6c6; border:0px; padding:1px 1px; margin-top:15px; margin-bottom:5px; \"><span style=\"font-size:12px\"><strong>QUESTÃO #ORDEM#</strong></span></div>",
-          "orientacaoFolha": "portrait",
-          "rodapeRosto": null,
-          "rascunho": "<div class=\"ng-hide source-back-header\">\n\t\t\t<p style=\"text-align:right\"><img alt=\"\"  src=\"#logo#\" style=\"border:0px solid black; float:left; height:auto; margin:0px; width:auto; max-height:60px;\"  />&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>\n\t\t</div>\n\t\t<div class=\"ng-hide source-back\"></div>\n\t\t<div id=\"page2el\" class=\"ng-hide source-back-footer\">\n\t\t\t<p style=\"text-align:center\"><span style=\"color:#696969\"><span style=\"font-family:times new roman,times,serif\"><span style=\"font-size:28px\"><strong>RASCUNHO</strong></span></span></span></p>\n\t\t</div>",
-          "colunas": 1,
-          "marcaDagua": "https://storage.googleapis.com/exitus-christus/logo/Christus%20-%20px.png",
-          "cabecalhoPagina": "<div id=\"cabecalho2\" class=\"ng-hide source-back-header\">\n\t<div style=\"display: flow-root;\">\n\t\t<p style=\"text-align:right\">\n\t\t\t<img id=\"logo_prova\" class=\"logo-cabecalho\" alt=\"\" src=\"#LOGO#\" style=\"border:0px; solid black; float:left; margin:0px; height:55px; width:185px;\"/>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;\n\t\t</p>\n\t\t<p style=\"text-align:center; margin-top:-15px;\">\n\t\t\t<span style=\"font-size:16px\">\n\t\t\t\t<strong>#CURSO# - #PERIODO#</strong>\n\t\t\t</span>\n\t\t</p>\n\t\t<p style=\"text-align:center\">\n\t\t\t<span style=\"font-size:16px\">\n\t\t\t\t<strong>#TIPOPROVANOME# DE #DISCIPLINA#</strong>\n\t\t\t</span>\n\t\t</p>\n\t</div>\n\t\n\t<table cellpadding=\"2\" cellspacing=\"0\" style=\"width:100%; max-width:100% !important; margin-top:10px; border:solid black 1px;\">\n\t\t<tbody>\n\t\t\t<tr>\n\t\t\t\t<td style=\"height:20px; width:500px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Aluno(a)</small></td>\n\t\t\t\t<td style=\"width:100px !important; font-size:10px; border-right:solid black 1px; padding-left:5px;\"><small>Número</small></td>\n\t\t\t\t<td style=\"width:120px !important; font-size:10px; padding-left:5px;\"><small>Turma</small></td>\t\n\t\t\t</tr>\n\t\t\t<tr>\n\t\t\t\t<td style=\"text-align:center; height:25px; width:500px !important; font-size:13px; border-right:solid black 1px;\">&nbsp;</td>\n\t\t\t\t<td style=\"text-align:center; width:100px !important; font-size:13px; border-right:solid black 1px;\">&nbsp;</td>\n\t\t\t\t<td style=\"text-align:center; width:120px !important; font-size:13px;\">&nbsp;</td>\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n</div>",
-          "fonte": "Arial",
-          "fonteTamanho": 14,
-          "origemQuestao": false,
-          "cabecalhoPrimeiraQuestao": "<div style=\"background-color:#c6c6c6; border:0px; padding:1px 1px; margin-top:15px; margin-bottom:5px; \"><span style=\"font-size:12px\"><strong>QUESTÃO #ORDEM#</strong></span></div>",
-          "ordemQuestaoPersonalizada": false,
-          "ativo": null,
-          "tamanhosSuportados": "12, 14, 16, 18"
-        },
-        "dataRealizacao": "16/12/2024",
-        "folhasRascunho": 0,
-        "corImpressao": "P",
-        "tipoImpressao": "FV",
-        "obs": null,
-        "dataAplicacao": null,
-        "listaCTE": [],
-        "turmasEmTexto": null,
-        "ctesEmTexto": null,
-        "quebraQuestao": true,
-        "$promise": {},
-        "$resolved": true,
-        "turma": {
-          "codigo": 38861,
-          "codigoTurma": "21SU22MAQUI2",
-          "nome": "A",
-          "disciplina": "QUÍMICA II",
-          "periodoLetivo": {
-            "codigo": 24,
-            "nome": "RECUPERAÇÃO - 2024",
-            "ativo": true,
-            "instituicao": null
-          },
-          "professor": {
-            "codigo": 489,
-            "nome": "PESSOA 489",
-            "login": null,
-            "senha": null,
-            "cpf": null,
-            "dataDesativacao": null,
-            "dataCadastro": null,
-            "alterarSenha": null,
-            "email": null,
-            "codigoImportacao": null,
-            "listaGrupo": [],
-            "listaCursoCategoria": [],
-            "status": null,
-            "foto": null,
-            "instituicao": null,
-            "aluno": null
-          },
-          "cursoUnidade": {
-            "codigo": 31,
-            "unidade": {
-              "codigo": 5,
-              "nome": "SUL",
-              "instituicao": null
-            },
-            "curso": {
-              "codigo": 22,
-              "nome": "2ª SÉRIE / EM",
-              "instituicao": null,
-              "categoria": null,
-              "listaCategorias": [],
-              "listaTipoProvaCurso": [],
-              "check": false
-            },
-            "turno": {
-              "codigo": 1,
-              "nome": "Manhã"
-            },
-            "graficaPadrao": null,
-            "listaGrafica": [],
-            "listaCoordenador": [],
-            "listaLayout": []
-          },
-          "dataDesativacao": null,
-          "listaCoordenador": [],
-          "listaAluno": [],
-          "listaAgendamento": null,
-          "novo": null,
-          "listaAgrupamento": []
-        }
-      },
-      "modelo": 1,
-      "nome": "A",
-      "fonteTamanho": 14,
-      "listaProvaQuestao": [
-        {
-          "codigo": 898449,
-          "provaModelo": null,
-          "questao": {
-            "codigo": "CHR-98233",
-            "tipoFonte": 1,
-            "privacidade": 1,
-            "dificuldade": "M",
-            "instrucao": null,
-            "textoBase": null,
-            "comando": null,
-            "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\t\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">A reação química elementar de decomposição do dióxido de nitrogênio, representada a seguir, é um exemplo de modelo cinético não linear.</p><figure class=\"image\"><img src=\"data:image/png;base64,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\"></figure><p style=\"text-align:justify;\">Observe no gráfico a variação da velocidade dessa reação em função da concentração de dióxido de nitrogênio:</p><figure class=\"image\"><img src=\"data:image/jpeg;base64,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\"></figure></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\t\t\t\t\t\t\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Considerando os dados, a constante cinética da reação corresponde a:&nbsp;</p></div>\n\t\t\n\t\t<div class=\"coluna-sm-12 adaptive-margin-bottom\">\n\t\t\t<div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >a)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>0,1.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >b)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>0,3.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >c)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>0,5.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >d)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>0,7.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >e)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>0,9.</p></span>\n\t\t\t</div>\n\t\t</div>\t\n\t</div>",
-            "provaAprovada": false,
-            "tipoQuestao": "Múltipla Escolha - Resposta Única",
-            "dataCriacao": "2024-10-06T23:07:56.385+00:00",
-            "ultimaAplicacao": null,
-            "fonte": null,
-            "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>   \n\t\t\t\t<p>\n\t\t\t\t\t<span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t<span   class=\"ng-binding ng-scope\">Item: c)</span>\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span> \n\t\t\t      <span style=\"margin-left:10px;\"  class=\"ng-binding\"></span>\n\t\t\t    </p> \t\t\t\t\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-            "referencia": null,
-            "listaTag": [],
-            "listaCategoria": [],
-            "listaCursos": [],
-            "categoriasEmTexto": null,
-            "tagsEmTexto": null,
-            "cursoEmTexto": null,
-            "instituicao": null,
-            "status": {
-              "codigo": 16,
-              "cor": "#ff9801",
-              "descricao": "Em moderação",
-              "nome": "EM_MODERACAO",
-              "tipo": "Q"
-            },
-            "dataModeracao": "2024-10-06T23:08:33.000+00:00",
-            "categoriaSup": null,
-            "geradaPorIA": false,
-            "usuario": null
-          },
-          "valor": 1,
-          "ordem": 1,
-          "ordemPersonalizada": null,
-          "origem": "I",
-          "tipoLinha": null,
-          "linhasBranco": 2,
-          "mostrarReferencia": false,
-          "infoReferencia": null,
-          "numeroLinhas": null,
-          "quebraPagina": false
-        },
-        {
-          "codigo": 898450,
-          "provaModelo": null,
-          "questao": {
-            "codigo": "CHR-98235",
-            "tipoFonte": 1,
-            "privacidade": 1,
-            "dificuldade": "M",
-            "instrucao": null,
-            "textoBase": null,
-            "comando": null,
-            "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Dada a reação elementar 2 HCl → H<sub>2</sub> + Cl<sub>2</sub>, quando se duplica a concentração do HCl a velocidade da reação&nbsp;</p></div>\n\t\t\n\t\t<div class=\"coluna-sm-12 adaptive-margin-bottom\">\n\t\t\t<div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >a)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>diminui 8 vezes.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >b)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>aumenta 4 vezes.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >c)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>aumenta 2 vezes.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >d)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>diminui duas vezes.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >e)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>não sofre alteração</p></span>\n\t\t\t</div>\n\t\t</div>\t\n\t</div>",
-            "provaAprovada": false,
-            "tipoQuestao": "Múltipla Escolha - Resposta Única",
-            "dataCriacao": "2024-10-06T23:13:28.901+00:00",
-            "ultimaAplicacao": null,
-            "fonte": null,
-            "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>   \n\t\t\t\t<p>\n\t\t\t\t\t<span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t<span   class=\"ng-binding ng-scope\">Item: b)</span>\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span> \n\t\t\t      <span style=\"margin-left:10px;\"  class=\"ng-binding\"></span>\n\t\t\t    </p> \t\t\t\t\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-            "referencia": null,
-            "listaTag": [],
-            "listaCategoria": [],
-            "listaCursos": [],
-            "categoriasEmTexto": null,
-            "tagsEmTexto": null,
-            "cursoEmTexto": null,
-            "instituicao": null,
-            "status": {
-              "codigo": 16,
-              "cor": "#ff9801",
-              "descricao": "Em moderação",
-              "nome": "EM_MODERACAO",
-              "tipo": "Q"
-            },
-            "dataModeracao": "2024-10-06T23:13:28.870+00:00",
-            "categoriaSup": null,
-            "geradaPorIA": false,
-            "usuario": null
-          },
-          "valor": 1,
-          "ordem": 2,
-          "ordemPersonalizada": null,
-          "origem": "I",
-          "tipoLinha": null,
-          "linhasBranco": 0,
-          "mostrarReferencia": false,
-          "infoReferencia": null,
-          "numeroLinhas": null,
-          "quebraPagina": true
-        },
-        {
-          "codigo": 898451,
-          "provaModelo": null,
-          "questao": {
-            "codigo": "CHR-98234",
-            "tipoFonte": 1,
-            "privacidade": 1,
-            "dificuldade": "M",
-            "instrucao": null,
-            "textoBase": null,
-            "comando": null,
-            "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\t\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">O airbag, componente de segurança passiva dos veículos automotores, possui um balão de ar muito resistente que contém, entre outras substâncias, o sólido azida de sódio (NaN<sub>3</sub>). Quando ocorre uma colisão, os sensores distribuídos em partes especificas dos veículos transmitem um impulso elétrico (faísca) que provoca a rápida decomposição desse sólido, em gás nitrogênio (N<sub>2</sub>), responsável por inflar o airbag, e o sólido sódio (Na), conforme a equação da reação:</p><p style=\"text-align:center;\"><img src=\"data:image/png;base64,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\" alt=\"Tabela\n\nDescrição gerada automaticamente\" width=\"290\" height=\"107\"></p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\t\t\t\t\t\t\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>A velocidade média de formação do gás nitrogênio, no intervalo entre 0 e 10 minutos, é igual a&nbsp;</p></div>\n\t\t\n\t\t<div class=\"coluna-sm-12 adaptive-margin-bottom\">\n\t\t\t<div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >a)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>4,5 x 10<sup>– 2</sup> mol/s.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >b)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>5,0 x 10<sup>– 2</sup> mol/s.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >c)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>3,0 x 10<sup>– 3</sup> mol/s.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >d)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>5,0 x 10<sup>– 4</sup> mol/s.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >e)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>7,5 x 10<sup>– 4</sup> mol/s.</p></span>\n\t\t\t</div>\n\t\t</div>\t\n\t</div>",
-            "provaAprovada": false,
-            "tipoQuestao": "Múltipla Escolha - Resposta Única",
-            "dataCriacao": "2024-10-06T23:11:01.819+00:00",
-            "ultimaAplicacao": null,
-            "fonte": null,
-            "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>   \n\t\t\t\t<p>\n\t\t\t\t\t<span  class=\"ng-scope\">\n\t\t\t    \t\t<span   class=\"ng-binding ng-scope\">Item: a)</span>\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span> \n\t\t\t      <span style=\"margin-left:10px;\"  class=\"ng-binding\"></span>\n\t\t\t    </p> \t\t\t\t\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-            "referencia": null,
-            "listaTag": [],
-            "listaCategoria": [],
-            "listaCursos": [],
-            "categoriasEmTexto": null,
-            "tagsEmTexto": null,
-            "cursoEmTexto": null,
-            "instituicao": null,
-            "status": {
-              "codigo": 16,
-              "cor": "#ff9801",
-              "descricao": "Em moderação",
-              "nome": "EM_MODERACAO",
-              "tipo": "Q"
-            },
-            "dataModeracao": "2024-10-06T23:11:01.788+00:00",
-            "categoriaSup": null,
-            "geradaPorIA": false,
-            "usuario": null
-          },
-          "valor": 1,
-          "ordem": 3,
-          "ordemPersonalizada": null,
-          "origem": "I",
-          "tipoLinha": null,
-          "linhasBranco": 2,
-          "mostrarReferencia": false,
-          "infoReferencia": null,
-          "numeroLinhas": null,
-          "quebraPagina": false
-        },
-        {
-          "codigo": 898452,
-          "provaModelo": null,
-          "questao": {
-            "codigo": "CHR-98236",
-            "tipoFonte": 1,
-            "privacidade": 1,
-            "dificuldade": "M",
-            "instrucao": null,
-            "textoBase": null,
-            "comando": null,
-            "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\t\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>O iodeto de hidrogênio é um gás incolor, muito solúvel em água, que pode ser preparado a partir da mistura de hidrogênio com iodo, de acordo com a seguinte equação em equilíbrio:</p><p style=\"text-align:center;\">H<sub>2</sub>(g) + l<sub>2</sub>(g)&nbsp;⇌ 2Hl(g)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;∆H = + 26,46 kJ/mol</p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\t\t\t\t\t\t\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>A adição, de uma certa quantidade de iodo gasoso no sistema provocará:&nbsp;</p></div>\n\t\t\n\t\t<div class=\"coluna-sm-12 adaptive-margin-bottom\">\n\t\t\t<div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >a)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>deslocamento do equilíbrio para a esquerda.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >b)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>aumento da temperatura.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >c)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>redução da quantidade de HI.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >d)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>diminuição do valor de ∆H.</p></span>\n\t\t\t</div><div class=\"linha-alternativa ng-scope\"  >\n\t\t\t\t<span class=\"media-esq ng-binding\" >e)</span>\n\t\t\t\t<span class=\"media-corpo ng-binding\" ><p>redução de gás hidrogênio.</p></span>\n\t\t\t</div>\n\t\t</div>\t\n\t</div>",
-            "provaAprovada": false,
-            "tipoQuestao": "Múltipla Escolha - Resposta Única",
-            "dataCriacao": "2024-10-06T23:14:50.692+00:00",
-            "ultimaAplicacao": null,
-            "fonte": null,
-            "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>   \n\t\t\t\t<p>\n\t\t\t\t\t<span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t\n\t\t\t      \t</span><span  class=\"ng-scope\">\n\t\t\t    \t\t<span   class=\"ng-binding ng-scope\">Item: e)</span>\n\t\t\t      \t</span> \n\t\t\t      <span style=\"margin-left:10px;\"  class=\"ng-binding\"></span>\n\t\t\t    </p> \t\t\t\t\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-            "referencia": null,
-            "listaTag": [],
-            "listaCategoria": [],
-            "listaCursos": [],
-            "categoriasEmTexto": null,
-            "tagsEmTexto": null,
-            "cursoEmTexto": null,
-            "instituicao": null,
-            "status": {
-              "codigo": 16,
-              "cor": "#ff9801",
-              "descricao": "Em moderação",
-              "nome": "EM_MODERACAO",
-              "tipo": "Q"
-            },
-            "dataModeracao": "2024-10-06T23:14:50.662+00:00",
-            "categoriaSup": null,
-            "geradaPorIA": false,
-            "usuario": null
-          },
-          "valor": 1,
-          "ordem": 4,
-          "ordemPersonalizada": null,
-          "origem": "I",
-          "tipoLinha": null,
-          "linhasBranco": 0,
-          "mostrarReferencia": false,
-          "infoReferencia": null,
-          "numeroLinhas": null,
-          "quebraPagina": true
-        },
-        {
-          "codigo": 898453,
-          "provaModelo": null,
-          "questao": {
-            "codigo": "CHR-98239",
-            "tipoFonte": 1,
-            "privacidade": 1,
-            "dificuldade": "M",
-            "instrucao": null,
-            "textoBase": null,
-            "comando": null,
-            "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Um técnico de laboratório químico precisa preparar algumas soluções aquosas, que são obtidas a partir das pastilhas da substância precursora no estado sólido. A solubilização desta substância consiste em um processo endotérmico. Ele está atrasado e precisa otimizar o tempo ao máximo, a fim de que essas soluções fiquem prontas.&nbsp;</p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Desse modo, indique soluções duas soluções que o técnico deve aplicar para tornar o processo de dissolução das pastilhas mais rápido.&nbsp;</p></div>\n\t</div>",
-            "provaAprovada": false,
-            "tipoQuestao": "Aberta - Resposta Única",
-            "dataCriacao": "2024-10-06T23:20:12.799+00:00",
-            "ultimaAplicacao": null,
-            "fonte": null,
-            "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>\n\t\t\t\t<p  class=\"ng-binding\"><p style=\"text-align:justify;\">Aumentar a superfície de contato.</p></p>\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-            "referencia": null,
-            "listaTag": [],
-            "listaCategoria": [],
-            "listaCursos": [],
-            "categoriasEmTexto": null,
-            "tagsEmTexto": null,
-            "cursoEmTexto": null,
-            "instituicao": null,
-            "status": {
-              "codigo": 16,
-              "cor": "#ff9801",
-              "descricao": "Em moderação",
-              "nome": "EM_MODERACAO",
-              "tipo": "Q"
-            },
-            "dataModeracao": "2024-10-06T23:20:12.770+00:00",
-            "categoriaSup": null,
-            "geradaPorIA": false,
-            "usuario": null
-          },
-          "valor": 1,
-          "ordem": 5,
-          "ordemPersonalizada": null,
-          "origem": "I",
-          "tipoLinha": {
-            "codigo": 5,
-            "nome": "Linhas de Resposta Sem Título Resposta"
-          },
-          "linhasBranco": 1,
-          "mostrarReferencia": false,
-          "infoReferencia": null,
-          "numeroLinhas": 4,
-          "quebraPagina": false
-        },
-        {
-          "codigo": 898454,
-          "provaModelo": null,
-          "questao": {
-            "codigo": "CHR-98240",
-            "tipoFonte": 1,
-            "privacidade": 1,
-            "dificuldade": "M",
-            "instrucao": null,
-            "textoBase": null,
-            "comando": null,
-            "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">A equação iônica balanceada representa a reação do ácido bromídrico com o ácido brômico em meio aquoso.</p><p style=\"text-align:center;\">1 BrO<sub>3</sub><sup>– </sup><sub>(aq)&nbsp;</sub>+&nbsp; 5 Br<sup>–&nbsp;</sup><sub>(aq)</sub>+ 6 H<sup>+</sup><sub>(aq)</sub> → 3 Br<sub>2(g)</sub> + 3 H<sub>2</sub>O<sub>(l)</sub></p><p style=\"text-align:justify;\">Em um estudo cinético dessa reação, em temperatura controlada, mediu-se a velocidade de consumo de cada reagente em diferentes concentrações. A tabela apresenta os resultados obtidos.</p><figure class=\"image image-style-align-center\"><img style=\"aspect-ratio:420/132;\" src=\"data:image/png;base64,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\" alt=\"Tabela\n\nDescrição gerada automaticamente\" width=\"420\" height=\"132\"></figure></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Determine a ordem da reação com relação ao&nbsp;BrO<sub>3</sub><sup>– &nbsp;</sup>na reação.</p></div>\n\t</div>",
-            "provaAprovada": false,
-            "tipoQuestao": "Aberta - Resposta Única",
-            "dataCriacao": "2024-10-06T23:22:59.406+00:00",
-            "ultimaAplicacao": null,
-            "fonte": null,
-            "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>\n\t\t\t\t<p  class=\"ng-binding\"><p>Reação de primeira ordem</p></p>\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-            "referencia": null,
-            "listaTag": [],
-            "listaCategoria": [],
-            "listaCursos": [],
-            "categoriasEmTexto": null,
-            "tagsEmTexto": null,
-            "cursoEmTexto": null,
-            "instituicao": null,
-            "status": {
-              "codigo": 16,
-              "cor": "#ff9801",
-              "descricao": "Em moderação",
-              "nome": "EM_MODERACAO",
-              "tipo": "Q"
-            },
-            "dataModeracao": "2024-10-06T23:22:59.376+00:00",
-            "categoriaSup": null,
-            "geradaPorIA": false,
-            "usuario": null
-          },
-          "valor": 1,
-          "ordem": 6,
-          "ordemPersonalizada": null,
-          "origem": "I",
-          "tipoLinha": {
-            "codigo": 4,
-            "nome": "Quadro"
-          },
-          "linhasBranco": 0,
-          "mostrarReferencia": false,
-          "infoReferencia": null,
-          "numeroLinhas": 9,
-          "quebraPagina": false
-        },
-        {
-          "codigo": 898455,
-          "provaModelo": null,
-          "questao": {
-            "codigo": "CHR-98241",
-            "tipoFonte": 1,
-            "privacidade": 1,
-            "dificuldade": "M",
-            "instrucao": null,
-            "textoBase": null,
-            "comando": null,
-            "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Em água, o ácido carbônico, H<sub>2</sub>CO<sub>3</sub>, encontra-se ionizado conforme indicação simplificada nas equações a seguir:</p><p style=\"text-align:justify;\">I. H<sub>2</sub>CO<sub>3(aq) </sub>⇌ HCO<sub>3</sub><sup> –&nbsp;</sup><sub>(aq)&nbsp;</sub>+ H<sup>+</sup><sub>(aq)&nbsp;</sub>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K<sub>1</sub> = 2,5 × 10<sup> –4</sup>&nbsp;</p><p style=\"text-align:justify;\">II. HCO<sub>3</sub><sup> –&nbsp;</sup><sub>(aq)</sub>⇌ CO<sub>3</sub><sup> –2</sup><sub>(aq)&nbsp;</sub>+ H<sup>+</sup><sub>(aq)</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; K<sub>2</sub> = 5,6 × 10<sup>-11</sup>&nbsp;</p><p style=\"text-align:justify;\">III H<sub>2</sub>CO<sub>3(aq) </sub>⇌&nbsp;CO<sub>3</sub><sup> –2&nbsp;</sup><sub>(aq)&nbsp;</sub>+ 2H<sup>+</sup><sub>(aq)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</sub>K<sub>3</sub> = ?</p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>Determine o valor da constante K<sub>3</sub> na da reação de ionização do ácido carbônico.</p></div>\n\t</div>",
-            "provaAprovada": false,
-            "tipoQuestao": "Aberta - Resposta Única",
-            "dataCriacao": "2024-10-06T23:25:38.603+00:00",
-            "ultimaAplicacao": null,
-            "fonte": null,
-            "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>\n\t\t\t\t<p  class=\"ng-binding\"><p>K = 1,4 x 10<sup>– 14</sup></p></p>\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-            "referencia": null,
-            "listaTag": [],
-            "listaCategoria": [],
-            "listaCursos": [],
-            "categoriasEmTexto": null,
-            "tagsEmTexto": null,
-            "cursoEmTexto": null,
-            "instituicao": null,
-            "status": {
-              "codigo": 16,
-              "cor": "#ff9801",
-              "descricao": "Em moderação",
-              "nome": "EM_MODERACAO",
-              "tipo": "Q"
-            },
-            "dataModeracao": "2024-10-06T23:25:38.576+00:00",
-            "categoriaSup": null,
-            "geradaPorIA": false,
-            "usuario": null
-          },
-          "valor": 1,
-          "ordem": 7,
-          "ordemPersonalizada": null,
-          "origem": "I",
-          "tipoLinha": {
-            "codigo": 4,
-            "nome": "Quadro"
-          },
-          "linhasBranco": 0,
-          "mostrarReferencia": false,
-          "infoReferencia": null,
-          "numeroLinhas": 8,
-          "quebraPagina": false
-        },
-        {
-          "codigo": 898456,
-          "provaModelo": null,
-          "questao": {
-            "codigo": "CHR-98244",
-            "tipoFonte": 1,
-            "privacidade": 1,
-            "dificuldade": "M",
-            "instrucao": null,
-            "textoBase": null,
-            "comando": null,
-            "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Dois fatores que podem alterar o pH sanguíneo são: a intensidade da respiração (quanto maior a intensidade, menor o teor de CO<sub>2</sub> no sangue) e o teor de bicarbonato na urina (quanto maior o teor de bicarbonato na urina, maior a diminuição de sua concentração no sangue).</p><p style=\"text-align:center;\">CO<sub>2(g)</sub> + H<sub>2</sub>O<sub>(ℓ)</sub>&nbsp;⇌ H<sup>+</sup><sub>(aq)</sub> + HCO<sub>3</sub><sup>–</sup><sub> (aq)</sub></p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Quais os efeitos do aumento da intensidade da respiração sobre os valores do pH sanguíneo? Justifique sua resposta.</p></div>\n\t</div>",
-            "provaAprovada": false,
-            "tipoQuestao": "Aberta - Resposta Única",
-            "dataCriacao": "2024-10-06T23:28:02.406+00:00",
-            "ultimaAplicacao": null,
-            "fonte": null,
-            "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>\n\t\t\t\t<p  class=\"ng-binding\"><p>Aumento do pH sanguíneo.</p></p>\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-            "referencia": null,
-            "listaTag": [],
-            "listaCategoria": [],
-            "listaCursos": [],
-            "categoriasEmTexto": null,
-            "tagsEmTexto": null,
-            "cursoEmTexto": null,
-            "instituicao": null,
-            "status": {
-              "codigo": 16,
-              "cor": "#ff9801",
-              "descricao": "Em moderação",
-              "nome": "EM_MODERACAO",
-              "tipo": "Q"
-            },
-            "dataModeracao": "2024-10-06T23:28:02.369+00:00",
-            "categoriaSup": null,
-            "geradaPorIA": false,
-            "usuario": null
-          },
-          "valor": 1,
-          "ordem": 8,
-          "ordemPersonalizada": null,
-          "origem": "I",
-          "tipoLinha": {
-            "codigo": 5,
-            "nome": "Linhas de Resposta Sem Título Resposta"
-          },
-          "linhasBranco": 1,
-          "mostrarReferencia": false,
-          "infoReferencia": null,
-          "numeroLinhas": 4,
-          "quebraPagina": false
-        },
-        {
-          "codigo": 898457,
-          "provaModelo": null,
-          "questao": {
-            "codigo": "CHR-98246",
-            "tipoFonte": 1,
-            "privacidade": 1,
-            "dificuldade": "M",
-            "instrucao": null,
-            "textoBase": null,
-            "comando": null,
-            "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Considere o equilíbrio entre os íons cromato (CrO<sub>4</sub><sup>2-</sup>) e dicromato (Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup>) em solução aquosa, descrito a seguir.</p><p style=\"text-align:center;\">Cr<sub>2</sub>O<sub>7 </sub><sup>2–</sup><sub>(aq)&nbsp;</sub>+ H<sub>2</sub>O<sub>(ℓ)&nbsp;</sub>⇌ 2 H<sup>+</sup><sub>(aq) </sub>+ 2 CrO<sub>4&nbsp;</sub><sup>2–</sup><sub>(aq)</sub></p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p>Escreva a equação da constante de equilíbrio iônica entre os íons cromato e dicromato.</p></div>\n\t</div>",
-            "provaAprovada": false,
-            "tipoQuestao": "Aberta - Resposta Única",
-            "dataCriacao": "2024-10-06T23:34:14.808+00:00",
-            "ultimaAplicacao": null,
-            "fonte": null,
-            "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>\n\t\t\t\t<p  class=\"ng-binding\"><p>Equacionamento padrão do equilíbrio.</p></p>\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-            "referencia": null,
-            "listaTag": [],
-            "listaCategoria": [],
-            "listaCursos": [],
-            "categoriasEmTexto": null,
-            "tagsEmTexto": null,
-            "cursoEmTexto": null,
-            "instituicao": null,
-            "status": {
-              "codigo": 16,
-              "cor": "#ff9801",
-              "descricao": "Em moderação",
-              "nome": "EM_MODERACAO",
-              "tipo": "Q"
-            },
-            "dataModeracao": "2024-10-06T23:34:14.779+00:00",
-            "categoriaSup": null,
-            "geradaPorIA": false,
-            "usuario": null
-          },
-          "valor": 1,
-          "ordem": 9,
-          "ordemPersonalizada": null,
-          "origem": "I",
-          "tipoLinha": null,
-          "linhasBranco": 0,
-          "mostrarReferencia": false,
-          "infoReferencia": null,
-          "numeroLinhas": null,
-          "quebraPagina": true
-        },
-        {
-          "codigo": 898458,
-          "provaModelo": null,
-          "questao": {
-            "codigo": "CHR-98247",
-            "tipoFonte": 1,
-            "privacidade": 1,
-            "dificuldade": "M",
-            "instrucao": null,
-            "textoBase": null,
-            "comando": null,
-            "visualizaQuestao": "<div class=\"adaptive-block-avalicao-visualize\">\n\t\t\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">O metanol pode ser obtido industrialmente pela reação entre o monóxido de carbono e o hidrogênio conforme a equação adiante:</p><p style=\"text-align:center;\">CO<sub>(g)</sub> + 2 H<sub>2(g)</sub>&nbsp;⇌ CH<sub>3</sub>OH<sub>(g)</sub></p></div>\n\t\t\n\t\t<div  style=\"padding-bottom: 12px;\" class=\"ng-scope\"></div>\n\t\t\n\t\t<div   class=\"ng-binding ng-scope\"><p style=\"text-align:justify;\">Há uma certa temperatura, em um recipiente de 2L. Após um certo tempo, o equilíbrio é atingido com 3 mols de monóxido de carbono, 2 mols de hidrogênio e 1 mol de metanol. Assim, determine o valor da constante de equilíbrio da reação.&nbsp;</p></div>\n\t</div>",
-            "provaAprovada": false,
-            "tipoQuestao": "Aberta - Resposta Única",
-            "dataCriacao": "2024-10-06T23:37:37.629+00:00",
-            "ultimaAplicacao": null,
-            "fonte": null,
-            "visualizaResposta": "<br>\n\n\t<div style=\"background: #e0dede; border: 0px; padding: 1px 1px;\">\n\t\t<span style=\"font-size: 12px\"> <strong>RESPOSTA</strong>\n\t\t</span>\n\t</div>\n\n\t<div class=\"coluna-sm-12\">\n\t\t<div>\n\t\t\t<br>\n\t\t\t<div>\n\t\t\t\t<p  class=\"ng-binding\"><p>K = 0,333</p></p>\n\t\t\t</div>\n\t\t\t<br>\n\t\t</div>\n\t</div>",
-            "referencia": null,
-            "listaTag": [],
-            "listaCategoria": [],
-            "listaCursos": [],
-            "categoriasEmTexto": null,
-            "tagsEmTexto": null,
-            "cursoEmTexto": null,
-            "instituicao": null,
-            "status": {
-              "codigo": 16,
-              "cor": "#ff9801",
-              "descricao": "Em moderação",
-              "nome": "EM_MODERACAO",
-              "tipo": "Q"
-            },
-            "dataModeracao": "2024-10-06T23:37:37.510+00:00",
-            "categoriaSup": null,
-            "geradaPorIA": false,
-            "usuario": null
-          },
-          "valor": 1,
-          "ordem": 10,
-          "ordemPersonalizada": null,
-          "origem": "I",
-          "tipoLinha": null,
-          "linhasBranco": 0,
-          "mostrarReferencia": false,
-          "infoReferencia": null,
-          "numeroLinhas": null,
-          "quebraPagina": false
-        }
       ]
-    },
-    "path": "/Avaliacao/view/9011",
-    "grupo": true
-  }
+  },
+  "path": "/Avaliacao/edit/9162",
+  "grupo": true
+}
 
   const shuffle = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -1278,15 +343,14 @@ const prova2 = {
     return array;
   };
 
-  const pages = document.getElementById('pages-container');
   const paddingsTopBottom = (20 * (96 / 25.4))
   const containerHeight = 297 * (96 / 25.4) - paddingsTopBottom;
 
-  const tempContainer = document.createElement('div');
+  //const tempContainer = document.createElement('div');
 
-  const questoesVisualizaQuestao = prova2.modelo.listaProvaQuestao
+ // const questoesVisualizaQuestao = prova2.modelo.listaProvaQuestao
 
-  tempContainer.innerHTML = [
+  /* tempContainer.innerHTML = [
     ...shuffle(questoesVisualizaQuestao),
     ...shuffle(questoesVisualizaQuestao),
     ...shuffle(questoesVisualizaQuestao),
@@ -1308,7 +372,7 @@ const prova2 = {
       </div>
     `
     return acc
-  }, '');
+  }, ''); */
 
   const setPagination = () => {
     const pages = document.querySelectorAll('.page')
@@ -1428,10 +492,10 @@ const prova2 = {
     return tipoLinhaQuestao
   }
 
-  function createNewOneColumnPage(templateLayout) {
+  function createNewOneColumnPage(pages, header, footer) {
     const newPage = document.createElement('div');
     newPage.className = 'page';
-    newPage.innerHTML = templateLayout
+    newPage.innerHTML = templateLayoutOneColumn(header, footer)
     pages.appendChild(newPage);
     return {
       pageHeader: newPage.querySelector('.page-header'),
@@ -1441,10 +505,10 @@ const prova2 = {
     };
   }
 
-  function createNewTwoColumnsPage(templateLayout) {
+  function createNewTwoColumnsPage(pages, header, footer) {
     const newPage = document.createElement('div');
     newPage.className = 'page';
-    newPage.innerHTML = templateLayout;
+    newPage.innerHTML = templateLayoutTwoColumn(header, footer);
     pages.appendChild(newPage);
     return {
       pageHeader: newPage.querySelector('.page-header'),
@@ -1456,7 +520,7 @@ const prova2 = {
     
   }
 
-  function resetBodyContent() {
+  function resetBodyContent(pages) {
     pages.innerHTML = ''
   }
 
@@ -1519,10 +583,8 @@ const prova2 = {
 
       if (pageColumn.scrollHeight > remainingHeight) {
 
-        if(lastAppendedChild.classList.contains('dontend')) {
-            overflowElement.insertBefore(lastAppendedChild.cloneNode(true), overflowElement.firstChild) // re-insert the childNode to the overflowElement
-            console.log(lastAppendedChild);
-            
+        if(lastAppendedChild && lastAppendedChild.classList.contains('dontend')) {
+            overflowElement.insertBefore(lastAppendedChild.cloneNode(true), overflowElement.firstChild) // re-insert the childNode to the overflowElement            
             pageColumn.removeChild(lastAppendedChild);
         }
 
@@ -1537,10 +599,9 @@ const prova2 = {
     return overflowElement
   }
 
-  function folhaDeRosto(cabecalhoPagina, conteudo, rodape) {
-    const layout = templateLayoutOneColumn(cabecalhoPagina, rodape)
+  function folhaDeRosto(pages, header, conteudo, footer) {
     
-    let { pageColumn } = createNewOneColumnPage(layout);
+    let { pageColumn } = createNewOneColumnPage(pages, header, footer);
 
     const columnContent = document.createElement('div')
     columnContent.innerHTML = conteudo
@@ -1549,12 +610,11 @@ const prova2 = {
 
   }
 
-  function oneColumnLayout() {
+  function oneColumnLayout(pages, tempContainer) {
 
-    const layout = templateLayoutOneColumn(prova2.modelo.prova.layout.cabecalhoPagina, 
-    `<div>${prova2.modelo.prova.layout.rodape}</div><div>${prova2.modelo.prova.layout.paginacao}</div>`)
+    const {cabecalhoPagina, paginacao, rodape} = prova2.modelo.prova.layout
 
-    let pageObjects = createNewOneColumnPage(layout);
+    let pageObjects = createNewOneColumnPage(pages, cabecalhoPagina, `<div>${rodape}</div><div>${paginacao}</div>`);
 
     const remainingHeight = containerHeight - (pageObjects.pageHeader.scrollHeight + pageObjects.pageFooter.scrollHeight)           
 
@@ -1573,18 +633,17 @@ const prova2 = {
         let overflowElement = fitOverflow(element.cloneNode(true), pageColumn, remainingHeight, true)
 
         
-        pageObjects = createNewOneColumnPage(layout)
+        pageObjects = createNewOneColumnPage(pages, cabecalhoPagina, `<div>${rodape}</div><div>${paginacao}</div>`)
         pageObjects.pageColumn.appendChild(overflowElement);
       }
     });
   }
 
-  function twoColumnLayout() {
+  function twoColumnLayout(pages, tempContainer) {
 
-    const layout = templateLayoutTwoColumn(prova2.modelo.prova.layout.cabecalhoPagina, 
-    `<div>${prova2.modelo.prova.layout.rodape}</div><div>${prova2.modelo.prova.layout.paginacao}</div>`)
+    const {cabecalhoPagina, paginacao, rodape} = prova2.modelo.prova.layout
 
-    let pageObjects = createNewTwoColumnsPage(layout);
+    let pageObjects = createNewTwoColumnsPage(pages, cabecalhoPagina, `<div>${rodape}</div><div>${paginacao}</div>`);
 
     const remainingHeight = containerHeight - (pageObjects.pageHeader.scrollHeight + pageObjects.pageFooter.scrollHeight)   
 
@@ -1603,12 +662,12 @@ const prova2 = {
 
         // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
         // eles serão adicionados; o restante irá para a próxima coluna ou página
-        let overflowElement = fitOverflow(element.cloneNode(true), currentColumn, remainingHeight, false)
+        let overflowElement = fitOverflow(element.cloneNode(true), currentColumn, remainingHeight, true)
 
         if (currentColumnIndex === 0) {
           currentColumnIndex = 1;
         } else {
-          pageObjects = createNewTwoColumnsPage(layout);
+          pageObjects = createNewTwoColumnsPage(pages, cabecalhoPagina, `<div>${rodape}</div><div>${paginacao}</div>`);
           currentColumnIndex = 0;
         }
 
@@ -1647,27 +706,115 @@ const prova2 = {
     });
   }
 
-  function oneColumnPage() {
+  function createQuestoesTempContainer(prova) {
+    const tempContainer = document.createElement('div');
+
+    const {
+        cabecalhoPrimeiraQuestao,
+        cabecalhoQuestao,
+        ordemQuestaoPersonalizada
+    } = prova.modelo.prova.layout;
+
+    const formatCabecalho = (provaQuestao, cabecalhoTemplate) => {
+        const ordem = ordemQuestaoPersonalizada
+            ? (provaQuestao.ordemPersonalizada ?? '')
+            : provaQuestao.ordem;
+
+        return cabecalhoTemplate
+            .replace('#ORDEM#', ordem)
+            .replace('#VALOR#', provaQuestao.valor.toString().replace('.', ','));
+    };
+
+    const generateQuestaoHTML = (provaQuestao) => {
+        const cabecalhoTemplate = 
+            provaQuestao.ordem === 1 ? cabecalhoPrimeiraQuestao : cabecalhoQuestao;
+        const cabecalhoQuestaoComValores = formatCabecalho(provaQuestao, cabecalhoTemplate);
+
+        const tipoLinhaResposta = getTipoLinhaResposta(provaQuestao);
+
+        return `
+            <div>
+                <div class='questao-completa'>
+                    <div class='cabecalho-questao dontend'>
+                        ${cabecalhoQuestaoComValores}
+                    </div>
+                    ${provaQuestao.questao.visualizaQuestao}
+                </div>
+                ${tipoLinhaResposta}
+            </div>
+        `;
+    };
+
+    tempContainer.innerHTML = prova.modelo.listaProvaQuestao
+        .map(generateQuestaoHTML)
+        .join('');
+
+    return tempContainer;
+}
+
+  function oneColumnPage(elementContainer) {
+
+    const tempContainer = createQuestoesTempContainer(prova2)
+
     return waitForImages(tempContainer)
       .then(() => {
-        resetBodyContent()
-        folhaDeRosto(prova2.modelo.prova.layout.cabecalho,
-                     prova2.modelo.prova.layout.folhaRosto,
-                    `<div>${prova2.modelo.prova.layout.rodape}</div><div>${prova2.modelo.prova.layout.paginacao}</div>`)
-        oneColumnLayout()
+        resetBodyContent(elementContainer)
+
+        const {cabecalho, folhaRosto, paginacao, rodape} = prova2.modelo.prova.layout
+
+        folhaDeRosto(elementContainer, cabecalho, folhaRosto, `<div>${rodape}</div><div>${paginacao}</div>`)
+
+        oneColumnLayout(elementContainer, tempContainer)
       })
       .then(() => {
         setPagination()
+        tempContainer.innerHTML = ''
       })
   }
 
-  function twoColumnPage() {
+  function twoColumnPage(elementContainer) {
+
+    const tempContainer = createQuestoesTempContainer(prova2)
+
     return waitForImages(tempContainer)
       .then(() => {
-        resetBodyContent()
-        folhaDeRosto(prova2.modelo.prova.layout.cabecalho,
-                     prova2.modelo.prova.layout.folhaRosto,
-                    `<div>${prova2.modelo.prova.layout.rodape}</div><div>${prova2.modelo.prova.layout.paginacao}</div>`)
-        twoColumnLayout()
+        resetBodyContent(elementContainer)
+
+        const {cabecalho, folhaRosto, paginacao, rodape} = prova2.modelo.prova.layout
+
+        folhaDeRosto(elementContainer, cabecalho, folhaRosto, `<div>${rodape}</div><div>${paginacao}</div>`)
+
+        twoColumnLayout(elementContainer, tempContainer)
+      }).then(() => {
+        setPagination()
+        tempContainer.innerHTML = ''
+      })
+  }
+
+  function previewOneColumn(elementContainer) {
+    const tempContainer = createQuestoesTempContainer(prova2)
+
+    return waitForImages(tempContainer)
+      .then(() => {
+        resetBodyContent(elementContainer)
+        oneColumnLayout(elementContainer, tempContainer)
+      })
+      .then(() => {
+        //setPagination()
+        tempContainer.innerHTML = ''
+      })
+  }
+
+  function previewTwoColumn(elementContainer) {
+    const tempContainer = createQuestoesTempContainer(prova2)
+
+    return waitForImages(tempContainer)
+      .then(() => {
+        resetBodyContent(elementContainer)
+        twoColumnLayout(elementContainer, tempContainer)
+      })
+      .then(() => {
+        //setPagination()
+        tempContainer.innerHTML = ''
       })
   }

@@ -19,9 +19,6 @@
   --ex-font-size-large: 1.8em;
   --ex-focus-ring: 1px solid var(--active-blue);
   --ex-inner-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1) inset;
-  --widget-outline-width: 3px;
-  --widget-risize-box-translate-left: calc(-50% - var(--widget-outline-width)/2);
-  --widget-risize-box-translate-right: calc(50% + var(--widget-outline-width)/2);
 }
 
 .ProseMirror {
@@ -34,9 +31,7 @@
 .ProseMirror:focus {
   outline: none;
   border: var(--ex-focus-ring);
-  box-shadow:
-    var(--ex-inner-shadow),
-    0 0;
+  box-shadow: var(--ex-inner-shadow), 0 0;
 }
 
 .adaptive-block-avalicao-visualize {
@@ -45,10 +40,8 @@
   white-space: break-spaces;
   -webkit-font-variant-ligatures: none;
   font-variant-ligatures: none;
-  font-feature-settings: 'liga' 0;
+  font-feature-settings: "liga" 0;
 }
-
-
 
 .tiptap-paper {
   font-size: 12px;
@@ -59,13 +52,14 @@
   color: var(--color-base-text);
   cursor: auto;
   float: none;
-  font: normal normal normal var(--ex-font-size-base) / var(--ex-line-height-base) var(--ex-font-face);
+  font: normal normal normal var(--ex-font-size-base) /
+    var(--ex-line-height-base) var(--ex-font-face);
   text-align: left;
   white-space: nowrap;
 }
 
 .adaptive-block-avalicao-visualize {
-  font-family: sans-serif, Arial, Verdana, 'Trebuchet MS';
+  font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
   color: #333 !important;
   font-size: 14px;
   line-height: 1.3em;
@@ -108,7 +102,6 @@
   background-color: #f1f3f5;
 }
 
-
 p {
   margin: 0;
 }
@@ -119,7 +112,6 @@ p {
   display: table;
   display: table;
 }
-
 
 .ex-image-wrapper {
   clear: both;
@@ -188,4 +180,3 @@ p {
   margin-right: auto;
   margin-left: auto;
 }
-
