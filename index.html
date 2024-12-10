@@ -50,15 +50,20 @@
   <div id="pages-container"></div>
 
   <div class="toggle-layout">
-    <button onclick="oneColumnPage(pages)">uma coluna</button>
-    <button onclick="twoColumnPage(pages)">duas coluna</button>
+    <button onclick="oneColumnPage(pages, provaModelo)">uma coluna</button>
+    <button onclick="twoColumnPage(pages, provaModelo)">duas coluna</button>
+    <button onclick="previewQuestaoOneColumn(pages, provaModelo)">preview questão uma coluna</button>
+    <button onclick="previewQuestaoTwoColumn(pages, provaModelo)">preview questão duas coluna</button>
   </div>
+
+  <script src="prova-modelo.js"></script>
   <script src="scripts.js"></script>
   <script>
 
     const pages = document.getElementById('pages-container');
 
-    oneColumnPage(pages)
+    oneColumnPage(pages, provaModelo)
+    
 
   </script>
 </body>
