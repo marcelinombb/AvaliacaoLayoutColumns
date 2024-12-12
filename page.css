@@ -10,9 +10,32 @@ body {
 }
 
 .page {
+  font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
+  color: #333 !important;
+  font-size: 14px;
+  line-height: 1.3em;
+}
+
+.page {
   width: 794px;
   height: 1123px;
   aspect-ratio: 794 / 1123;
+  margin: 5mm auto;
+  padding: 10mm;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  page-break-after: always;
+  word-wrap: break-word;
+}
+
+.page-stage {
+  /* visibility: hidden; */
+  width: 794px;
+  height: auto;
   margin: 5mm auto;
   padding: 10mm;
   background: white;

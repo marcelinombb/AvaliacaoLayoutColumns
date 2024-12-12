@@ -38,6 +38,10 @@
       .toggle-layout {
         display: none;
       }
+
+      .page-stage {
+        display: none;
+      }
     }
 
     .toggle-layout {
@@ -52,17 +56,19 @@
   <div class="toggle-layout">
     <button onclick="oneColumnPage(pages, provaModelo)">uma coluna</button>
     <button onclick="twoColumnPage(pages, provaModelo)">duas coluna</button>
-    <button onclick="previewQuestaoOneColumn(pages, provaModelo)">preview questão uma coluna</button>
-    <button onclick="previewQuestaoTwoColumn(pages, provaModelo)">preview questão duas coluna</button>
+    <button onclick="previewQuestaoOneColumn(pages, listaQuestoes)">preview questão uma coluna</button>
+    <button onclick="previewQuestaoTwoColumn(pages, listaQuestao)">preview questão duas coluna</button>
   </div>
 
   <script src="prova-modelo.js"></script>
-  <script src="scripts.js"></script>
+  <script  src="layout-colunas.js"></script>
   <script>
+
+    const listaQuestoes = provaModelo.modelo.listaProvaQuestao.map(provaQuestao =>  provaQuestao.questao)
 
     const pages = document.getElementById('pages-container');
 
-    oneColumnPage(pages, provaModelo)
+    previewQuestaoOneColumn(pages, listaQuestao)
     
 
   </script>
