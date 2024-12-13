@@ -151,21 +151,6 @@ p {
   display: inline;
 }
 
-.baloon-menu {
-  position: absolute;
-  display: none;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -100%);
-}
-.custom-modal {
-  position: absolute;
-  display: none;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -100%);
-}
-
 .ex-margin-direita {
   margin-right: 0;
   margin-left: auto;

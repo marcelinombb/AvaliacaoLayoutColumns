@@ -33,7 +33,7 @@ body {
 }
 
 .page-stage {
-  /* visibility: hidden; */
+  visibility: hidden;
   width: 794px;
   height: auto;
   margin: 5mm auto;
