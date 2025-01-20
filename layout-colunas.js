@@ -67,7 +67,8 @@ function isNodeEmpty(element) {
   );
 }
 
-function splitElement(element, availableHeight) {
+function splitElement(element, availableHeight, pageColumn) {
+  
   if (!(element instanceof HTMLElement)) {
     throw new Error("Provided input is not a valid HTML element.");
   }
@@ -83,7 +84,10 @@ function splitElement(element, availableHeight) {
     }
 
     for (const child of children) {
-      if (child.scrollHeight >= availableHeight) {
+      pageColumn.appendChild(child.cloneNode(true))
+      const childHeight = pageColumn.lastChild.scrollHeight
+      pageColumn.removeChild(pageColumn.lastChild)
+      if ( childHeight >= availableHeight) {
         return splitChildren(child, newChildrens);
       } else {
         if (isNodeEmpty(child)) {
@@ -103,12 +107,12 @@ function splitElement(element, availableHeight) {
 
   tempDiv.append(...temp);
 
-  return tempDiv;
+  return tempDiv
 }
 
-function fitOverflow(overflowElement, pageColumn, remainingHeight) {
-  const newChildrens = splitElement(overflowElement, remainingHeight);
-
+function fitOverflow(overflowElement, pageColumn, remainingHeight) {  
+  const newChildrens = splitElement(overflowElement, remainingHeight, pageColumn)
+  
   let availableHeight = remainingHeight;
 
   for (const newChild of [...newChildrens.children]) {
@@ -116,9 +120,9 @@ function fitOverflow(overflowElement, pageColumn, remainingHeight) {
     const lastAppendedChild = pageColumn.lastChild;
 
     pageColumn.appendChild(newChild.cloneNode(true));
-
+    
     if (pageColumn.scrollHeight > remainingHeight) {
-
+      
       if(lastAppendedChild && lastAppendedChild.children.length === 1  && lastAppendedChild.children[0].classList.contains("dontend")) {
           newChildrens.insertBefore(lastAppendedChild.cloneNode(true), newChildrens.firstChild) // re-insert the childNode to the overflowElement
           pageColumn.removeChild(lastAppendedChild);
@@ -186,7 +190,7 @@ function columnizeTwoColumn(element, pageObjects, remainingHeight, pages, header
     currentColumn.removeChild(currentColumn.lastChild);
 
     // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
-    // eles serão adicionados; o restante irá para a próxima coluna ou página
+    // eles serão adicionados; o restante irá para a próxima coluna
     let overflowElement = fitOverflow(element, currentColumn, remainingHeight);
 
     if (currentColumnIndex === 0) {
@@ -453,12 +457,9 @@ function createQuestoesTempContainer(prova) {
   };
 
   const generateQuestaoHTML = (provaQuestao) => {
-    const cabecalhoTemplate =
-      provaQuestao.ordem === 1 ? cabecalhoPrimeiraQuestao : cabecalhoQuestao;
-    const cabecalhoQuestaoComValores = formatCabecalho(
-      provaQuestao,
-      cabecalhoTemplate
-    );
+    const cabecalhoTemplate = provaQuestao.ordem === 1 ? cabecalhoPrimeiraQuestao : cabecalhoQuestao;
+    
+    const cabecalhoQuestaoComValores = formatCabecalho(provaQuestao, cabecalhoTemplate);
 
     const tipoLinhaResposta = getTipoLinhaResposta(provaQuestao);
 
