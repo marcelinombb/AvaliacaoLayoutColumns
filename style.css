@@ -61,10 +61,14 @@
 .adaptive-block-avalicao-visualize {
   font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
   color: #333 !important;
-  font-size: 14px;
+/*   font-size: 12px; */
   line-height: 1.3em;
 }
 
+/* .adaptive-block-avalicao-visualize {
+  padding: 1em 0px;
+}
+ */
 .adaptive-block-avalicao-visualize blockquote {
   border-left: 3px solid rgba(13, 13, 13, 0.1);
   padding-left: 1rem;

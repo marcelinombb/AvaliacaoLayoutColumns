@@ -1,3 +1,4 @@
+
 const shuffle = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -18,41 +19,6 @@ const setPagination = () => {
   });
 };
 
-const templateLayoutOneColumn = (header, footer) => {
-  return `
-    <div class='page-header'>
-      ${header}
-    </div>
-    <div class="content-container">
-      <div class="one-column">
-        <div class="content-column"></div>
-      </div>
-    </div>
-    <div class='page-footer'>
-      ${footer}
-    </div>
-  `;
-};
-
-const templateLayoutTwoColumn = (header, footer) => {
-  return `
-    <div class='page-header'>
-      ${header}
-    </div>
-    <div class="content-container">
-      <div class="two-column">
-        <div class="content-column"></div>
-      </div>
-      <div class="two-column">
-        <div class="content-column"></div>
-      </div>
-    </div>
-    <div class='page-footer'>
-      ${footer}
-    </div>
-  `;
-};
-
 function resetBodyContent(pages) {
   pages.innerHTML = "";
 }
@@ -68,7 +34,7 @@ function isNodeEmpty(element) {
 }
 
 function splitElement(element, availableHeight, pageColumn) {
-  
+
   if (!(element instanceof HTMLElement)) {
     throw new Error("Provided input is not a valid HTML element.");
   }
@@ -110,9 +76,9 @@ function splitElement(element, availableHeight, pageColumn) {
   return tempDiv
 }
 
-function fitOverflow(overflowElement, pageColumn, remainingHeight) {  
+function fitOverflow(overflowElement, pageColumn, remainingHeight) {
   const newChildrens = splitElement(overflowElement, remainingHeight, pageColumn)
-  
+
   let availableHeight = remainingHeight;
 
   for (const newChild of [...newChildrens.children]) {
@@ -120,9 +86,9 @@ function fitOverflow(overflowElement, pageColumn, remainingHeight) {
     const lastAppendedChild = pageColumn.lastChild;
 
     pageColumn.appendChild(newChild.cloneNode(true));
-    
+
     if (pageColumn.scrollHeight > remainingHeight) {
-      
+
       if(lastAppendedChild && lastAppendedChild.children.length === 1  && lastAppendedChild.children[0].classList.contains("dontend")) {
           newChildrens.insertBefore(lastAppendedChild.cloneNode(true), newChildrens.firstChild) // re-insert the childNode to the overflowElement
           pageColumn.removeChild(lastAppendedChild);
@@ -137,93 +103,6 @@ function fitOverflow(overflowElement, pageColumn, remainingHeight) {
   }
 
   return newChildrens;
-}
-
-function folhaDeRosto(pages, header, conteudo, footer) {
-  let { pageColumn } = createNewOneColumnPage(pages, header, footer);
-
-  const columnContent = document.createElement("div");
-  columnContent.innerHTML = conteudo;
-
-  pageColumn.appendChild(columnContent);
-}
-
-function oneColumnLayout(pages, tempContainer, header, footer) {
-  let pageObjects = createNewOneColumnPage(pages, header, footer);
-
-  const remainingHeight =
-    containerHeight -
-    (pageObjects.pageHeader.scrollHeight + pageObjects.pageFooter.scrollHeight);
-
-  Array.from(tempContainer.children).forEach((element) => {
-    pageObjects = columnizeOneColumn(element, pageObjects, remainingHeight, pages, header, footer)
-  });
-}
-
-function columnizeOneColumn(element, pageObjects, remainingHeight, pages, header, footer) {
-  const pageColumn = pageObjects.pageColumn;
-  pageColumn.appendChild(element.cloneNode(true));
-
-  if (pageColumn.scrollHeight > remainingHeight) {
-    pageColumn.removeChild(pageColumn.lastChild);
-
-    // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
-    // eles serão adicionados; o restante irá para a próxima coluna ou página
-    const newPageElements = fitOverflow(element, pageColumn, remainingHeight);
-
-    pageObjects = columnizeOneColumn(newPageElements, createNewOneColumnPage(pages, header, footer), remainingHeight);
-
-  }
-
-  return pageObjects
-
-}
-
-function columnizeTwoColumn(element, pageObjects, remainingHeight, pages, header, footer, currentColumnIndex) {
-
-  const currentColumn = pageObjects.pageColumns[currentColumnIndex];
-
-  currentColumn.appendChild(element.cloneNode(true));
-
-  if (currentColumn.scrollHeight > remainingHeight) {
-
-    currentColumn.removeChild(currentColumn.lastChild);
-
-    // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
-    // eles serão adicionados; o restante irá para a próxima coluna
-    let overflowElement = fitOverflow(element, currentColumn, remainingHeight);
-
-    if (currentColumnIndex === 0) {
-      const newValues = columnizeTwoColumn(overflowElement, pageObjects, remainingHeight, pages, header, footer, 1)
-      pageObjects = newValues.pageObjects
-      currentColumnIndex = newValues.currentColumnIndex
-    } else {
-      const newValues = columnizeTwoColumn(overflowElement, createNewTwoColumnsPage(pages, header, footer), remainingHeight, pages, header, footer, 0)
-      pageObjects = newValues.pageObjects
-      currentColumnIndex = newValues.currentColumnIndex
-    }
-  }
-
-  return {
-    pageObjects,
-    currentColumnIndex
-  }
-}
-
-function twoColumnLayout(pages, tempContainer, header, footer) {
-  let pageObjects = createNewTwoColumnsPage(pages, header, footer);
-
-  const remainingHeight =
-    containerHeight -
-    (pageObjects.pageHeader.scrollHeight + pageObjects.pageFooter.scrollHeight);
-
-  let currentColumnIndex = 0; // index = 0 primera coluna, index = 1 segunda coluna.
-
-  Array.from(tempContainer.children).forEach((element) => {
-    let  newValues = columnizeTwoColumn(element, pageObjects, remainingHeight, pages, header, footer, currentColumnIndex)
-    pageObjects = newValues.pageObjects
-    currentColumnIndex = newValues.currentColumnIndex
-  });
 }
 
 function waitForImages(container) {
@@ -252,104 +131,6 @@ function waitForImages(container) {
       }
     });
   });
-}
-
-function oneColumnPage(elementContainer, provaModelo) {
-  const tempContainer = createQuestoesTempContainer(provaModelo);
-
-  return waitForImages(tempContainer)
-    .then(() => {
-      resetBodyContent(elementContainer);
-
-      replacePlaceholders(provaModelo);
-
-      const {
-        cabecalhoPagina,
-        cabecalho,
-        folhaRosto,
-        paginacao,
-        rodape,
-        rodapeRosto,
-      } = provaModelo.modelo.prova.layout;
-
-      folhaDeRosto(
-        elementContainer,
-        cabecalho,
-        folhaRosto,
-        `<div>${rodapeRosto ?? rodape}</div><div>${paginacao}</div>`
-      );
-
-      oneColumnLayout(
-        elementContainer,
-        tempContainer,
-        cabecalhoPagina,
-        `<div>${rodape}</div><div>${paginacao}</div>`
-      );
-    })
-    .then(() => {
-      setPagination();
-      document.body.removeChild(tempContainer)
-    });
-}
-
-function twoColumnPage(elementContainer, provaModelo) {
-  const tempContainer = createQuestoesTempContainer(provaModelo);
-
-  return waitForImages(tempContainer)
-    .then(() => {
-      resetBodyContent(elementContainer);
-
-      replacePlaceholders(provaModelo);
-
-      const { cabecalhoPagina, cabecalho, folhaRosto, paginacao, rodape } =
-        provaModelo.modelo.prova.layout;
-
-      folhaDeRosto(
-        elementContainer,
-        cabecalho,
-        folhaRosto,
-        `<div>${rodape}</div><div>${paginacao}</div>`
-      );
-
-      twoColumnLayout(
-        elementContainer,
-        tempContainer,
-        cabecalhoPagina,
-        `<div>${rodape}</div><div>${paginacao}</div>`
-      );
-    })
-    .then(() => {
-      setPagination();
-      document.body.removeChild(tempContainer)
-    });
-}
-
-function previewQuestaoOneColumn(elementContainer, listaQuestao) {
-  const tempContainer = createPreviewQuestaoTempContainer(listaQuestao);
-
-  return waitForImages(tempContainer)
-    .then(() => {
-      resetBodyContent(elementContainer);
-      oneColumnLayout(elementContainer, tempContainer, "", "");
-    })
-    .then(() => {
-      document.body.removeChild(tempContainer)
-    });
-}
-
-function previewQuestaoTwoColumn(elementContainer, listaQuestao) {
-
-  const tempContainer = createPreviewQuestaoTempContainer(listaQuestao);
-
-  return waitForImages(tempContainer)
-    .then(() => {
-      resetBodyContent(elementContainer);
-      twoColumnLayout(elementContainer, tempContainer, "", "");
-    })
-    .then(() => {
-      document.body.removeChild(tempContainer)
-      tempContainer.innerHTML = "";
-    });
 }
 
 function replacePlaceholders(prova) {
@@ -458,7 +239,7 @@ function createQuestoesTempContainer(prova) {
 
   const generateQuestaoHTML = (provaQuestao) => {
     const cabecalhoTemplate = provaQuestao.ordem === 1 ? cabecalhoPrimeiraQuestao : cabecalhoQuestao;
-    
+
     const cabecalhoQuestaoComValores = formatCabecalho(provaQuestao, cabecalhoTemplate);
 
     const tipoLinhaResposta = getTipoLinhaResposta(provaQuestao);
@@ -589,28 +370,316 @@ function getTipoLinhaResposta(provaQuestao) {
   return tipoLinhaQuestao;
 }
 
-function createNewOneColumnPage(pages, header, footer) {
-  const newPage = document.createElement("div");
-  newPage.className = "page";
-  newPage.innerHTML = templateLayoutOneColumn(header, footer);
-  pages.appendChild(newPage);
-  return {
-    pageHeader: newPage.querySelector(".page-header"),
-    pageContent: newPage.querySelector(".content-container"),
-    pageColumn: newPage.querySelector(".one-column > .content-column"),
-    pageFooter: newPage.querySelector(".page-footer"),
+export default class LayoutProva {
+
+  constructor(
+    elementContainer,
+    pageHeader,
+    pageFooter,
+    fonteTamanho
+  ) {
+    this.elementContainer = elementContainer
+    this.pageHeader = pageHeader
+    this.pageFooter = pageFooter
+    this.fonteTamanho = fonteTamanho
+  }
+
+  resetBodyContent() {
+    this.elementContainer.innerHTML = ''
+  }
+
+  folhaDeRosto(header, conteudo, footer) {
+
+    const newPage = document.createElement("div");
+    newPage.className = "page";
+    newPage.innerHTML = this.templateLayoutOneColumn(header, footer);
+    this.elementContainer.appendChild(newPage);
+
+    const pageColumn = newPage.querySelector(".one-column > .content-column")
+
+    const columnContent = document.createElement("div");
+    columnContent.innerHTML = conteudo;
+
+    pageColumn.appendChild(columnContent);
+  }
+
+  oneColumnPage(provaModelo) {
+    this.provaModelo = provaModelo
+    const tempContainer = createQuestoesTempContainer(this.provaModelo);
+
+    return waitForImages(tempContainer)
+      .then(() => {
+        resetBodyContent(this.elementContainer);
+
+        replacePlaceholders(this.provaModelo);
+
+        const {
+          cabecalho,
+          folhaRosto,
+          paginacao,
+          rodape,
+          rodapeRosto,
+        } = provaModelo.modelo.prova.layout;
+
+        this.folhaDeRosto(
+          cabecalho,
+          folhaRosto,
+          `<div>${rodapeRosto ?? rodape}</div><div>${paginacao}</div>`
+        );
+
+        this.oneColumnLayout(
+          tempContainer
+        );
+      })
+      .then(() => {
+        setPagination();
+        document.body.removeChild(tempContainer)
+      });
+  }
+
+  twoColumnPage(provaModelo) {
+    const tempContainer = createQuestoesTempContainer(provaModelo);
+
+    return waitForImages(tempContainer)
+      .then(() => {
+        this.resetBodyContent();
+
+        replacePlaceholders(provaModelo);
+
+        const { cabecalho, folhaRosto, paginacao, rodape } =
+          provaModelo.modelo.prova.layout;
+
+        this.folhaDeRosto(
+          cabecalho,
+          folhaRosto,
+          `<div>${rodape}</div><div>${paginacao}</div>`
+        );
+
+        this.twoColumnLayout(tempContainer);
+      })
+      .then(() => {
+        setPagination();
+        document.body.removeChild(tempContainer)
+      });
+  }
+
+  oneColumnLayout(tempContainer) {
+    let pageObjects = this.createNewOneColumnPage();
+
+    const remainingHeight =
+      containerHeight -
+      (pageObjects.pageHeader.scrollHeight + pageObjects.pageFooter.scrollHeight);
+
+    Array.from(tempContainer.children).forEach((element) => {
+      pageObjects = this.columnizeOneColumn(element, pageObjects, remainingHeight)
+    });
+  }
+
+  twoColumnLayout(tempContainer) {
+    let pageObjects = this.createNewTwoColumnsPage();
+
+    const remainingHeight =
+      containerHeight -
+      (pageObjects.pageHeader.scrollHeight + pageObjects.pageFooter.scrollHeight);
+
+    let currentColumnIndex = 0; // index = 0 primera coluna, index = 1 segunda coluna.
+
+    Array.from(tempContainer.children).forEach((element) => {
+      let  newValues = this.columnizeTwoColumn(element, pageObjects, remainingHeight, currentColumnIndex)
+      pageObjects = newValues.pageObjects
+      currentColumnIndex = newValues.currentColumnIndex
+    });
+  }
+
+  previewOneColumn(listaQuestao) {
+    const tempContainer = createPreviewQuestaoTempContainer(listaQuestao);
+
+    return waitForImages(tempContainer)
+      .then(() => {
+        this.resetBodyContent();
+        this.oneColumnLayout(tempContainer);
+      })
+      .then(() => {
+        document.body.removeChild(tempContainer)
+      });
+  }
+
+  previewTwoColumn(listaQuestao) {
+
+    const tempContainer = createPreviewQuestaoTempContainer(listaQuestao);
+
+    return waitForImages(tempContainer)
+      .then(() => {
+        this.resetBodyContent();
+        this.twoColumnLayout(tempContainer);
+      })
+      .then(() => {
+        document.body.removeChild(tempContainer)
+      });
+  }
+
+  columnizeOneColumn(element, pageObjects, remainingHeight) {
+    const pageColumn = pageObjects.pageColumn;
+    pageColumn.appendChild(element.cloneNode(true));
+
+    if (pageColumn.scrollHeight > remainingHeight) {
+      pageColumn.removeChild(pageColumn.lastChild);
+
+      // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
+      // eles serão adicionados; o restante irá para a próxima coluna ou página
+      const newPageElements = fitOverflow(element, pageColumn, remainingHeight);
+
+      pageObjects = this.columnizeOneColumn(newPageElements, this.createNewOneColumnPage(), remainingHeight);
+
+    }
+
+    return pageObjects
+
+  }
+
+  columnizeTwoColumn(element, pageObjects, remainingHeight, currentColumnIndex) {
+
+    const currentColumn = pageObjects.pageColumns[currentColumnIndex];
+
+    currentColumn.appendChild(element.cloneNode(true));
+
+    if (currentColumn.scrollHeight > remainingHeight) {
+
+      currentColumn.removeChild(currentColumn.lastChild);
+
+      // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
+      // eles serão adicionados; o restante irá para a próxima coluna
+      let overflowElement = fitOverflow(element, currentColumn, remainingHeight);
+
+      if (currentColumnIndex === 0) {
+        const newValues = this.columnizeTwoColumn(overflowElement, pageObjects, remainingHeight, 1)
+        pageObjects = newValues.pageObjects
+        currentColumnIndex = newValues.currentColumnIndex
+      } else {
+        const newValues = this.columnizeTwoColumn(overflowElement, this.createNewTwoColumnsPage(), remainingHeight, 0)
+        pageObjects = newValues.pageObjects
+        currentColumnIndex = newValues.currentColumnIndex
+      }
+    }
+
+    return {
+      pageObjects,
+      currentColumnIndex
+    }
+  }
+
+  createNewTwoColumnsPage() {
+    const newPage = document.createElement("div");
+    newPage.className = "page";
+    newPage.innerHTML = this.templateLayoutTwoColumn(this.pageHeader, this.pageFooter);
+    this.elementContainer.appendChild(newPage);
+    return {
+      pageHeader: newPage.querySelector(".page-header"),
+      pageContent: newPage.querySelector(".content-container"),
+      pageColumns: newPage.querySelectorAll(".two-column > .content-column"),
+      pageFooter: newPage.querySelector(".page-footer"),
+    };
+  }
+
+  createNewOneColumnPage() {
+    const newPage = document.createElement("div");
+    newPage.className = "page";
+    newPage.innerHTML = this.templateLayoutOneColumn(this.pageHeader, this.pageFooter);
+    this.elementContainer.appendChild(newPage);
+    return {
+      pageHeader: newPage.querySelector(".page-header"),
+      pageContent: newPage.querySelector(".content-container"),
+      pageColumn: newPage.querySelector(".one-column > .content-column"),
+      pageFooter: newPage.querySelector(".page-footer"),
+    };
+  }
+
+  templateLayoutOneColumn(header, footer){
+    return `
+      <div class='page-header'>
+        ${header}
+      </div>
+      <div class="content-container" style="font-size: ${this.fonteTamanho}px;">
+        <div class="one-column">
+          <div class="content-column"></div>
+        </div>
+      </div>
+      <div class='page-footer'>
+        ${footer}
+      </div>
+    `;
   };
+
+  templateLayoutTwoColumn(header, footer){
+    return `
+      <div class='page-header'>
+        ${header}
+      </div>
+      <div class="content-container" style="font-size: ${this.fonteTamanho}px;">
+        <div class="two-column">
+          <div class="content-column"></div>
+        </div>
+        <div class="two-column">
+          <div class="content-column"></div>
+        </div>
+      </div>
+      <div class='page-footer'>
+        ${footer}
+      </div>
+    `;
+  };
+
+  static builder(elementContainer) {
+    return new LayoutProvaBuilder(elementContainer)
+  }
+
 }
 
-function createNewTwoColumnsPage(pages, header, footer) {
-  const newPage = document.createElement("div");
-  newPage.className = "page";
-  newPage.innerHTML = templateLayoutTwoColumn(header, footer);
-  pages.appendChild(newPage);
-  return {
-    pageHeader: newPage.querySelector(".page-header"),
-    pageContent: newPage.querySelector(".content-container"),
-    pageColumns: newPage.querySelectorAll(".two-column > .content-column"),
-    pageFooter: newPage.querySelector(".page-footer"),
-  };
+class LayoutProvaBuilder {
+
+  constructor(elementContainer) {
+    this.elementContainer = elementContainer
+    this.header = ''
+    this.footer = ''
+    this.fontSize = '12'
+  }
+
+  folhaDeRosto(header, conteudo, footer) {
+    return this
+  }
+
+  pageHeader(header) {
+    this.header = header
+    return this
+  }
+
+  pageFooter(footer) {
+    this.footer = footer
+    return this
+  }
+
+  fonteTamanho(tamanho) {
+    this.fontSize = tamanho
+    return this
+  }
+
+  oneColumnLayout(provaModelo) {
+    new LayoutProva(this.elementContainer, this.header, this.footer, this.fontSize)
+    .oneColumnPage(provaModelo)
+  }
+
+  twoColumnLayout(provaModelo) {
+    new LayoutProva(this.elementContainer, this.header, this.footer, this.fontSize)
+    .twoColumnPage(provaModelo)
+  }
+
+  previewOneColumn(listaQuestoes) {
+    new LayoutProva(this.elementContainer, this.header, this.footer, this.fontSize)
+    .previewOneColumn(listaQuestoes)
+  }
+
+  previewTwoColumn(listaQuestoes) {
+    new LayoutProva(this.elementContainer, this.header, this.footer, this.fontSize)
+    .previewTwoColumn(listaQuestoes)
+  }
 }

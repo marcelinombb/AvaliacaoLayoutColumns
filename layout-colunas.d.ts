@@ -3,8 +3,17 @@ export interface PreviewQuestao {
     visualizaQuestao: string
 }
 
-export declare function oneColumnPage(elementContainer: Element, provaModelo: unknown): void
-export declare function twoColumnPage(elementContainer: Element, provaModelo: unknown): void
-export declare function previewQuestaoOneColumn(elementContainer: Element, listaQuestao: PreviewQuestao[]): void
-export declare function previewQuestaoTwoColumn(elementContainer: Element, listaQuestao: PreviewQuestao[]): void
+declare class LayoutProvaBuilder{
+  pageHeader(header: string): LayoutProvaBuilder
+  pageFooter(footer: string): LayoutProvaBuilder
+  fonteTamanho(tamanho: string): LayoutProvaBuilder
+  oneColumnLayout(provaModelo: unknown): void
+  twoColumnLayout(provaModelo: unknown): void
+  previewOneColumn(listaQuestoes: PreviewQuestao[]): void
+  previewTwoColumn(listaQuestoes: PreviewQuestao[]): void
+}
+declare class LayoutProva {
+  static builder(elementContainer: Element): LayoutProvaBuilder
+}
 
+export default LayoutProva

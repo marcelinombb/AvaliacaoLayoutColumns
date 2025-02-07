@@ -45,28 +45,77 @@
     }
 
     .toggle-layout {
-      position: fixed; bottom: 10%; right: 5%;
+      position: fixed;
+      bottom: 10%;
+      right: 5%;
     }
   </style>
+
+
 </head>
 
 <body>
   <div id="pages-container"></div>
 
   <div class="toggle-layout">
-    <button onclick="oneColumnPage(pages, provaModelo)">uma coluna</button>
-    <button onclick="twoColumnPage(pages, provaModelo)">duas coluna</button>
-    <button onclick="previewQuestaoOneColumn(pages, listaQuestao)">preview questão uma coluna</button>
-    <button onclick="previewQuestaoTwoColumn(pages, listaQuestao)">preview questão duas coluna</button>
+    <button id="oneColumn">uma coluna</button>
+    <button id="twoColumn">duas coluna</button>
+    <button id="previewOneColumn">preview questão uma coluna</button>
+    <button id="previewTwoColumn">preview questão duas coluna</button>
   </div>
-
   <script src="prova-modelo.js"></script>
-  <script  src="layout-colunas.js"></script>
-  <script>
+  <script type="module">
+    import LayoutProva from "./layout-colunas.js";
 
-    const listaQuestoes = provaModelo.modelo.listaProvaQuestao.map(provaQuestao =>  provaQuestao.questao)
+    function oneColumnPage(pages, provaModelo) {
+      const { cabecalhoPagina, rodape, paginacao } = provaModelo.modelo.prova.layout;
+
+      LayoutProva.builder(pages)
+        .pageHeader(cabecalhoPagina)
+        .pageFooter(`<div>${rodape}</div><div>${paginacao}</div>`)
+        .oneColumnLayout(provaModelo)
+    }
+
+    function twoColumnPage(pages, provaModelo) {
+      const { cabecalhoPagina, rodape, paginacao } = provaModelo.modelo.prova.layout;
+
+      LayoutProva.builder(pages)
+        .pageHeader(cabecalhoPagina)
+        .pageFooter(`<div>${rodape}</div><div>${paginacao}</div>`)
+        .twoColumnLayout(provaModelo)
+    }
+
+    function previewQuestaoOneColumn(pages, listaQuestao) {
+      LayoutProva.builder(pages)
+        .fonteTamanho('14')
+        .previewOneColumn(listaQuestao)
+    }
+
+    function previewQuestaoTwoColumn(pages, listaQuestao) {
+      LayoutProva.builder(pages)
+        .previewTwoColumn(listaQuestao)
+    }
+
+    const listaQuestoes = provaModelo.modelo.listaProvaQuestao.map(provaQuestao => provaQuestao.questao)
 
     const pages = document.getElementById('pages-container');
+
+    document.getElementById('oneColumn').addEventListener('click', () => {
+      oneColumnPage(pages, provaModelo);
+    });
+
+    document.getElementById('twoColumn').addEventListener('click', () => {
+      twoColumnPage(pages, provaModelo);
+    });
+
+    document.getElementById('previewOneColumn').addEventListener('click', () => {
+      previewQuestaoOneColumn(pages, listaQuestoes);
+    });
+
+    document.getElementById('previewTwoColumn').addEventListener('click', () => {
+      previewQuestaoTwoColumn(pages, listaQuestoes);
+    });
+
 
     previewQuestaoOneColumn(pages, listaQuestao)
 
