@@ -1,108 +1,46 @@
+function mmToPixels(mm, dpi = 96) {
+  return (mm / 25.4) * dpi;
+}
 
-const shuffle = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+const DONTSPLIT = 'dontsplit'
+
+const TEXTNODE = 3
+
+const paddingsTopBottom = mmToPixels(20);
+const containerHeight = mmToPixels(297) - paddingsTopBottom;
+
+const setPagination = (elementContainer) => {
+  try {
+    const pages = elementContainer.querySelectorAll(".page");
+
+    pages.forEach((page, index) => {
+      page.querySelector("span.pageNum").innerHTML = index + 1;
+      page.querySelector("span.pages").innerHTML = pages.length;
+    });
+  } catch (error) {
+    console.error("Erro ao gerar paginação.");
+    console.error(error);
   }
-  return array;
-};
-
-const paddingsTopBottom = 20 * (96 / 25.4);
-const containerHeight = 297 * (96 / 25.4) - paddingsTopBottom;
-
-const setPagination = () => {
-  const pages = document.querySelectorAll(".page");
-
-  pages.forEach((page, index) => {
-    page.querySelector("span.pageNum").innerHTML = index + 1;
-    page.querySelector("span.pages").innerHTML = pages.length;
-  });
 };
 
 function resetBodyContent(pages) {
   pages.innerHTML = "";
 }
 
-function isNodeEmpty(element) {
-  return (
-    !element.hasChildNodes() ||
-    [...element.childNodes].every(
-      (node) =>
-        node.nodeType === Node.TEXT_NODE && node.textContent.trim() === ""
-    )
-  );
-}
+function getAbsoluteHeight(element, includeMargin = true) {
+    if (!element) return 0;
 
-function splitElement(element, availableHeight, pageColumn) {
+    const rect = element.getBoundingClientRect();
+    let height = rect.height;
 
-  if (!(element instanceof HTMLElement)) {
-    throw new Error("Provided input is not a valid HTML element.");
-  }
-
-  const newChildrens = [];
-
-  function splitChildren(parent, newChildrens) {
-    const children = Array.from(parent.children);
-
-    // If there's only one child, recurse into it
-    if (children.length === 1 && children[0].children.length > 0) {
-      return splitChildren(children[0], newChildrens);
+    if (includeMargin) {
+        const computedStyle = window.getComputedStyle(element);
+        const marginTop = parseFloat(computedStyle.marginTop);
+        const marginBottom = parseFloat(computedStyle.marginBottom);
+        height += marginTop + marginBottom;
     }
 
-    for (const child of children) {
-      pageColumn.appendChild(child.cloneNode(true))
-      const childHeight = pageColumn.lastChild.scrollHeight
-      pageColumn.removeChild(pageColumn.lastChild)
-      if ( childHeight >= availableHeight) {
-        return splitChildren(child, newChildrens);
-      } else {
-        if (isNodeEmpty(child)) {
-          continue;
-        }
-        const originalParent = parent.cloneNode(false);
-        originalParent.appendChild(child.cloneNode(true));
-        newChildrens.push(originalParent);
-      }
-    }
-
-    return newChildrens;
-  }
-
-  const tempDiv = document.createElement("div");
-  let temp = splitChildren(element, newChildrens);
-
-  tempDiv.append(...temp);
-
-  return tempDiv
-}
-
-function fitOverflow(overflowElement, pageColumn, remainingHeight) {
-  const newChildrens = splitElement(overflowElement, remainingHeight, pageColumn)
-
-  let availableHeight = remainingHeight;
-
-  for (const newChild of [...newChildrens.children]) {
-
-    const lastAppendedChild = pageColumn.lastChild;
-
-    pageColumn.appendChild(newChild.cloneNode(true));
-
-    if (pageColumn.scrollHeight > remainingHeight) {
-
-      if(lastAppendedChild && lastAppendedChild.children.length === 1  && lastAppendedChild.children[0].classList.contains("dontend")) {
-          newChildrens.insertBefore(lastAppendedChild.cloneNode(true), newChildrens.firstChild) // re-insert the childNode to the overflowElement
-          pageColumn.removeChild(lastAppendedChild);
-      }
-
-      pageColumn.removeChild(pageColumn.lastChild);
-      break;
-    } else {
-      availableHeight -= pageColumn.scrollHeight;
-      newChildrens.removeChild(newChild);
-    }
-  }
-
-  return newChildrens;
+    return height;
 }
 
 function waitForImages(container) {
@@ -133,269 +71,102 @@ function waitForImages(container) {
   });
 }
 
-function replacePlaceholders(prova) {
-  function replacer(string, placeholders) {
-    if (!string) return "";
-
-    let replacedString = string;
-    for (const placeholder in placeholders) {
-      replacedString = replacedString.replace(
-        new RegExp(placeholder, "g"),
-        placeholders[placeholder] ?? "&nbsp;"
-      );
+function splitElement(element, putInHere, pageColumn, availableHeight) {
+  if (element.children.length) {
+    let cloneMe = element.firstElementChild;
+    if (!cloneMe || cloneMe.nodeType !== 1) {
+      return;
     }
 
-    return replacedString;
+    let clone = cloneMe.cloneNode(true);
+
+    availableHeight -=  pageColumn.offsetHeight
+
+    putInHere.appendChild(clone);
+
+    const isImage = clone.tagName === "IMG";
+    const isDontSplit = cloneMe.classList.contains(DONTSPLIT);
+    const fitsInPage = pageColumn.offsetHeight < availableHeight + 20;
+    const overflowsPage = pageColumn.offsetHeight > availableHeight;
+
+    if ((isImage || isDontSplit) && fitsInPage) {
+      cloneMe.remove();
+    } else if (isImage || isDontSplit) {
+      clone.remove();
+    } else {
+      clone.innerHTML = "";
+      if (
+        !fitOverflow(cloneMe, clone, pageColumn, availableHeight) &&
+        cloneMe.children.length
+      ) {
+        splitElement(cloneMe, clone, pageColumn, availableHeight);
+      }
+    }
+  }
+}
+
+function fitOverflow(overflowElement, putInHere, pageColumn, remainingHeight) {
+  let pullOutHere = overflowElement.children[0];
+
+  if (!pullOutHere) return;
+
+  putInHere = putInHere.appendChild(pullOutHere.cloneNode(false))
+
+  while (
+    pageColumn.scrollHeight < remainingHeight &&
+    pullOutHere.childNodes.length
+  ) {
+    let node = pullOutHere.childNodes[0];
+
+    putInHere.appendChild(node);
   }
 
-  const folhaDeRostoPlaceholder = {
-    "#CURSO#": prova.modelo.prova.turma?.cursoUnidade.curso.nome,
-    "#DISCIPLINA#": prova.modelo.prova.turma?.disciplina,
-    "#TURMA#": prova.modelo.prova.turma?.codigoTurma,
-    "#CODIGO_TURMA#": prova.modelo.prova.turma?.codigoTurma,
-    "#PERIODO#":
-      prova.modelo.prova.tipoProva.notaParcial +
-      " - " +
-      (prova.modelo.prova.turma?.periodoLetivo.nome ?? "&nbsp;"),
-    "#MODELO#":
-      prova.modelo.prova.listaProvaModelo.length > 1
-        ? " - Modelo " + prova.modelo.nome
-        : "",
-    "#PROFESSOR#":
-      prova.modelo.prova.turma?.professor.nome == null &&
-        prova.modelo.prova.usuario != null
-        ? prova.modelo.prova.usuario.nome
-        : prova.modelo.prova.turma?.professor.nome,
-    "#TURNO#": prova.modelo.prova.turma?.cursoUnidade.turno.nome,
-    "#DURACAO#": prova.modelo.prova.duracao,
-    "#TOTALQUEST#": prova.modelo.listaProvaQuestao.length,
-    "#NUM_QUESTOES#": prova.modelo.listaProvaQuestao.length,
-    "#PONTOS#": prova.modelo.prova.totalPontos,
-    "#INSTRUCAO#": prova.modelo.prova.instrucaoEspecifica?.texto,
-  };
+  if (putInHere.childNodes.length === 0) return;
 
-  const cabecalhoPlaceholders = {
-    "#LOGO#": prova.modelo.prova.instituicao.linkFile,
-    "#TIPOPROVA#": prova.modelo.prova.tipoProva.notaParcial,
-    "#TIPOPROVANOME#": prova.modelo.prova.tipoProva.nome,
-    "#DISCIPLINA#": prova.modelo.prova.turma?.disciplina,
-    "#CURSO#": prova.modelo.prova.turma?.cursoUnidade.curso.nome,
-    "#TURMA#": prova.modelo.prova.turma?.codigoTurma,
-    "#TURMANOME#": prova.modelo.prova.turma?.nome,
-    "#NOME_TURMA#": prova.modelo.prova.turma?.nome,
-    "#TURNO#": prova.modelo.prova.turma?.cursoUnidade.turno.nome,
-    "#PERIODO#": prova.modelo.prova.turma?.periodoLetivo.nome,
-    "#TOTALQUEST#": prova.modelo.listaProvaQuestao.length,
-    "#LAYOUTNOME#": prova.modelo.prova.layout.nome,
-    "#NOMELAYOUT#": prova.modelo.prova.layout.nome,
-    "#INSTRUCAO#": prova.modelo.prova.instrucaoEspecifica?.texto,
-    "#PONTOS#": prova.modelo.prova.totalPontos,
-  };
+  const lastAppendedChild = putInHere.lastChild;
+  putInHere.removeChild(lastAppendedChild);
 
-  const cabecalhoPaginaPlaceholders = {
-    "#LOGO#": prova.modelo.prova.instituicao.linkFile,
-    "#DISCIPLINA#": prova.modelo.prova.turma?.disciplina,
-    "#CURSO#": prova.modelo.prova.turma?.cursoUnidade.curso.nome,
-    "#CURSONOME#": prova.modelo.prova.turma?.cursoUnidade.curso.nome,
-    "#PERIODO#": prova.modelo.prova.turma?.periodoLetivo.nome,
-    "#PERIODOLET#": prova.modelo.prova.turma?.periodoLetivo.nome,
-    "#TIPOPROVA#": prova.modelo.prova.tipoProva.notaParcial,
-    "#TIPOPROVANOME#": prova.modelo.prova.tipoProva.nome,
-  };
-
-  prova.modelo.prova.layout.cabecalho = replacer(
-    prova.modelo.prova.layout.cabecalho,
-    cabecalhoPlaceholders
-  );
-  prova.modelo.prova.layout.folhaRosto = replacer(
-    prova.modelo.prova.layout.folhaRosto,
-    folhaDeRostoPlaceholder
-  );
-  prova.modelo.prova.layout.cabecalhoPagina = replacer(
-    prova.modelo.prova.layout.cabecalhoPagina,
-    cabecalhoPaginaPlaceholders
-  );
-}
-
-function createQuestoesTempContainer(prova) {
-  const tempContainer = document.createElement("div");
-  tempContainer.className = "page-stage";
-
-  const {
-    cabecalhoPrimeiraQuestao,
-    cabecalhoQuestao,
-    ordemQuestaoPersonalizada,
-  } = prova.modelo.prova.layout;
-
-  const formatCabecalho = (provaQuestao, cabecalhoTemplate) => {
-    const ordem = ordemQuestaoPersonalizada
-      ? provaQuestao.ordemPersonalizada ?? ""
-      : provaQuestao.ordem;
-
-    return cabecalhoTemplate
-      .replace("#ORDEM#", ordem)
-      .replace("#VALOR#", provaQuestao.valor.toString().replace(".", ","));
-  };
-
-  const generateQuestaoHTML = (provaQuestao) => {
-    const cabecalhoTemplate = provaQuestao.ordem === 1 ? cabecalhoPrimeiraQuestao : cabecalhoQuestao;
-
-    const cabecalhoQuestaoComValores = formatCabecalho(provaQuestao, cabecalhoTemplate);
-
-    const tipoLinhaResposta = getTipoLinhaResposta(provaQuestao);
-
-    return `
-          <div>
-              <div class='questao-completa'>
-                  <div class='cabecalho-questao dontend'>
-                      ${cabecalhoQuestaoComValores}
-                  </div>
-                  ${provaQuestao.questao.visualizaQuestao}
-              </div>
-              ${tipoLinhaResposta}
-          </div>
-      `;
-  };
-
-  tempContainer.innerHTML = prova.modelo.listaProvaQuestao
-    .map(generateQuestaoHTML)
-    .join("");
-
-  document.body.appendChild(tempContainer);
-
-  return tempContainer;
-}
-
-function createPreviewQuestaoTempContainer(listaQuestao) {
-  const tempContainer = document.createElement("div");
-  tempContainer.className = "page-stage";
-  const generateQuestaoHTML = (questao) => {
-    return `
-          <div>
-              <div class='questao-completa'>
-                  <div class='cabecalho-questao dontend'>
-                      <div style="background:#A9A9A9;border:0px;padding:1px 1px;">
-                        <span style="font-size:12px"><strong>QUESTÃO X</strong> ( valor: XX ponto(s) )</span>
-                      </div>
-                  </div>
-                  ${questao.visualizaQuestao}
-              </div>
-          </div>
-      `;
-  };
-
-  tempContainer.innerHTML = listaQuestao.map(generateQuestaoHTML).join("");
-
-  document.body.appendChild(tempContainer);
-
-  return tempContainer;
-}
-
-function createNumberedLines(numberOfLines, withHeader = true) {
-  const header = `
-  <tr>
-  <td class="side-number-header" colspan="2">Resposta</td>
-  </tr>
-  `;
-
-  const rows = Array.from(
-    { length: numberOfLines },
-    (_, index) => `
-  <tr>
-  <td class="side-number">${index + 1}</td>
-  <td class="side-number-content"></td>
-  </tr>
-  `
-  ).join("");
-
-  return `
-  <table class="side-number-table">
-  ${withHeader ? header : ""}
-  ${rows}
-  </table>
-  `;
-}
-
-function createAnswerLinesTable(numberOfLines, withHeader = true) {
-  const header = `
-  <tr>
-  <td class="side-number-header">Resposta</td>
-  </tr>
-  `;
-  return `
-    <table class="answer-table">
-      ${withHeader ? header : ""}
-      ${"<tr><td></td></tr>".repeat(numberOfLines)}
-    </table>
-  `;
-}
-
-function createAnswerBox(numberOfLines) {
-  const height = Math.max(30 * numberOfLines, 30);
-  return `
-    <div class="box">
-      <div class="box-header">Resposta</div>
-      <div class="box-content" style='height: ${height}px'></div>
-    </div>
-  `;
-}
-
-function getTipoLinhaResposta(provaQuestao) {
-  if (provaQuestao.tipoLinha === null) {
-    return "";
+  if (lastAppendedChild.nodeType == 3) {
   }
 
-  let tipoLinhaQuestao = "";
-  switch (provaQuestao.tipoLinha.codigo) {
-    case 1:
-      tipoLinhaQuestao = createNumberedLines(provaQuestao.numeroLinhas);
-      break;
-    case 2:
-      tipoLinhaQuestao = createAnswerLinesTable(provaQuestao.numeroLinhas);
-      break;
-    case 3:
-      tipoLinhaQuestao = "";
-      break;
-    case 4:
-      tipoLinhaQuestao = createAnswerBox(provaQuestao.numeroLinhas);
-      break;
-    case 5:
-      tipoLinhaQuestao = createAnswerLinesTable(
-        provaQuestao.numeroLinhas,
-        false
-      );
-      break;
+  if (overflowElement.children.length) {
+    pullOutHere.prepend(lastAppendedChild);
+  } else {
+    pullOutHere.appendChild(lastAppendedChild);
   }
 
-  return tipoLinhaQuestao;
+  return lastAppendedChild.nodeType === 3;
 }
 
-export default class LayoutProva {
-
+class LayoutProva {
   constructor(
     elementContainer,
     pageHeader,
     pageFooter,
-    fonteTamanho
+    fonteTamanho,
+    marcaDaqua = false,
+    _folhaDeRosto,
   ) {
-    this.elementContainer = elementContainer
-    this.pageHeader = pageHeader
-    this.pageFooter = pageFooter
-    this.fonteTamanho = fonteTamanho
+    this.elementContainer = elementContainer;
+    this.pageHeader = pageHeader;
+    this.pageFooter = pageFooter;
+    this.fonteTamanho = fonteTamanho;
+    this.marcaDaqua = marcaDaqua;
+    this._folhaDeRosto = _folhaDeRosto
   }
 
   resetBodyContent() {
-    this.elementContainer.innerHTML = ''
+    this.elementContainer.innerHTML = "";
   }
 
   folhaDeRosto(header, conteudo, footer) {
-
     const newPage = document.createElement("div");
-    newPage.className = "page";
+    const marcadagua = this.marcaDaqua ? "marcadagua-px-rascunho" : "";
+    newPage.className = "page " + marcadagua;
     newPage.innerHTML = this.templateLayoutOneColumn(header, footer);
     this.elementContainer.appendChild(newPage);
 
-    const pageColumn = newPage.querySelector(".one-column > .content-column")
+    const pageColumn = newPage.querySelector(".one-column > .content-column");
 
     const columnContent = document.createElement("div");
     columnContent.innerHTML = conteudo;
@@ -403,63 +174,42 @@ export default class LayoutProva {
     pageColumn.appendChild(columnContent);
   }
 
-  oneColumnPage(provaModelo) {
-    this.provaModelo = provaModelo
-    const tempContainer = createQuestoesTempContainer(this.provaModelo);
+  oneColumnPage(tempContainer) {
 
     return waitForImages(tempContainer)
       .then(() => {
         resetBodyContent(this.elementContainer);
 
-        replacePlaceholders(this.provaModelo);
+        if(this._folhaDeRosto !== null) {
+          const { header, content , footer } = this._folhaDeRosto
+          this.folhaDeRosto(header, content, footer)
+        }
 
-        const {
-          cabecalho,
-          folhaRosto,
-          paginacao,
-          rodape,
-          rodapeRosto,
-        } = provaModelo.modelo.prova.layout;
+        this.oneColumnLayout(tempContainer);
 
-        this.folhaDeRosto(
-          cabecalho,
-          folhaRosto,
-          `<div>${rodapeRosto ?? rodape}</div><div>${paginacao}</div>`
-        );
-
-        this.oneColumnLayout(
-          tempContainer
-        );
       })
       .then(() => {
-        setPagination();
-        document.body.removeChild(tempContainer)
+        setPagination(this.elementContainer);
+        tempContainer.remove()
       });
   }
 
-  twoColumnPage(provaModelo) {
-    const tempContainer = createQuestoesTempContainer(provaModelo);
+  twoColumnPage(tempContainer) {
 
     return waitForImages(tempContainer)
       .then(() => {
         this.resetBodyContent();
 
-        replacePlaceholders(provaModelo);
-
-        const { cabecalho, folhaRosto, paginacao, rodape } =
-          provaModelo.modelo.prova.layout;
-
-        this.folhaDeRosto(
-          cabecalho,
-          folhaRosto,
-          `<div>${rodape}</div><div>${paginacao}</div>`
-        );
+        if(this._folhaDeRosto !== null) {
+          const { header, content , footer } = this._folhaDeRosto
+          this.folhaDeRosto(header, content, footer)
+        }
 
         this.twoColumnLayout(tempContainer);
       })
       .then(() => {
-        setPagination();
-        document.body.removeChild(tempContainer)
+        setPagination(this.elementContainer);
+        tempContainer.remove()
       });
   }
 
@@ -468,10 +218,15 @@ export default class LayoutProva {
 
     const remainingHeight =
       containerHeight -
-      (pageObjects.pageHeader.scrollHeight + pageObjects.pageFooter.scrollHeight);
+      (pageObjects.pageHeader.scrollHeight +
+        pageObjects.pageFooter.scrollHeight);
 
     Array.from(tempContainer.children).forEach((element) => {
-      pageObjects = this.columnizeOneColumn(element, pageObjects, remainingHeight)
+      pageObjects = this.columnizeOneColumn(
+        element,
+        pageObjects,
+        remainingHeight
+      );
     });
   }
 
@@ -480,98 +235,137 @@ export default class LayoutProva {
 
     const remainingHeight =
       containerHeight -
-      (pageObjects.pageHeader.scrollHeight + pageObjects.pageFooter.scrollHeight);
+      (pageObjects.pageHeader.scrollHeight +
+        pageObjects.pageFooter.scrollHeight);
 
     let currentColumnIndex = 0; // index = 0 primera coluna, index = 1 segunda coluna.
 
     Array.from(tempContainer.children).forEach((element) => {
-      let  newValues = this.columnizeTwoColumn(element, pageObjects, remainingHeight, currentColumnIndex)
-      pageObjects = newValues.pageObjects
-      currentColumnIndex = newValues.currentColumnIndex
+      let newValues = this.columnizeTwoColumn(
+        element,
+        pageObjects,
+        remainingHeight,
+        currentColumnIndex
+      );
+      pageObjects = newValues.pageObjects;
+      currentColumnIndex = newValues.currentColumnIndex;
     });
-  }
-
-  previewOneColumn(listaQuestao) {
-    const tempContainer = createPreviewQuestaoTempContainer(listaQuestao);
-
-    return waitForImages(tempContainer)
-      .then(() => {
-        this.resetBodyContent();
-        this.oneColumnLayout(tempContainer);
-      })
-      .then(() => {
-        document.body.removeChild(tempContainer)
-      });
-  }
-
-  previewTwoColumn(listaQuestao) {
-
-    const tempContainer = createPreviewQuestaoTempContainer(listaQuestao);
-
-    return waitForImages(tempContainer)
-      .then(() => {
-        this.resetBodyContent();
-        this.twoColumnLayout(tempContainer);
-      })
-      .then(() => {
-        document.body.removeChild(tempContainer)
-      });
   }
 
   columnizeOneColumn(element, pageObjects, remainingHeight) {
     const pageColumn = pageObjects.pageColumn;
+
+    element.classList.add('column-element')
+    element.children[0].classList.add('column-element')
+
     pageColumn.appendChild(element.cloneNode(true));
+
+    const isDontSplit = element.children[0].classList.contains(DONTSPLIT)
+
+    const lastChildHeight = getAbsoluteHeight(pageColumn.lastChild)
 
     if (pageColumn.scrollHeight > remainingHeight) {
       pageColumn.removeChild(pageColumn.lastChild);
 
       // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
       // eles serão adicionados; o restante irá para a próxima coluna ou página
-      const newPageElements = fitOverflow(element, pageColumn, remainingHeight);
 
-      pageObjects = this.columnizeOneColumn(newPageElements, this.createNewOneColumnPage(), remainingHeight);
+      if(isDontSplit && lastChildHeight > remainingHeight) {
+        element.children[0].classList.remove(DONTSPLIT)
+      } else if(isDontSplit) {
 
+      } else {
+        fitOverflow(element, pageColumn, pageColumn, remainingHeight);
+        splitElement(element, pageColumn, pageColumn, remainingHeight);
+      }
+
+      if (pageColumn.children.length === 0) {
+        pageObjects = this.columnizeOneColumn(
+          element,
+          pageObjects,
+          remainingHeight
+        );
+      } else {
+        pageObjects = this.columnizeOneColumn(
+          element,
+          this.createNewOneColumnPage(),
+          remainingHeight
+        );
+      }
     }
 
-    return pageObjects
-
+    return pageObjects;
   }
 
-  columnizeTwoColumn(element, pageObjects, remainingHeight, currentColumnIndex) {
-
+  columnizeTwoColumn(
+    element,
+    pageObjects,
+    remainingHeight,
+    currentColumnIndex
+  ) {
     const currentColumn = pageObjects.pageColumns[currentColumnIndex];
+
+    element.classList.add('column-element')
+    element.children[0].classList.add('column-element')
 
     currentColumn.appendChild(element.cloneNode(true));
 
-    if (currentColumn.scrollHeight > remainingHeight) {
+    const isDontSplit = element.children[0].classList.contains(DONTSPLIT)
 
+    const lastChildHeight = getAbsoluteHeight(currentColumn.lastChild)
+
+    if (currentColumn.scrollHeight > remainingHeight) {
       currentColumn.removeChild(currentColumn.lastChild);
 
       // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
       // eles serão adicionados; o restante irá para a próxima coluna
-      let overflowElement = fitOverflow(element, currentColumn, remainingHeight);
+
+       if(isDontSplit && lastChildHeight > remainingHeight) {
+        element.children[0].classList.remove(DONTSPLIT)
+      } else if(isDontSplit) {
+
+      } else {
+        fitOverflow(element,currentColumn, currentColumn, remainingHeight);
+        splitElement(element,currentColumn, currentColumn, remainingHeight);
+      }
 
       if (currentColumnIndex === 0) {
-        const newValues = this.columnizeTwoColumn(overflowElement, pageObjects, remainingHeight, 1)
-        pageObjects = newValues.pageObjects
-        currentColumnIndex = newValues.currentColumnIndex
+        const newValues = this.columnizeTwoColumn(
+          element,
+          pageObjects,
+          remainingHeight,
+          1
+        );
+        pageObjects = newValues.pageObjects;
+        currentColumnIndex = newValues.currentColumnIndex;
       } else {
-        const newValues = this.columnizeTwoColumn(overflowElement, this.createNewTwoColumnsPage(), remainingHeight, 0)
-        pageObjects = newValues.pageObjects
-        currentColumnIndex = newValues.currentColumnIndex
+        const newValues = this.columnizeTwoColumn(
+          element,
+          this.createNewTwoColumnsPage(),
+          remainingHeight,
+          0
+        );
+        pageObjects = newValues.pageObjects;
+        currentColumnIndex = newValues.currentColumnIndex;
       }
     }
 
     return {
       pageObjects,
-      currentColumnIndex
-    }
+      currentColumnIndex,
+    };
   }
 
   createNewTwoColumnsPage() {
     const newPage = document.createElement("div");
-    newPage.className = "page";
-    newPage.innerHTML = this.templateLayoutTwoColumn(this.pageHeader, this.pageFooter);
+
+    const marcadagua = this.marcaDaqua ? "marcadagua-px-rascunho" : "";
+    newPage.className = "page " + marcadagua;
+
+    newPage.innerHTML = this.templateLayoutTwoColumn(
+      this.pageHeader,
+      this.pageFooter
+    );
     this.elementContainer.appendChild(newPage);
     return {
       pageHeader: newPage.querySelector(".page-header"),
@@ -583,8 +377,13 @@ export default class LayoutProva {
 
   createNewOneColumnPage() {
     const newPage = document.createElement("div");
-    newPage.className = "page";
-    newPage.innerHTML = this.templateLayoutOneColumn(this.pageHeader, this.pageFooter);
+    const marcadagua = this.marcaDaqua ? "marcadagua-px-rascunho" : "";
+    newPage.className = "page " + marcadagua;
+
+    newPage.innerHTML = this.templateLayoutOneColumn(
+      this.pageHeader,
+      this.pageFooter
+    );
     this.elementContainer.appendChild(newPage);
     return {
       pageHeader: newPage.querySelector(".page-header"),
@@ -594,7 +393,7 @@ export default class LayoutProva {
     };
   }
 
-  templateLayoutOneColumn(header, footer){
+  templateLayoutOneColumn(header, footer) {
     return `
       <div class='page-header'>
         ${header}
@@ -608,9 +407,9 @@ export default class LayoutProva {
         ${footer}
       </div>
     `;
-  };
+  }
 
-  templateLayoutTwoColumn(header, footer){
+  templateLayoutTwoColumn(header, footer) {
     return `
       <div class='page-header'>
         ${header}
@@ -627,59 +426,93 @@ export default class LayoutProva {
         ${footer}
       </div>
     `;
-  };
-
-  static builder(elementContainer) {
-    return new LayoutProvaBuilder(elementContainer)
   }
 
+  static builder(elementContainer) {
+    return new LayoutProvaBuilder(elementContainer);
+  }
 }
 
 class LayoutProvaBuilder {
-
   constructor(elementContainer) {
-    this.elementContainer = elementContainer
-    this.header = ''
-    this.footer = ''
-    this.fontSize = '12'
+    this.elementContainer = elementContainer;
+    this.header = "";
+    this.footer = "";
+    this.fontSize = 12;
+    this._folhaDeRosto = null
+    this.comMarcaDaqua = false;
   }
 
-  folhaDeRosto(header, conteudo, footer) {
-    return this
+  folhaDeRosto({ header, content, footer }) {
+
+    const valid = header != null && content != null && footer != null;
+
+    if(!valid) {
+      throw new Error("Todas as propriedades de folha de rosto são obrigatorias. header, content e footer");
+    }
+
+    this._folhaDeRosto = { header, content, footer }
+
+    return this;
   }
 
   pageHeader(header) {
-    this.header = header
-    return this
+    this.header = header;
+    return this;
   }
 
   pageFooter(footer) {
-    this.footer = footer
-    return this
+    this.footer = footer;
+    return this;
+  }
+
+  marcaDaqua() {
+    this.comMarcaDaqua = true;
+    return this;
   }
 
   fonteTamanho(tamanho) {
-    this.fontSize = tamanho
-    return this
+    if(isNaN(tamanho)) {
+      throw new Error("O valor da fonte deve ser um valor numerico.");
+    }
+    this.fontSize = tamanho;
+    return this;
+  }
+
+  rascunho(num) {
+     if(isNaN(tamanho)) {
+      throw new Error("O valor da rascunho deve ser um valor numerico.");
+    }
+    this.numeroFolhasRascunho = num;
+    return this;
+  }
+
+  layoutProva() {
+    return new LayoutProva(
+      this.elementContainer,
+      this.header,
+      this.footer,
+      this.fontSize,
+      this.comMarcaDaqua,
+       this._folhaDeRosto
+    )
   }
 
   oneColumnLayout(provaModelo) {
-    new LayoutProva(this.elementContainer, this.header, this.footer, this.fontSize)
-    .oneColumnPage(provaModelo)
+    this.layoutProva().oneColumnPage(provaModelo);
   }
 
   twoColumnLayout(provaModelo) {
-    new LayoutProva(this.elementContainer, this.header, this.footer, this.fontSize)
-    .twoColumnPage(provaModelo)
+    this.layoutProva().twoColumnPage(provaModelo);
   }
 
   previewOneColumn(listaQuestoes) {
-    new LayoutProva(this.elementContainer, this.header, this.footer, this.fontSize)
-    .previewOneColumn(listaQuestoes)
+    this.layoutProva().previewOneColumn(listaQuestoes);
   }
 
   previewTwoColumn(listaQuestoes) {
-    new LayoutProva(this.elementContainer, this.header, this.footer, this.fontSize)
-    .previewTwoColumn(listaQuestoes)
+   this.layoutProva().previewTwoColumn(listaQuestoes);
   }
 }
+
+export { LayoutProva };

@@ -42,6 +42,14 @@
       .page-stage {
         display: none;
       }
+
+       /* Firefox-specific fix */
+      @-moz-document url-prefix() {
+        .page {
+          page-break-after: auto; /* Avoids forced blank pages */
+          break-after: avoid-page; /* Ensures pages don't have an unnecessary blank */
+        }
+      }
     }
 
     .toggle-layout {
@@ -49,6 +57,11 @@
       bottom: 10%;
       right: 5%;
     }
+
+    .column-element {
+     overflow: hidden;
+    }
+
   </style>
 
 
@@ -64,61 +77,87 @@
     <button id="previewTwoColumn">preview questão duas coluna</button>
   </div>
   <script src="prova-modelo.js"></script>
+  <script src="avaliacao-builder.js"></script>
   <script type="module">
-    import LayoutProva from "./layout-colunas.js";
+    import {
+      LayoutProva,
+    } from "./layout-colunas.js";
 
-    function oneColumnPage(pages, provaModelo) {
-      const { cabecalhoPagina, rodape, paginacao } = provaModelo.modelo.prova.layout;
+    replacePlaceholders(provaModelo);
 
-      LayoutProva.builder(pages)
-        .pageHeader(cabecalhoPagina)
-        .pageFooter(`<div>${rodape}</div><div>${paginacao}</div>`)
-        .oneColumnLayout(provaModelo)
-    }
-
-    function twoColumnPage(pages, provaModelo) {
-      const { cabecalhoPagina, rodape, paginacao } = provaModelo.modelo.prova.layout;
-
-      LayoutProva.builder(pages)
-        .pageHeader(cabecalhoPagina)
-        .pageFooter(`<div>${rodape}</div><div>${paginacao}</div>`)
-        .twoColumnLayout(provaModelo)
-    }
-
-    function previewQuestaoOneColumn(pages, listaQuestao) {
-      LayoutProva.builder(pages)
-        .fonteTamanho('14')
-        .previewOneColumn(listaQuestao)
-    }
-
-    function previewQuestaoTwoColumn(pages, listaQuestao) {
-      LayoutProva.builder(pages)
-        .previewTwoColumn(listaQuestao)
-    }
+    const { cabecalho, folhaRosto, paginacao, rodape, rodapeRosto } =
+        provaModelo.modelo.prova.layout;
 
     const listaQuestoes = provaModelo.modelo.listaProvaQuestao.map(provaQuestao => provaQuestao.questao)
 
-    const pages = document.getElementById('pages-container');
+    // onde as paginas colunizadas serão armazenadas
+    const pagesContainer = document.getElementById('pages-container');
+
+    function oneColumnPage(pagesContainer) {
+      const tempContainer = createQuestoesTempContainer(provaModelo);
+      const { cabecalhoPagina, rodape, paginacao } = provaModelo.modelo.prova.layout;
+
+      LayoutProva.builder(pagesContainer)
+        .marcaDaqua()
+        .fonteTamanho(18)
+        .folhaDeRosto({
+          header: cabecalho,
+          content: folhaRosto,
+          footer: `<div>${rodapeRosto ?? rodape}</div><div>${paginacao}</div>`
+        })
+        .pageHeader(cabecalhoPagina)
+        .pageFooter(`<div>${rodape}</div><div>${paginacao}</div>`)
+        .oneColumnLayout(tempContainer)
+    }
+
+    function twoColumnPage(pagesContainer) {
+      const tempContainer = createQuestoesTempContainer(provaModelo);
+      const { cabecalhoPagina, rodape, paginacao } = provaModelo.modelo.prova.layout;
+
+      LayoutProva.builder(pagesContainer)
+        .pageHeader(cabecalhoPagina)
+        .folhaDeRosto({
+          header: cabecalho,
+          content: folhaRosto,
+          footer: `<div>${rodapeRosto ?? rodape}</div><div>${paginacao}</div>`
+        })
+        .pageFooter(`<div>${rodape}</div><div>${paginacao}</div>`)
+        .marcaDaqua()
+        .twoColumnLayout(tempContainer)
+    }
+
+    function previewQuestaoOneColumn(pagesContainer, listaQuestao) {
+      const tempContainer = createPreviewQuestaoTempContainer(listaQuestao)
+      console.log(tempContainer);
+
+      LayoutProva.builder(pagesContainer)
+        .fonteTamanho(14)
+        .oneColumnLayout(tempContainer)
+    }
+
+    function previewQuestaoTwoColumn(pagesContainer, listaQuestao) {
+      const tempContainer = createPreviewQuestaoTempContainer(listaQuestao)
+      LayoutProva.builder(pagesContainer)
+        .twoColumnLayout(tempContainer)
+    }
 
     document.getElementById('oneColumn').addEventListener('click', () => {
-      oneColumnPage(pages, provaModelo);
+      oneColumnPage(pagesContainer);
     });
 
     document.getElementById('twoColumn').addEventListener('click', () => {
-      twoColumnPage(pages, provaModelo);
+      twoColumnPage(pagesContainer);
     });
 
     document.getElementById('previewOneColumn').addEventListener('click', () => {
-      previewQuestaoOneColumn(pages, listaQuestoes);
+      previewQuestaoOneColumn(pagesContainer, listaQuestoes);
     });
 
     document.getElementById('previewTwoColumn').addEventListener('click', () => {
-      previewQuestaoTwoColumn(pages, listaQuestoes);
+      previewQuestaoTwoColumn(pagesContainer, listaQuestoes);
     });
 
-
-    previewQuestaoOneColumn(pages, listaQuestao)
-
+    oneColumnPage(pagesContainer);
 
   </script>
 </body>

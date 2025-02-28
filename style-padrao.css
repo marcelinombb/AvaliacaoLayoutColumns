@@ -281,3 +281,17 @@ figure.image {
   margin: 0.9em auto;
   min-width: 50px;
 }
+
+.logo-cabecalho{
+	max-height:75px;
+	border:0px solid black;
+	float:left;
+	margin:0px;
+}
+
+.logo-cabecalho-pagina{
+	max-height:40px;
+	border:0px solid black;
+	margin:0px;
+	width:auto;
+}
