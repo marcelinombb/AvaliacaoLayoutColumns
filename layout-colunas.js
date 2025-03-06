@@ -146,6 +146,7 @@ class LayoutProva {
     fonteTamanho,
     marcaDaqua = false,
     _folhaDeRosto,
+    numeroFolhasRascunho = null
   ) {
     this.elementContainer = elementContainer;
     this.pageHeader = pageHeader;
@@ -153,6 +154,7 @@ class LayoutProva {
     this.fonteTamanho = fonteTamanho;
     this.marcaDaqua = marcaDaqua;
     this._folhaDeRosto = _folhaDeRosto
+    this.numeroFolhasRascunho = numeroFolhasRascunho
   }
 
   resetBodyContent() {
@@ -174,6 +176,12 @@ class LayoutProva {
     pageColumn.appendChild(columnContent);
   }
 
+  rascunho() {
+    for(let i = 0; i < this.numeroFolhasRascunho; i++) {
+      this.createNewOneColumnPage()
+    }
+  }
+
   oneColumnPage(tempContainer) {
 
     return waitForImages(tempContainer)
@@ -186,6 +194,10 @@ class LayoutProva {
         }
 
         this.oneColumnLayout(tempContainer);
+
+        if(this.numeroFolhasRascunho) {
+          this.rascunho()
+        }
 
       })
       .then(() => {
@@ -440,6 +452,7 @@ class LayoutProvaBuilder {
     this.footer = "";
     this.fontSize = 12;
     this._folhaDeRosto = null
+    this.numeroFolhasRascunho = null
     this.comMarcaDaqua = false;
   }
 
@@ -479,11 +492,11 @@ class LayoutProvaBuilder {
     return this;
   }
 
-  rascunho(num) {
-     if(isNaN(tamanho)) {
+  rascunho(numeroFolhas) {
+     if(isNaN(numeroFolhas)) {
       throw new Error("O valor da rascunho deve ser um valor numerico.");
     }
-    this.numeroFolhasRascunho = num;
+    this.numeroFolhasRascunho = numeroFolhas;
     return this;
   }
 
@@ -494,7 +507,8 @@ class LayoutProvaBuilder {
       this.footer,
       this.fontSize,
       this.comMarcaDaqua,
-       this._folhaDeRosto
+      this._folhaDeRosto,
+      this.numeroFolhasRascunho
     )
   }
 
