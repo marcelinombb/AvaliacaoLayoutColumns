@@ -1,10 +1,8 @@
-function mmToPixels(mm, dpi = 96) {
-  return (mm / 25.4) * dpi;
-}
+const MM_TO_INCH = 25.4;
+const DEFAULT_DPI = 96;
+const DONTSPLIT = 'dontsplit';
 
-const DONTSPLIT = 'dontsplit'
-
-const TEXTNODE = 3
+const mmToPixels = (mm, dpi = DEFAULT_DPI) => (mm / MM_TO_INCH) * dpi;
 
 const paddingsTopBottom = mmToPixels(20);
 const containerHeight = mmToPixels(297) - paddingsTopBottom;
@@ -161,17 +159,17 @@ class LayoutProva {
     this.elementContainer.innerHTML = "";
   }
 
-  folhaDeRosto(header, conteudo, footer) {
+  folhaDeRosto(header, content, footer) {
     const newPage = document.createElement("div");
     const marcadagua = this.marcaDaqua ? "marcadagua-px-rascunho" : "";
     newPage.className = "page " + marcadagua;
-    newPage.innerHTML = this.templateLayoutOneColumn(header, footer);
+    newPage.innerHTML = this.gePageTemplate("one-column", header, footer);
     this.elementContainer.appendChild(newPage);
 
     const pageColumn = newPage.querySelector(".one-column > .content-column");
 
     const columnContent = document.createElement("div");
-    columnContent.innerHTML = conteudo;
+    columnContent.innerHTML = content;
 
     pageColumn.appendChild(columnContent);
   }
@@ -282,10 +280,10 @@ class LayoutProva {
       // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
       // eles serão adicionados; o restante irá para a próxima coluna ou página
 
-      if(isDontSplit && lastChildHeight > remainingHeight) {
-        element.children[0].classList.remove(DONTSPLIT)
-      } else if(isDontSplit) {
-
+      if (isDontSplit) {
+        if (lastChildHeight > remainingHeight) {
+          element.children[0].classList.remove(DONTSPLIT);
+        }
       } else {
         fitOverflow(element, pageColumn, pageColumn, remainingHeight);
         splitElement(element, pageColumn, pageColumn, remainingHeight);
@@ -332,10 +330,10 @@ class LayoutProva {
       // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
       // eles serão adicionados; o restante irá para a próxima coluna
 
-       if(isDontSplit && lastChildHeight > remainingHeight) {
-        element.children[0].classList.remove(DONTSPLIT)
-      } else if(isDontSplit) {
-
+      if (isDontSplit) {
+        if (lastChildHeight > remainingHeight) {
+          element.children[0].classList.remove(DONTSPLIT);
+        }
       } else {
         fitOverflow(element,currentColumn, currentColumn, remainingHeight);
         splitElement(element,currentColumn, currentColumn, remainingHeight);
@@ -374,7 +372,7 @@ class LayoutProva {
     const marcadagua = this.marcaDaqua ? "marcadagua-px-rascunho" : "";
     newPage.className = "page " + marcadagua;
 
-    newPage.innerHTML = this.templateLayoutTwoColumn(
+    newPage.innerHTML = this.gePageTemplate("two-column",
       this.pageHeader,
       this.pageFooter
     );
@@ -392,7 +390,7 @@ class LayoutProva {
     const marcadagua = this.marcaDaqua ? "marcadagua-px-rascunho" : "";
     newPage.className = "page " + marcadagua;
 
-    newPage.innerHTML = this.templateLayoutOneColumn(
+    newPage.innerHTML = this.gePageTemplate("one-column",
       this.pageHeader,
       this.pageFooter
     );
@@ -405,34 +403,17 @@ class LayoutProva {
     };
   }
 
-  templateLayoutOneColumn(header, footer) {
+  gePageTemplate(layoutType, header, footer) {
+    const oneColumnLayout = '<div class="one-column"><div class="content-column"></div></div>'
+    const twoColumnLayout =  '<div class="two-column"><div class="content-column"></div></div>'.repeat(2)
     return `
       <div class='page-header'>
         ${header}
       </div>
       <div class="content-container" style="font-size: ${this.fonteTamanho}px;">
-        <div class="one-column">
-          <div class="content-column"></div>
-        </div>
-      </div>
-      <div class='page-footer'>
-        ${footer}
-      </div>
-    `;
-  }
-
-  templateLayoutTwoColumn(header, footer) {
-    return `
-      <div class='page-header'>
-        ${header}
-      </div>
-      <div class="content-container" style="font-size: ${this.fonteTamanho}px;">
-        <div class="two-column">
-          <div class="content-column"></div>
-        </div>
-        <div class="two-column">
-          <div class="content-column"></div>
-        </div>
+        ${
+          layoutType === 'one-column' ? oneColumnLayout  : twoColumnLayout
+        }
       </div>
       <div class='page-footer'>
         ${footer}
@@ -518,14 +499,6 @@ class LayoutProvaBuilder {
 
   twoColumnLayout(provaModelo) {
     this.layoutProva().twoColumnPage(provaModelo);
-  }
-
-  previewOneColumn(listaQuestoes) {
-    this.layoutProva().previewOneColumn(listaQuestoes);
-  }
-
-  previewTwoColumn(listaQuestoes) {
-   this.layoutProva().previewTwoColumn(listaQuestoes);
   }
 }
 
