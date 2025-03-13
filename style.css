@@ -65,10 +65,6 @@
   line-height: 1.3em;
 }
 
-/* .adaptive-block-avalicao-visualize {
-  padding: 1em 0px;
-}
- */
 .adaptive-block-avalicao-visualize blockquote {
   border-left: 3px solid rgba(13, 13, 13, 0.1);
   padding-left: 1rem;
@@ -110,14 +106,13 @@ p {
   margin: 0;
 }
 
-.tableWrapper {
+.table, .tableWrapper {
   overflow-x: auto;
   margin: 0.9em auto;
   display: table;
-  display: table;
 }
 
-.ex-image-wrapper {
+.image, .ex-image-wrapper {
   clear: both;
   display: table;
   padding: 0.08em;
@@ -128,7 +123,7 @@ p {
   width: 12px !important;
 }
 
-.ex-image-wrapper img {
+.image img, .ex-image-wrapper img {
   width: 100%;
 }
 

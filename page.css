@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+.column-element {
+  overflow: hidden;
+ }
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -110,11 +114,11 @@ body {
 }
 
 .two-column img {
-  max-width: 300px;
+  max-width: 100vw;
 }
 
 .two-column table:not(.answer-table) {
-  max-width: 300px;
+  max-width: 100vw;
 }
 
 .two-column:first-child {

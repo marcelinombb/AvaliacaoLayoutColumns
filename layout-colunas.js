@@ -1,6 +1,8 @@
 const MM_TO_INCH = 25.4;
 const DEFAULT_DPI = 96;
-const DONTSPLIT = 'dontsplit';
+const DONTSPLIT = "dontsplit";
+
+const TEXT_NODE = 3;
 
 const mmToPixels = (mm, dpi = DEFAULT_DPI) => (mm / MM_TO_INCH) * dpi;
 
@@ -16,8 +18,8 @@ const setPagination = (elementContainer) => {
       page.querySelector("span.pages").innerHTML = pages.length;
     });
   } catch (error) {
-    console.error("Erro ao gerar paginação.");
-    console.error(error);
+    console.warn("Erro ao gerar paginação.");
+    console.warn(error);
   }
 };
 
@@ -26,19 +28,19 @@ function resetBodyContent(pages) {
 }
 
 function getAbsoluteHeight(element, includeMargin = true) {
-    if (!element) return 0;
+  if (!element) return 0;
 
-    const rect = element.getBoundingClientRect();
-    let height = rect.height;
+  const rect = element.getBoundingClientRect();
+  let height = rect.height;
 
-    if (includeMargin) {
-        const computedStyle = window.getComputedStyle(element);
-        const marginTop = parseFloat(computedStyle.marginTop);
-        const marginBottom = parseFloat(computedStyle.marginBottom);
-        height += marginTop + marginBottom;
-    }
+  if (includeMargin) {
+    const computedStyle = window.getComputedStyle(element);
+    const marginTop = parseFloat(computedStyle.marginTop);
+    const marginBottom = parseFloat(computedStyle.marginBottom);
+    height += marginTop + marginBottom;
+  }
 
-    return height;
+  return height;
 }
 
 function waitForImages(container) {
@@ -70,16 +72,27 @@ function waitForImages(container) {
 }
 
 function splitElement(element, putInHere, pageColumn, availableHeight) {
-  if (element.children.length) {
-    let cloneMe = element.firstElementChild;
-    if (!cloneMe || cloneMe.nodeType !== 1) {
+
+  const lastContent = putInHere.lastElementChild;
+
+  if (lastContent && (lastContent.classList.contains("columnbreak") || lastContent.querySelector(".columnbreak"))) {
       return;
-    }
+  }
 
-    let clone = cloneMe.cloneNode(true);
+  if (element.children.length === 0) return
 
-    availableHeight -=  pageColumn.offsetHeight
+  let cloneMe = element.firstElementChild;
 
+  if (!cloneMe || cloneMe.nodeType !== 1) return
+
+  let clone = cloneMe.cloneNode(true);
+
+  availableHeight -= pageColumn.offsetHeight;
+
+  if(cloneMe.classList.contains("columnbreak")) {
+    putInHere.appendChild(clone);
+    cloneMe.remove();
+  } else {
     putInHere.appendChild(clone);
 
     const isImage = clone.tagName === "IMG";
@@ -92,29 +105,54 @@ function splitElement(element, putInHere, pageColumn, availableHeight) {
     } else if (isImage || isDontSplit) {
       clone.remove();
     } else {
+
       clone.innerHTML = "";
-      if (
-        !fitOverflow(cloneMe, clone, pageColumn, availableHeight) &&
-        cloneMe.children.length
-      ) {
-        splitElement(cloneMe, clone, pageColumn, availableHeight);
+
+      if (!fitOverflow(cloneMe, clone, pageColumn, availableHeight)) {
+        if(cloneMe.children.length) {
+          splitElement(cloneMe, clone, pageColumn, availableHeight);
+        }
+      }
+
+      if (clone.childNodes.length === 0) {
+        // it was split, but nothing is in it :(
+        clone.remove();
+        //cloneMe.removeClass(prefixTheClassName("split"));
+      } else if (clone.childNodes.length == 1) {
+        // was the only child node a text node w/ whitespace?
+        let onlyNode = clone.childNodes[0];
+        if (onlyNode.nodeType == TEXT_NODE) {
+          // text node
+          let nonwhitespace = /\S/;
+          let str = onlyNode.nodeValue;
+          if (!nonwhitespace.test(str)) {
+            // yep, only a whitespace textnode
+            clone.remove();
+            //cloneMe.removeClass(prefixTheClassName("split"));
+          }
+        }
       }
     }
   }
+
 }
 
 function fitOverflow(overflowElement, putInHere, pageColumn, remainingHeight) {
-  let pullOutHere = overflowElement.children[0];
+  let pullOutHere = overflowElement;
 
   if (!pullOutHere) return;
 
-  putInHere = putInHere.appendChild(pullOutHere.cloneNode(false))
+  putInHere = putInHere.appendChild(pullOutHere.cloneNode(false));
 
   while (
     pageColumn.scrollHeight < remainingHeight &&
     pullOutHere.childNodes.length
   ) {
     let node = pullOutHere.childNodes[0];
+
+    if (node.nodeType !== TEXT_NODE && (node.querySelector(".columnbreak") || node.classList.contains("columnbreak"))) {
+        return;
+    }
 
     putInHere.appendChild(node);
   }
@@ -124,7 +162,7 @@ function fitOverflow(overflowElement, putInHere, pageColumn, remainingHeight) {
   const lastAppendedChild = putInHere.lastChild;
   putInHere.removeChild(lastAppendedChild);
 
-  if (lastAppendedChild.nodeType == 3) {
+  if (lastAppendedChild.nodeType == TEXT_NODE) {
   }
 
   if (overflowElement.children.length) {
@@ -133,7 +171,7 @@ function fitOverflow(overflowElement, putInHere, pageColumn, remainingHeight) {
     pullOutHere.appendChild(lastAppendedChild);
   }
 
-  return lastAppendedChild.nodeType === 3;
+  return lastAppendedChild.nodeType === TEXT_NODE;
 }
 
 class LayoutProva {
@@ -151,8 +189,8 @@ class LayoutProva {
     this.pageFooter = pageFooter;
     this.fonteTamanho = fonteTamanho;
     this.marcaDaqua = marcaDaqua;
-    this._folhaDeRosto = _folhaDeRosto
-    this.numeroFolhasRascunho = numeroFolhasRascunho
+    this._folhaDeRosto = _folhaDeRosto;
+    this.numeroFolhasRascunho = numeroFolhasRascunho;
   }
 
   resetBodyContent() {
@@ -175,51 +213,48 @@ class LayoutProva {
   }
 
   rascunho() {
-    for(let i = 0; i < this.numeroFolhasRascunho; i++) {
-      this.createNewOneColumnPage()
+    for (let i = 0; i < this.numeroFolhasRascunho; i++) {
+      this.createNewOneColumnPage();
     }
   }
 
   oneColumnPage(tempContainer) {
-
     return waitForImages(tempContainer)
       .then(() => {
         resetBodyContent(this.elementContainer);
 
-        if(this._folhaDeRosto !== null) {
-          const { header, content , footer } = this._folhaDeRosto
-          this.folhaDeRosto(header, content, footer)
+        if (this._folhaDeRosto !== null) {
+          const { header, content, footer } = this._folhaDeRosto;
+          this.folhaDeRosto(header, content, footer);
         }
 
         this.oneColumnLayout(tempContainer);
 
-        if(this.numeroFolhasRascunho) {
-          this.rascunho()
+        if (this.numeroFolhasRascunho) {
+          this.rascunho();
         }
-
       })
       .then(() => {
         setPagination(this.elementContainer);
-        tempContainer.remove()
+        tempContainer.remove();
       });
   }
 
   twoColumnPage(tempContainer) {
-
     return waitForImages(tempContainer)
       .then(() => {
         this.resetBodyContent();
 
-        if(this._folhaDeRosto !== null) {
-          const { header, content , footer } = this._folhaDeRosto
-          this.folhaDeRosto(header, content, footer)
+        if (this._folhaDeRosto !== null) {
+          const { header, content, footer } = this._folhaDeRosto;
+          this.folhaDeRosto(header, content, footer);
         }
 
         this.twoColumnLayout(tempContainer);
       })
       .then(() => {
         setPagination(this.elementContainer);
-        tempContainer.remove()
+        tempContainer.remove();
       });
   }
 
@@ -265,43 +300,34 @@ class LayoutProva {
   columnizeOneColumn(element, pageObjects, remainingHeight) {
     const pageColumn = pageObjects.pageColumn;
 
-    element.classList.add('column-element')
-    element.children[0].classList.add('column-element')
+    if(!element.children[0]) return pageObjects;
+
+    element.classList.add("column-element");
+    element.children[0].classList.add("column-element");
 
     pageColumn.appendChild(element.cloneNode(true));
 
-    const isDontSplit = element.children[0].classList.contains(DONTSPLIT)
+    const isDontSplit = element.children[0].classList.contains(DONTSPLIT);
 
-    const lastChildHeight = getAbsoluteHeight(pageColumn.lastChild)
+    const lastChildHeight = getAbsoluteHeight(pageColumn.lastChild);
 
-    if (pageColumn.scrollHeight > remainingHeight) {
-      pageColumn.removeChild(pageColumn.lastChild);
+    pageColumn.removeChild(pageColumn.lastChild);
 
-      // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
-      // eles serão adicionados; o restante irá para a próxima coluna ou página
-
-      if (isDontSplit) {
-        if (lastChildHeight > remainingHeight) {
-          element.children[0].classList.remove(DONTSPLIT);
-        }
-      } else {
-        fitOverflow(element, pageColumn, pageColumn, remainingHeight);
-        splitElement(element, pageColumn, pageColumn, remainingHeight);
+    if (isDontSplit) {
+      if (lastChildHeight > remainingHeight) {
+        element.children[0].classList.remove(DONTSPLIT);
       }
+    }
 
-      if (pageColumn.children.length === 0) {
-        pageObjects = this.columnizeOneColumn(
-          element,
-          pageObjects,
-          remainingHeight
-        );
-      } else {
-        pageObjects = this.columnizeOneColumn(
-          element,
-          this.createNewOneColumnPage(),
-          remainingHeight
-        );
-      }
+    fitOverflow(element, pageColumn, pageColumn, remainingHeight);
+    splitElement(element, pageColumn, pageColumn, remainingHeight);
+
+    if(element.children.length) {
+      pageObjects = this.columnizeOneColumn(
+        element,
+        this.createNewOneColumnPage(),
+        remainingHeight
+      );
     }
 
     return pageObjects;
@@ -315,30 +341,30 @@ class LayoutProva {
   ) {
     const currentColumn = pageObjects.pageColumns[currentColumnIndex];
 
-    element.classList.add('column-element')
-    element.children[0].classList.add('column-element')
+    element.classList.add("column-element");
+    element.children[0].classList.add("column-element");
 
     currentColumn.appendChild(element.cloneNode(true));
 
-    const isDontSplit = element.children[0].classList.contains(DONTSPLIT)
+    const isDontSplit = element.children[0].classList.contains(DONTSPLIT);
 
-    const lastChildHeight = getAbsoluteHeight(currentColumn.lastChild)
+    const lastChildHeight = getAbsoluteHeight(currentColumn.lastChild);
 
-    if (currentColumn.scrollHeight > remainingHeight) {
-      currentColumn.removeChild(currentColumn.lastChild);
+    currentColumn.removeChild(currentColumn.lastChild);
 
-      // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
-      // eles serão adicionados; o restante irá para a próxima coluna
+    // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
+    // eles serão adicionados; o restante irá para a próxima coluna
 
-      if (isDontSplit) {
-        if (lastChildHeight > remainingHeight) {
-          element.children[0].classList.remove(DONTSPLIT);
-        }
-      } else {
-        fitOverflow(element,currentColumn, currentColumn, remainingHeight);
-        splitElement(element,currentColumn, currentColumn, remainingHeight);
+    if (isDontSplit) {
+      if (lastChildHeight > remainingHeight) {
+        element.children[0].classList.remove(DONTSPLIT);
       }
+    }
 
+    fitOverflow(element, currentColumn, currentColumn, remainingHeight);
+    splitElement(element, currentColumn, currentColumn, remainingHeight);
+
+    if(element.children.length) {
       if (currentColumnIndex === 0) {
         const newValues = this.columnizeTwoColumn(
           element,
@@ -372,7 +398,8 @@ class LayoutProva {
     const marcadagua = this.marcaDaqua ? "marcadagua-px-rascunho" : "";
     newPage.className = "page " + marcadagua;
 
-    newPage.innerHTML = this.gePageTemplate("two-column",
+    newPage.innerHTML = this.gePageTemplate(
+      "two-column",
       this.pageHeader,
       this.pageFooter
     );
@@ -390,7 +417,8 @@ class LayoutProva {
     const marcadagua = this.marcaDaqua ? "marcadagua-px-rascunho" : "";
     newPage.className = "page " + marcadagua;
 
-    newPage.innerHTML = this.gePageTemplate("one-column",
+    newPage.innerHTML = this.gePageTemplate(
+      "one-column",
       this.pageHeader,
       this.pageFooter
     );
@@ -404,16 +432,18 @@ class LayoutProva {
   }
 
   gePageTemplate(layoutType, header, footer) {
-    const oneColumnLayout = '<div class="one-column"><div class="content-column"></div></div>'
-    const twoColumnLayout =  '<div class="two-column"><div class="content-column"></div></div>'.repeat(2)
+    const oneColumnLayout =
+      '<div class="one-column"><div class="content-column"></div></div>';
+    const twoColumnLayout =
+      '<div class="two-column"><div class="content-column"></div></div>'.repeat(
+        2
+      );
     return `
       <div class='page-header'>
         ${header}
       </div>
       <div class="content-container" style="font-size: ${this.fonteTamanho}px;">
-        ${
-          layoutType === 'one-column' ? oneColumnLayout  : twoColumnLayout
-        }
+        ${layoutType === "one-column" ? oneColumnLayout : twoColumnLayout}
       </div>
       <div class='page-footer'>
         ${footer}
@@ -432,20 +462,21 @@ class LayoutProvaBuilder {
     this.header = "";
     this.footer = "";
     this.fontSize = 12;
-    this._folhaDeRosto = null
-    this.numeroFolhasRascunho = null
+    this._folhaDeRosto = null;
+    this.numeroFolhasRascunho = null;
     this.comMarcaDaqua = false;
   }
 
   folhaDeRosto({ header, content, footer }) {
-
     const valid = header != null && content != null && footer != null;
 
-    if(!valid) {
-      throw new Error("Todas as propriedades de folha de rosto são obrigatorias. header, content e footer");
+    if (!valid) {
+      throw new Error(
+        "Todas as propriedades de folha de rosto são obrigatorias. header, content e footer"
+      );
     }
 
-    this._folhaDeRosto = { header, content, footer }
+    this._folhaDeRosto = { header, content, footer };
 
     return this;
   }
@@ -466,7 +497,7 @@ class LayoutProvaBuilder {
   }
 
   fonteTamanho(tamanho) {
-    if(isNaN(tamanho)) {
+    if (isNaN(tamanho)) {
       throw new Error("O valor da fonte deve ser um valor numerico.");
     }
     this.fontSize = tamanho;
@@ -474,7 +505,7 @@ class LayoutProvaBuilder {
   }
 
   rascunho(numeroFolhas) {
-     if(isNaN(numeroFolhas)) {
+    if (isNaN(numeroFolhas)) {
       throw new Error("O valor da rascunho deve ser um valor numerico.");
     }
     this.numeroFolhasRascunho = numeroFolhas;
@@ -490,7 +521,7 @@ class LayoutProvaBuilder {
       this.comMarcaDaqua,
       this._folhaDeRosto,
       this.numeroFolhasRascunho
-    )
+    );
   }
 
   oneColumnLayout(provaModelo) {

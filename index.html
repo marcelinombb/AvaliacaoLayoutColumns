@@ -62,10 +62,6 @@
       right: 5%;
     }
 
-    .column-element {
-     overflow: hidden;
-    }
-
   </style>
 
 
@@ -81,35 +77,35 @@
     <button id="previewTwoColumn">preview questão duas coluna</button>
   </div>
   <script src="prova-modelo.js"></script>
-  <script src="avaliacao-builder.js"></script>
   <script type="module">
     import {
       LayoutProva,
     } from "./layout-colunas.js";
+    import { replacePlaceholders, createPreviewQuestaoTempContainer, createQuestoesTempContainer } from "./avaliacao-builder.js"
 
     replacePlaceholders(provaModelo);
 
     const { cabecalho, folhaRosto, paginacao, rodape, rodapeRosto } =
-        provaModelo.modelo.prova.layout;
+      provaModelo.prova.layout;
 
-    const listaQuestoes = provaModelo.modelo.listaProvaQuestao.map(provaQuestao => provaQuestao.questao)
+    const listaQuestoes = provaModelo.listaProvaQuestao.map(provaQuestao => provaQuestao.questao)
 
     // onde as paginas colunizadas serão armazenadas
     const pagesContainer = document.getElementById('pages-container');
 
     function oneColumnPage(pagesContainer) {
       const tempContainer = createQuestoesTempContainer(provaModelo);
-      const { cabecalhoPagina, rodape, paginacao } = provaModelo.modelo.prova.layout;
+      const { cabecalhoPagina, rodape, paginacao } = provaModelo.prova.layout;
 
       LayoutProva.builder(pagesContainer)
         .marcaDaqua()
-        .fonteTamanho(18)
+        .fonteTamanho(14)
         .folhaDeRosto({
           header: cabecalho,
           content: folhaRosto,
           footer: `<div>${rodapeRosto ?? rodape}</div><div>${paginacao}</div>`
         })
-        .rascunho(2)
+        //.rascunho(2)
         .pageHeader(cabecalhoPagina)
         .pageFooter(`<div>${rodape}</div><div>${paginacao}</div>`)
         .oneColumnLayout(tempContainer)
@@ -117,7 +113,7 @@
 
     function twoColumnPage(pagesContainer) {
       const tempContainer = createQuestoesTempContainer(provaModelo);
-      const { cabecalhoPagina, rodape, paginacao } = provaModelo.modelo.prova.layout;
+      const { cabecalhoPagina, rodape, paginacao } = provaModelo.prova.layout;
 
       LayoutProva.builder(pagesContainer)
         .pageHeader(cabecalhoPagina)

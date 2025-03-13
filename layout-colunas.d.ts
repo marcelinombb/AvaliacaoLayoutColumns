@@ -6,15 +6,13 @@ export interface PreviewQuestao {
 declare class LayoutProvaBuilder{
   pageHeader(header: string): LayoutProvaBuilder
   pageFooter(footer: string): LayoutProvaBuilder
-  fonteTamanho(tamanho: string): LayoutProvaBuilder
+  fonteTamanho(tamanho: number): LayoutProvaBuilder
+  rascunho(quantidade: number): LayoutProvaBuilder
   marcaDaqua(): LayoutProvaBuilder
+  folhaDeRosto({ header, content, footer }: {header: string, content: string, footer: string}): LayoutProvaBuilder
   oneColumnLayout(provaModelo: unknown): void
   twoColumnLayout(provaModelo: unknown): void
-  previewOneColumn(listaQuestoes: PreviewQuestao[]): void
-  previewTwoColumn(listaQuestoes: PreviewQuestao[]): void
 }
-
-export function replacePlaceholders(provaModelo: any): void;
 
 export declare class LayoutProva {
   static builder(elementContainer: Element): LayoutProvaBuilder
