@@ -83,23 +83,25 @@
     } from "./layout-colunas.js";
     import { replacePlaceholders, createPreviewQuestaoTempContainer, createQuestoesTempContainer } from "./avaliacao-builder.js"
 
-    replacePlaceholders(provaModelo);
+    //provaModelo2 = provaModelo22
+
+    replacePlaceholders(provaModelo2);
 
     const { cabecalho, folhaRosto, paginacao, rodape, rodapeRosto } =
-      provaModelo.prova.layout;
+      provaModelo2.prova.layout;
 
-    const listaQuestoes = provaModelo.listaProvaQuestao.map(provaQuestao => provaQuestao.questao)
+    const listaQuestoes = provaModelo2.listaProvaQuestao.map(provaQuestao => provaQuestao.questao)
 
     // onde as paginas colunizadas serão armazenadas
     const pagesContainer = document.getElementById('pages-container');
 
     function oneColumnPage(pagesContainer) {
-      const tempContainer = createQuestoesTempContainer(provaModelo);
-      const { cabecalhoPagina, rodape, paginacao } = provaModelo.prova.layout;
+      const tempContainer = createQuestoesTempContainer(provaModelo2);
+      const { cabecalhoPagina, rodape, paginacao } = provaModelo2.prova.layout;
 
       LayoutProva.builder(pagesContainer)
         .marcaDaqua()
-        .fonteTamanho(14)
+        .fonteTamanho(18)
         .folhaDeRosto({
           header: cabecalho,
           content: folhaRosto,
@@ -112,8 +114,8 @@
     }
 
     function twoColumnPage(pagesContainer) {
-      const tempContainer = createQuestoesTempContainer(provaModelo);
-      const { cabecalhoPagina, rodape, paginacao } = provaModelo.prova.layout;
+      const tempContainer = createQuestoesTempContainer(provaModelo2);
+      const { cabecalhoPagina, rodape, paginacao } = provaModelo2.prova.layout;
 
       LayoutProva.builder(pagesContainer)
         .pageHeader(cabecalhoPagina)
@@ -158,7 +160,7 @@
       previewQuestaoTwoColumn(pagesContainer, listaQuestoes);
     });
 
-    oneColumnPage(pagesContainer);
+    //oneColumnPage(pagesContainer);
 
   </script>
 </body>

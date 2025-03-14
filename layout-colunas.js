@@ -98,7 +98,6 @@ function splitElement(element, putInHere, pageColumn, availableHeight) {
     const isImage = clone.tagName === "IMG";
     const isDontSplit = cloneMe.classList.contains(DONTSPLIT);
     const fitsInPage = pageColumn.offsetHeight < availableHeight + 20;
-    const overflowsPage = pageColumn.offsetHeight > availableHeight;
 
     if ((isImage || isDontSplit) && fitsInPage) {
       cloneMe.remove();
@@ -116,7 +115,7 @@ function splitElement(element, putInHere, pageColumn, availableHeight) {
 
       if (clone.childNodes.length === 0) {
         // it was split, but nothing is in it :(
-        clone.remove();
+          clone.remove();
         //cloneMe.removeClass(prefixTheClassName("split"));
       } else if (clone.childNodes.length == 1) {
         // was the only child node a text node w/ whitespace?
@@ -130,6 +129,8 @@ function splitElement(element, putInHere, pageColumn, availableHeight) {
             clone.remove();
             //cloneMe.removeClass(prefixTheClassName("split"));
           }
+        } else if(onlyNode.childNodes.length === 0) {
+          clone.remove();
         }
       }
     }
@@ -322,7 +323,9 @@ class LayoutProva {
     fitOverflow(element, pageColumn, pageColumn, remainingHeight);
     splitElement(element, pageColumn, pageColumn, remainingHeight);
 
-    if(element.children.length) {
+    const isEmpty = element.children.length === 0 || (element.children.length === 1 && element.children[0].children.length === 0)
+
+    if(!isEmpty) {
       pageObjects = this.columnizeOneColumn(
         element,
         this.createNewOneColumnPage(),
@@ -364,7 +367,9 @@ class LayoutProva {
     fitOverflow(element, currentColumn, currentColumn, remainingHeight);
     splitElement(element, currentColumn, currentColumn, remainingHeight);
 
-    if(element.children.length) {
+    const isEmpty = element.children.length === 0 || (element.children.length === 1 && element.children[0].children.length === 0)
+
+    if(!isEmpty) {
       if (currentColumnIndex === 0) {
         const newValues = this.columnizeTwoColumn(
           element,
