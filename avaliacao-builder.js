@@ -4,28 +4,28 @@ function toRoman(num) {
   if (num < 1 || num > 3999) return "Number out of range";
 
   const romanNumerals = [
-      { value: 1000, numeral: "M" },
-      { value: 900, numeral: "CM" },
-      { value: 500, numeral: "D" },
-      { value: 400, numeral: "CD" },
-      { value: 100, numeral: "C" },
-      { value: 90, numeral: "XC" },
-      { value: 50, numeral: "L" },
-      { value: 40, numeral: "XL" },
-      { value: 10, numeral: "X" },
-      { value: 9, numeral: "IX" },
-      { value: 5, numeral: "V" },
-      { value: 4, numeral: "IV" },
-      { value: 1, numeral: "I" }
+    { value: 1000, numeral: "M" },
+    { value: 900, numeral: "CM" },
+    { value: 500, numeral: "D" },
+    { value: 400, numeral: "CD" },
+    { value: 100, numeral: "C" },
+    { value: 90, numeral: "XC" },
+    { value: 50, numeral: "L" },
+    { value: 40, numeral: "XL" },
+    { value: 10, numeral: "X" },
+    { value: 9, numeral: "IX" },
+    { value: 5, numeral: "V" },
+    { value: 4, numeral: "IV" },
+    { value: 1, numeral: "I" },
   ];
 
   let result = "";
 
   for (const { value, numeral } of romanNumerals) {
-      while (num >= value) {
-          result += numeral;
-          num -= value;
-      }
+    while (num >= value) {
+      result += numeral;
+      num -= value;
+    }
   }
 
   return result;
@@ -34,7 +34,7 @@ function toRoman(num) {
 const numberToLetter = (number, lowerCase = false) => {
   const letter = String.fromCharCode(65 + number);
   return lowerCase ? letter.toLowerCase() : letter;
-}
+};
 
 function conversorDeIndicesParaAlternativas(indice, tipoColuna) {
   switch (tipoColuna) {
@@ -55,38 +55,14 @@ function conversorDeIndicesParaAlternativas(indice, tipoColuna) {
     case 8:
       return `${numberToLetter(indice)} (&nbsp;&nbsp;&nbsp;)`;
     case 9:
-      return `<div class="item_enem" style="vertical-align:middle;border-radius:50%;width:18px;height:18px;background:black;color:white;display:table-cell;text-align:center;" >${numberToLetter(indice)}</div>`;
+      return `<div class="item_enem" style="vertical-align:middle;border-radius:50%;width:18px;height:18px;background:black;color:white;display:table-cell;text-align:center;" >${numberToLetter(
+        indice
+      )}</div>`;
     case 10:
       return "";
     default:
       return indice;
   }
-}
-
-function modificarAlternativas(provaModelo) {
-
-  const questoes = provaModelo.listaProvaQuestao
-
-  questoes.forEach((provaQuestao) => {
-
-    const { questao } = provaQuestao
-
-    if(questao.tipoQuestao?.includes('Múltipla Escolha')) {
-
-      const div = document.createElement('div')
-      div.innerHTML = questao.visualizaQuestao
-      const alternativasContainer = div.querySelector('div.coluna-sm-12.adaptive-margin-bottom')
-
-      const alternativas = Array.from(alternativasContainer.querySelectorAll('.media-esq'))
-
-      alternativas.forEach((mediaEsq, index) => {
-        const tipoAlternativa = conversorDeIndicesParaAlternativas(index, provaModelo.prova.tipoAlternativa);
-        mediaEsq.innerHTML = tipoAlternativa
-      })
-
-      questao.visualizaQuestao = div.innerHTML
-    }
-  })
 }
 
 function replacer(string, placeholders) {
@@ -104,7 +80,6 @@ function replacer(string, placeholders) {
 }
 
 function replacePlaceholders(provaModelo) {
-
   const folhaDeRostoPlaceholder = {
     "#DATA#": provaModelo.prova.dataRealizacao,
     "#CURSO#": provaModelo.prova.turma?.cursoUnidade.curso.nome,
@@ -184,11 +159,11 @@ function replacePlaceholders(provaModelo) {
 }
 
 function generateAnexosHtml(listaAnexos) {
-
   if (!listaAnexos || listaAnexos.length === 0) return "";
 
-  const anexosHtml = listaAnexos.map((anexo, index) => {
-    return `
+  const anexosHtml = listaAnexos
+    .map((anexo, index) => {
+      return `
       <div class="anexo">
         <div class="columnbreak"></div>
         <p style="text-align:center"><strong>ANEXO ${anexo.ordem}</strong></p>
@@ -196,40 +171,52 @@ function generateAnexosHtml(listaAnexos) {
         <div>${anexo.anexo.texto}</div>
       </div>
     `;
-  }).join("");
+    })
+    .join("");
 
   return anexosHtml;
 }
 
 function generateReferenciaInfo(provaModelo) {
-  const { listaProvaQuestao } = provaModelo
-  const questaoReferencia = new Map()
+  const { listaProvaQuestao } = provaModelo;
+  const questaoReferencia = new Map();
 
   listaProvaQuestao.forEach((provaQuestao, index) => {
-    if(provaQuestao.questao.referencia) {
-      const questoes = questaoReferencia.get(provaQuestao.questao.referencia.codigo) ?? []
-      questaoReferencia.set(provaQuestao.questao.referencia.codigo, [...questoes, index])
+    if (provaQuestao.questao.referencia) {
+      const questoes =
+        questaoReferencia.get(provaQuestao.questao.referencia.codigo) ?? [];
+      questaoReferencia.set(provaQuestao.questao.referencia.codigo, [
+        ...questoes,
+        index,
+      ]);
     }
-  })
+  });
 
   Array.from(questaoReferencia).forEach(([codigo, questoes]) => {
-    const primeiraQuestaoComReferencia = listaProvaQuestao[questoes[0]]
-    primeiraQuestaoComReferencia.infoReferencia = questoes.map(index => index + 1).join(", ").replace(/,([^,]*)$/, " e$1");
+    const primeiraQuestaoComReferencia = listaProvaQuestao[questoes[0]];
+    primeiraQuestaoComReferencia.infoReferencia = questoes
+      .map((index) => index + 1)
+      .join(", ")
+      .replace(/,([^,]*)$/, " e$1");
     primeiraQuestaoComReferencia.mostrarReferencia = true;
-  })
-
+  });
 }
 
-function generateReferenciaHtml(provaQuestao, fonteTamanho, fonte, origemQuestao) {
-
-  const { referencia } = provaQuestao.questao
+function generateReferenciaHtml(
+  provaQuestao,
+  fonteTamanho,
+  fonte,
+  origemQuestao
+) {
+  const { referencia } = provaQuestao.questao;
 
   if (!referencia || !provaQuestao.mostrarReferencia) return "";
 
-  const origemQuestaoHtml = origemQuestao ?
-        `<span class="fonte-questao-width italic">
+  const origemQuestaoHtml = origemQuestao
+    ? `<span class="fonte-questao-width italic">
           (${referencia.fonte.descricao} - ${referencia.fonte.anoFonte})
-        </span>` : "";
+        </span>`
+    : "";
 
   return `
     <div style="margin-top: 10px; margin-bottom:15px; font-size:${fonteTamanho}px; font-family: ${fonte};" >
@@ -243,7 +230,7 @@ function generateReferenciaHtml(provaQuestao, fonteTamanho, fonte, origemQuestao
         </span>
       </div>
     </div>
-  `
+  `;
 }
 
 function generateAvalicaoHtml(provaModelo) {
@@ -252,11 +239,12 @@ function generateAvalicaoHtml(provaModelo) {
     cabecalhoQuestao,
     ordemQuestaoPersonalizada,
     origemQuestao,
-    fonte
+    fonte,
   } = provaModelo.prova.layout;
 
   const formatCabecalho = (provaQuestao) => {
-    const cabecalhoTemplate = provaQuestao.ordem === 1 ? cabecalhoPrimeiraQuestao : cabecalhoQuestao;
+    const cabecalhoTemplate =
+      provaQuestao.ordem === 1 ? cabecalhoPrimeiraQuestao : cabecalhoQuestao;
 
     const ordem = ordemQuestaoPersonalizada
       ? provaQuestao.ordemPersonalizada ?? ""
@@ -267,21 +255,27 @@ function generateAvalicaoHtml(provaModelo) {
       .replace("#VALOR#", provaQuestao.valor.toString().replace(".", ","));
   };
 
-  generateReferenciaInfo(provaModelo)
+  generateReferenciaInfo(provaModelo);
 
   const anexos = generateAnexosHtml(provaModelo.prova.listaProvaAnexo);
 
   const generateQuestaoHTML = (provaQuestao) => {
-
     const cabecalhoQuestaoComValores = formatCabecalho(provaQuestao);
 
-    const referenciaQuestao = generateReferenciaHtml(provaQuestao, provaModelo.fonteTamanho, fonte, origemQuestao);
+    const referenciaQuestao = generateReferenciaHtml(
+      provaQuestao,
+      provaModelo.fonteTamanho,
+      fonte,
+      origemQuestao
+    );
 
     const tipoLinhaResposta = generateTipoLinhaHtml(provaQuestao);
 
     const linhasDeEspacamento = "<br>".repeat(provaQuestao.linhasBranco);
 
-    const columnBreak = provaQuestao.quebraPagina ? "<div class='columnbreak'></div>" : "";
+    const columnBreak = provaQuestao.quebraPagina
+      ? "<div class='columnbreak'></div>"
+      : "";
 
     const dontSplit = provaModelo.prova.quebraQuestao ? "" : DONTSPLIT;
 
@@ -292,7 +286,10 @@ function generateAvalicaoHtml(provaModelo) {
                   <div class='cabecalho-questao dontend'>
                       ${cabecalhoQuestaoComValores}
                   </div>
-                  ${provaQuestao.questao.visualizaQuestao}
+                  ${generateQuestaoContent(
+                    provaQuestao.questao.visualizaQuestao,
+                    provaModelo
+                  )}
               </div>
               ${tipoLinhaResposta}
               <div>${linhasDeEspacamento}</div>
@@ -301,31 +298,165 @@ function generateAvalicaoHtml(provaModelo) {
       `;
   };
 
-  const questoes = provaModelo.listaProvaQuestao.map(generateQuestaoHTML).join("")
+  const questoes = provaModelo.listaProvaQuestao
+    .map(generateQuestaoHTML)
+    .join("");
 
   return questoes + anexos;
+}
+
+function generateQuestaoContent(visualizaQuestao, provaModelo) {
+  try {
+    const visualizaQuestaoObj = JSON.parse(visualizaQuestao);
+
+    const afirmacaoes = afirmacoesHtml(visualizaQuestaoObj.afirmacoes);
+
+    const assercoes = assercaoRazaoHtml(visualizaQuestaoObj.assercoes);
+
+    const associacoes = associacoesHtml(visualizaQuestaoObj.associacoes);
+
+    const  alternativas = alternativasHtml(visualizaQuestaoObj.alternativas, false, provaModelo.prova.tipoAlternativa);
+
+    const multiplaEscolha = visualizaQuestaoObj.alternativas.length > 0;
+
+    visualizaQuestao = `
+      <div class="adaptive-block-avalicao-visualize">
+        ${visualizaQuestaoObj.fonte}
+        ${visualizaQuestaoObj.instrucao}
+        ${visualizaQuestaoObj.textoBase}
+        <div style="padding-bottom: 12px;"></div>
+        ${!multiplaEscolha ? afirmacaoes : ''}
+        ${associacoes}
+        ${assercoes}
+        ${visualizaQuestaoObj.comando}
+        ${multiplaEscolha ? afirmacaoes : ''}
+        ${alternativas}
+      </div>
+    `;
+  } catch (error) {
+    console.log(error);
+  }
+
+  return visualizaQuestao;
+}
+
+function embaralharAlternativas(alternativas) {
+  const copy = [...array]; // create a shallow copy
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]]; // swap elements
+  }
+  return copy;
+}
+
+function alternativasHtml(alternativas, embaralhar, tipoAlternativa) {
+
+  if (embaralhar) {
+    alternativas = embaralharAlternativas(alternativas);
+  }
+
+  const alternativasHtml = alternativas
+    .map((alternativa, index) => {
+      return `
+        <div class="linha-alternativa">
+          <span class="media-esq">
+            ${conversorDeIndicesParaAlternativas(index,tipoAlternativa)}
+          </span>
+          <span class="media-corpo"><p>${alternativa}</p></span>
+        </div>`;
+    })
+    .join("");
+
+  return `
+    <div class="coluna-sm-12 adaptive-margin-bottom">
+      ${alternativasHtml}
+    </div>
+  `;
+}
+
+function associacoesHtml(associacoes) {
+  return associacoes ? `<div class="duas-colunas">
+						<div>
+							${
+                associacoes.coluna1.map(
+                  (itemColuna) => {
+                    return `
+                      <div class="linha-alternativa">
+                        <span class="media-esq">${itemColuna.item}</span>
+                        <span class="media-corpo">${itemColuna.descricao}</span>
+                      </div>
+                    `
+                  }
+                ).join('')
+              }
+						</div>
+						<div>
+              ${
+                associacoes.coluna2.map(
+                  (itemColuna) => {
+                    return `
+                      <div class="linha-alternativa">
+                        <span class="media-esq">${itemColuna.item}</span>
+                        <span class="media-corpo">${itemColuna.descricao}</span>
+                      </div>
+                    `
+                  }
+                ).join('')
+              }
+						</div>
+					</div>
+          <div style="padding-bottom: 12px;"></div>` : ''
+}
+
+function assercaoRazaoHtml(assercoes) {
+
+  return assercoes ?` <div>${assercoes.assercao1}</div>
+                        <br>
+
+                        <pclass="centro">PORQUE</p>
+                        <br>
+
+                        <div>${assercoes.assercao2}</div>
+                      <br>` : ''
+}
+
+function afirmacoesHtml(afirmacoes) {
+  return afirmacoes.map((afirmacao) => {
+    return `
+      <div class="coluna-sm-12">
+        <div class="linha-alternativa">
+          <span class="media-esq">${afirmacao.item}</span>
+          <span class="media-corpo" >${afirmacao.descricao}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 function createQuestoesTempContainer(provaModelo) {
   const tempContainer = document.createElement("div");
   tempContainer.className = "page-stage";
 
-  const mainDiv = document.createElement('div')
-  mainDiv.innerHTML = generateAvalicaoHtml(provaModelo)
+  const mainDiv = document.createElement("div");
+  mainDiv.innerHTML = generateAvalicaoHtml(provaModelo);
 
-  tempContainer.appendChild(mainDiv)
+  tempContainer.appendChild(mainDiv);
 
   tempContainer.querySelectorAll("p").forEach((p) => (p.style.marginLeft = 0));
-  tempContainer.querySelectorAll("figure").forEach((figure) => figure.classList.add(DONTSPLIT));
-  tempContainer.querySelectorAll("table").forEach((table) => table.classList.add(DONTSPLIT));
-  tempContainer.querySelectorAll('.adaptive-margin-bottom div').forEach((e) => {
-      e.classList.add(DONTSPLIT);
+  tempContainer
+    .querySelectorAll("figure")
+    .forEach((figure) => figure.classList.add(DONTSPLIT));
+  tempContainer
+    .querySelectorAll("table")
+    .forEach((table) => table.classList.add(DONTSPLIT));
+  tempContainer.querySelectorAll(".adaptive-margin-bottom div").forEach((e) => {
+    e.classList.add(DONTSPLIT);
   });
 
   return tempContainer;
 }
 
-function createPreviewQuestaoTempContainer(listaQuestao) {
+function createPreviewQuestaoTempContainer(listaQuestao, provaModelo = {prova: {tipoAlternativa: 5}}) {
   const tempContainer = document.createElement("div");
   tempContainer.className = "page-stage";
   const generateQuestaoHTML = (questao) => {
@@ -336,7 +467,7 @@ function createPreviewQuestaoTempContainer(listaQuestao) {
                     <span style="font-size:12px"><strong>QUESTÃO X</strong> ( valor: XX ponto(s) )</span>
                   </div>
               </div>
-              ${questao.visualizaQuestao}
+              ${generateQuestaoContent(questao.visualizaQuestao, provaModelo)}
           </div>
       `;
   };
@@ -363,12 +494,15 @@ function createNumberedLines(numberOfLines, withHeader = true) {
   </tr>
   `;
 
-  let rows = Array.from({ length: numberOfLines }, (_, index) => `
+  let rows = Array.from(
+    { length: numberOfLines },
+    (_, index) => `
   <tr>
     <td class="side-number">${index + 1}</td>
     <td class="side-number-content"></td>
   </tr>
-`).join('');
+`
+  ).join("");
 
   return `
   <table class="side-number-table">
@@ -434,7 +568,6 @@ function generateTipoLinhaHtml(provaQuestao) {
 
 export {
   replacePlaceholders,
-  modificarAlternativas,
   createQuestoesTempContainer,
   createPreviewQuestaoTempContainer,
 };
