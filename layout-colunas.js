@@ -71,7 +71,7 @@ function waitForImages(container) {
   });
 }
 
-function splitElement(element, putInHere, pageColumn, availableHeight) {
+function splitElement(putInHere, pullOutHere, pageColumn, pageContentHeight) {
 
   const lastContent = putInHere.lastElementChild;
 
@@ -79,15 +79,15 @@ function splitElement(element, putInHere, pageColumn, availableHeight) {
       return;
   }
 
-  if (element.children.length === 0) return
+  if (pullOutHere.children.length === 0) return
 
-  let cloneMe = element.firstElementChild;
+  let cloneMe = pullOutHere.firstChild;
 
   if (!cloneMe || cloneMe.nodeType !== 1) return
 
   let clone = cloneMe.cloneNode(true);
 
-  availableHeight -= pageColumn.offsetHeight;
+  //availableHeight -= pageColumn.offsetHeight;
 
   if(cloneMe.classList.contains("columnbreak")) {
     putInHere.appendChild(clone);
@@ -96,20 +96,26 @@ function splitElement(element, putInHere, pageColumn, availableHeight) {
     putInHere.appendChild(clone);
 
     const isImage = clone.tagName === "IMG";
-    const isDontSplit = cloneMe.classList.contains(DONTSPLIT);
-    const fitsInPage = pageColumn.offsetHeight < availableHeight + 20;
+    const fitsInPage = pageColumn.offsetHeight < pageContentHeight + 20;
+    const isDontSplit = cloneMe.classList.contains(DONTSPLIT) || cloneMe.querySelector(`.${DONTSPLIT}`) !== null;
 
-    if ((isImage || isDontSplit) && fitsInPage) {
+    if (isImage && fitsInPage) {
       cloneMe.remove();
-    } else if (isImage || isDontSplit) {
+    }
+    else if(isDontSplit && fitsInPage) {
+      cloneMe.remove();
+    }
+    else if (isImage || isDontSplit) {
       clone.remove();
-    } else {
+      return DONTSPLIT
+    }
+    else {
 
       clone.innerHTML = "";
 
-      if (!fitOverflow(cloneMe, clone, pageColumn, availableHeight)) {
+      if (!fitOverflow(clone, cloneMe, pageColumn, pageContentHeight)) {
         if(cloneMe.children.length) {
-          splitElement(cloneMe, clone, pageColumn, availableHeight);
+          splitElement(clone, cloneMe, pageColumn, pageContentHeight);
         }
       }
 
@@ -138,15 +144,12 @@ function splitElement(element, putInHere, pageColumn, availableHeight) {
 
 }
 
-function fitOverflow(overflowElement, putInHere, pageColumn, remainingHeight) {
-  let pullOutHere = overflowElement;
+function fitOverflow(putInHere, pullOutHere, pageColumn, pageContentHeight) {
 
   if (!pullOutHere) return;
 
-  putInHere = putInHere.appendChild(pullOutHere.cloneNode(false));
-
   while (
-    pageColumn.scrollHeight < remainingHeight &&
+    pageColumn.scrollHeight < pageContentHeight &&
     pullOutHere.childNodes.length
   ) {
     let node = pullOutHere.childNodes[0];
@@ -158,15 +161,28 @@ function fitOverflow(overflowElement, putInHere, pageColumn, remainingHeight) {
     putInHere.appendChild(node);
   }
 
+  if(pageColumn.scrollHeight < pageContentHeight && pullOutHere.childNodes.length === 0) {
+      return
+  }
+
   if (putInHere.childNodes.length === 0) return;
 
   const lastAppendedChild = putInHere.lastChild;
+
+  if(lastAppendedChild.scrollHeight > pageContentHeight) {
+    console.log("Elemento maior que a pagina");
+    lastAppendedChild.classList.remove(DONTSPLIT);
+    lastAppendedChild.querySelectorAll("."+DONTSPLIT).forEach(el => {
+      el.classList.remove(DONTSPLIT);
+    });
+  }
+
   putInHere.removeChild(lastAppendedChild);
 
   if (lastAppendedChild.nodeType == TEXT_NODE) {
   }
 
-  if (overflowElement.children.length) {
+  if (pullOutHere.children.length) {
     pullOutHere.prepend(lastAppendedChild);
   } else {
     pullOutHere.appendChild(lastAppendedChild);
@@ -174,7 +190,6 @@ function fitOverflow(overflowElement, putInHere, pageColumn, remainingHeight) {
 
   return lastAppendedChild.nodeType === TEXT_NODE;
 }
-
 class LayoutProva {
   constructor(
     elementContainer,
@@ -298,97 +313,81 @@ class LayoutProva {
     });
   }
 
-  columnizeOneColumn(element, pageObjects, remainingHeight) {
+  columnizeOneColumn(element, pageObjects, pageHeight) {
     const pageColumn = pageObjects.pageColumn;
 
-    if(!element.children[0]) return pageObjects;
+    let remainingHeight = pageHeight;
 
-    element.classList.add("column-element");
-    element.children[0].classList.add("column-element");
-
-    pageColumn.appendChild(element.cloneNode(true));
-
-    const isDontSplit = element.children[0].classList.contains(DONTSPLIT);
-
-    const lastChildHeight = getAbsoluteHeight(pageColumn.lastChild);
-
-    pageColumn.removeChild(pageColumn.lastChild);
-
-    if (isDontSplit) {
-      if (lastChildHeight > remainingHeight) {
-        element.children[0].classList.remove(DONTSPLIT);
+    while (pageColumn.scrollHeight < remainingHeight && element.children.length) {
+      fitOverflow(pageColumn, element, pageColumn, pageHeight);
+      const isDontSplit = splitElement(pageColumn, element, pageColumn, pageHeight);
+      
+      if(isDontSplit === DONTSPLIT) {
+        break;
       }
+      
+      remainingHeight = pageHeight - pageColumn.scrollHeight;
     }
 
-    fitOverflow(element, pageColumn, pageColumn, remainingHeight);
-    splitElement(element, pageColumn, pageColumn, remainingHeight);
-
-    const isEmpty = element.children.length === 0 || (element.children.length === 1 && element.children[0].children.length === 0)
-
-    if(!isEmpty) {
-      pageObjects = this.columnizeOneColumn(
-        element,
-        this.createNewOneColumnPage(),
-        remainingHeight
-      );
+    if (element.children.length === 0) {
+      return pageObjects
     }
 
+    pageObjects = this.columnizeOneColumn(
+      element,
+      this.createNewOneColumnPage(),
+      pageHeight
+    );
+    
     return pageObjects;
   }
 
   columnizeTwoColumn(
     element,
     pageObjects,
-    remainingHeight,
+    pageHeight,
     currentColumnIndex
   ) {
     const currentColumn = pageObjects.pageColumns[currentColumnIndex];
 
-    element.classList.add("column-element");
-    element.children[0].classList.add("column-element");
+    let remainingHeight = pageHeight;
 
-    currentColumn.appendChild(element.cloneNode(true));
-
-    const isDontSplit = element.children[0].classList.contains(DONTSPLIT);
-
-    const lastChildHeight = getAbsoluteHeight(currentColumn.lastChild);
-
-    currentColumn.removeChild(currentColumn.lastChild);
-
-    // Se o elemento que exceder a altura máxima tiver filhos que caibam no espaço disponível,
-    // eles serão adicionados; o restante irá para a próxima coluna
-
-    if (isDontSplit) {
-      if (lastChildHeight > remainingHeight) {
-        element.children[0].classList.remove(DONTSPLIT);
+    while (currentColumn.scrollHeight < remainingHeight && element.children.length) {
+      fitOverflow(currentColumn, element, currentColumn, pageHeight);
+      const isDontSplit = splitElement(currentColumn, element, currentColumn, pageHeight);
+      
+      if(isDontSplit === DONTSPLIT) {
+        break;
       }
+      
+      remainingHeight = pageHeight - currentColumn.scrollHeight;
     }
 
-    fitOverflow(element, currentColumn, currentColumn, remainingHeight);
-    splitElement(element, currentColumn, currentColumn, remainingHeight);
-
-    const isEmpty = element.children.length === 0 || (element.children.length === 1 && element.children[0].children.length === 0)
-
-    if(!isEmpty) {
-      if (currentColumnIndex === 0) {
-        const newValues = this.columnizeTwoColumn(
-          element,
-          pageObjects,
-          remainingHeight,
-          1
-        );
-        pageObjects = newValues.pageObjects;
-        currentColumnIndex = newValues.currentColumnIndex;
-      } else {
-        const newValues = this.columnizeTwoColumn(
-          element,
-          this.createNewTwoColumnsPage(),
-          remainingHeight,
-          0
-        );
-        pageObjects = newValues.pageObjects;
-        currentColumnIndex = newValues.currentColumnIndex;
-      }
+    if (element.children.length === 0) {
+      return {
+        pageObjects,
+        currentColumnIndex,
+      };
+    }
+    
+    if (currentColumnIndex === 0) {
+      const newValues = this.columnizeTwoColumn(
+        element,
+        pageObjects,
+        pageHeight,
+        1
+      );
+      pageObjects = newValues.pageObjects;
+      currentColumnIndex = newValues.currentColumnIndex;
+    } else {
+      const newValues = this.columnizeTwoColumn(
+        element,
+        this.createNewTwoColumnsPage(),
+        pageHeight,
+        0
+      );
+      pageObjects = newValues.pageObjects;
+      currentColumnIndex = newValues.currentColumnIndex;
     }
 
     return {
