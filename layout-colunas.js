@@ -71,7 +71,7 @@ function waitForImages(container) {
   });
 }
 
-function splitElement(putInHere, pullOutHere, pageColumn, availableHeight) {
+function splitElement(putInHere, pullOutHere, pageColumn, pageContentHeight) {
 
   const lastContent = putInHere.lastElementChild;
 
@@ -87,7 +87,7 @@ function splitElement(putInHere, pullOutHere, pageColumn, availableHeight) {
 
   let clone = cloneMe.cloneNode(true);
 
-  availableHeight -= pageColumn.offsetHeight;
+  //availableHeight -= pageColumn.offsetHeight;
 
   if(cloneMe.classList.contains("columnbreak")) {
     putInHere.appendChild(clone);
@@ -96,8 +96,8 @@ function splitElement(putInHere, pullOutHere, pageColumn, availableHeight) {
     putInHere.appendChild(clone);
 
     const isImage = clone.tagName === "IMG";
-    const fitsInPage = pageColumn.offsetHeight < availableHeight + 20;
-    const isDontSplit = cloneMe.classList.contains(DONTSPLIT);
+    const fitsInPage = pageColumn.offsetHeight < pageContentHeight + 20;
+    const isDontSplit = cloneMe.classList.contains(DONTSPLIT) || cloneMe.querySelector(`.${DONTSPLIT}`) !== null;
 
     if (isImage && fitsInPage) {
       cloneMe.remove();
@@ -107,14 +107,15 @@ function splitElement(putInHere, pullOutHere, pageColumn, availableHeight) {
     }
     else if (isImage || isDontSplit) {
       clone.remove();
+      return DONTSPLIT
     }
     else {
 
       clone.innerHTML = "";
 
-      if (!fitOverflow(clone, cloneMe, pageColumn, availableHeight)) {
+      if (!fitOverflow(clone, cloneMe, pageColumn, pageContentHeight)) {
         if(cloneMe.children.length) {
-          splitElement(clone, cloneMe, pageColumn, availableHeight);
+          splitElement(clone, cloneMe, pageColumn, pageContentHeight);
         }
       }
 
@@ -143,12 +144,12 @@ function splitElement(putInHere, pullOutHere, pageColumn, availableHeight) {
 
 }
 
-function fitOverflow(putInHere, pullOutHere, pageColumn, remainingHeight) {
+function fitOverflow(putInHere, pullOutHere, pageColumn, pageContentHeight) {
 
   if (!pullOutHere) return;
 
   while (
-    pageColumn.scrollHeight < remainingHeight &&
+    pageColumn.scrollHeight < pageContentHeight &&
     pullOutHere.childNodes.length
   ) {
     let node = pullOutHere.childNodes[0];
@@ -160,10 +161,22 @@ function fitOverflow(putInHere, pullOutHere, pageColumn, remainingHeight) {
     putInHere.appendChild(node);
   }
 
+  if(pageColumn.scrollHeight < pageContentHeight && pullOutHere.childNodes.length === 0) {
+      return
+  }
+
   if (putInHere.childNodes.length === 0) return;
-  if (pullOutHere.childNodes.length === 0) return;
 
   const lastAppendedChild = putInHere.lastChild;
+
+  if(lastAppendedChild.scrollHeight > pageContentHeight) {
+    console.log("Elemento maior que a pagina");
+    lastAppendedChild.classList.remove(DONTSPLIT);
+    lastAppendedChild.querySelectorAll("."+DONTSPLIT).forEach(el => {
+      el.classList.remove(DONTSPLIT);
+    });
+  }
+
   putInHere.removeChild(lastAppendedChild);
 
   if (lastAppendedChild.nodeType == TEXT_NODE) {
@@ -177,7 +190,6 @@ function fitOverflow(putInHere, pullOutHere, pageColumn, remainingHeight) {
 
   return lastAppendedChild.nodeType === TEXT_NODE;
 }
-
 class LayoutProva {
   constructor(
     elementContainer,
@@ -301,45 +313,32 @@ class LayoutProva {
     });
   }
 
-  columnizeOneColumn(element, pageObjects, remainingHeight) {
+  columnizeOneColumn(element, pageObjects, pageHeight) {
     const pageColumn = pageObjects.pageColumn;
 
-    if(!element.children[0]) return pageObjects;
+    let remainingHeight = pageHeight;
 
-    const clone = element.cloneNode(true);
-    clone.classList.add("column-element");
-    clone.children[0].classList.add("column-element");
-
-    pageColumn.appendChild(clone);
-
-    const isDontSplit = element.children[0].classList.contains(DONTSPLIT);
-
-    const lastChildHeight = getAbsoluteHeight(pageColumn.lastChild);
-
-    pageColumn.removeChild(pageColumn.lastChild);
-
-    if (isDontSplit) {
-      if (lastChildHeight > remainingHeight) {
-        element.children[0].classList.remove(DONTSPLIT);
+    while (pageColumn.scrollHeight < remainingHeight && element.children.length) {
+      fitOverflow(pageColumn, element, pageColumn, pageHeight);
+      const isDontSplit = splitElement(pageColumn, element, pageColumn, pageHeight);
+      
+      if(isDontSplit === DONTSPLIT) {
+        break;
       }
+      
+      remainingHeight = pageHeight - pageColumn.scrollHeight;
     }
 
-    let isEmpty = element.children.length === 0 || (element.children.length === 1 && element.children[0].children.length === 0)
-
-    while (pageColumn.scrollHeight < remainingHeight && !isEmpty) {
-      fitOverflow(pageColumn, element, pageColumn, remainingHeight);
-      splitElement(pageColumn, element, pageColumn, remainingHeight);
-      isEmpty = element.children.length === 0 || (element.children.length === 1 && element.children[0].children.length === 0)
+    if (element.children.length === 0) {
+      return pageObjects
     }
 
-    if(!isEmpty) {
-      pageObjects = this.columnizeOneColumn(
-        element,
-        this.createNewOneColumnPage(),
-        remainingHeight
-      );
-    }
-
+    pageObjects = this.columnizeOneColumn(
+      element,
+      this.createNewOneColumnPage(),
+      pageHeight
+    );
+    
     return pageObjects;
   }
 
@@ -351,32 +350,26 @@ class LayoutProva {
   ) {
     const currentColumn = pageObjects.pageColumns[currentColumnIndex];
 
-/*     element.classList.add("column-element");
-    element.children[0].classList.add("column-element");
-
-    currentColumn.appendChild(element.cloneNode(true));
-
-    const isDontSplit = element.children[0].classList.contains(DONTSPLIT);
-
-    const lastChildHeight = getAbsoluteHeight(currentColumn.lastChild);
-
-    currentColumn.removeChild(currentColumn.lastChild);
-
-    if (isDontSplit) {
-      if (lastChildHeight > remainingHeight) {
-        element.children[0].classList.remove(DONTSPLIT);
-      }
-    }
- */
-
     let remainingHeight = pageHeight;
 
-    while (currentColumn.scrollHeight < remainingHeight || element.children.length) {
+    while (currentColumn.scrollHeight < remainingHeight && element.children.length) {
       fitOverflow(currentColumn, element, currentColumn, pageHeight);
-      splitElement(currentColumn, element, currentColumn, pageHeight);
+      const isDontSplit = splitElement(currentColumn, element, currentColumn, pageHeight);
+      
+      if(isDontSplit === DONTSPLIT) {
+        break;
+      }
+      
       remainingHeight = pageHeight - currentColumn.scrollHeight;
     }
 
+    if (element.children.length === 0) {
+      return {
+        pageObjects,
+        currentColumnIndex,
+      };
+    }
+    
     if (currentColumnIndex === 0) {
       const newValues = this.columnizeTwoColumn(
         element,

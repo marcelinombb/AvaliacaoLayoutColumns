@@ -90,7 +90,7 @@
     const { cabecalho, folhaRosto, paginacao, rodape, rodapeRosto } =
       provaModelo2.prova.layout;
 
-    const listaQuestoes = provaModelo2.listaProvaQuestao.map(provaQuestao => provaQuestao.questao)
+    const listaQuestoes = listaQuestao
 
     // onde as paginas colunizadas serão armazenadas
     const pagesContainer = document.getElementById('pages-container');
@@ -119,6 +119,7 @@
 
       LayoutProva.builder(pagesContainer)
         .pageHeader(cabecalhoPagina)
+        .fonteTamanho(14)
         .folhaDeRosto({
           header: cabecalho,
           content: folhaRosto,
@@ -134,14 +135,15 @@
       console.log(tempContainer);
 
       LayoutProva.builder(pagesContainer)
-        .fonteTamanho(14)
+        .fonteTamanho(18)
         .oneColumnLayout(tempContainer)
     }
 
     function previewQuestaoTwoColumn(pagesContainer, listaQuestao) {
       const tempContainer = createPreviewQuestaoTempContainer(listaQuestao)
       LayoutProva.builder(pagesContainer)
-        .twoColumnLayout(tempContainer)
+      .fonteTamanho(18)
+      .twoColumnLayout(tempContainer)
     }
 
     document.getElementById('oneColumn').addEventListener('click', () => {
