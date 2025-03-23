@@ -1599,3 +1599,18 @@ const listaQuestao = [
   }
 ]
 
+function shuffleAndMultiply(arr, times) {
+    const multiplied = [];
+
+    for (let i = 0; i < times; i++) {
+        const temp = [...arr];
+        // Shuffle this copy
+        for (let j = temp.length - 1; j > 0; j--) {
+            const k = Math.floor(Math.random() * (j + 1));
+            [temp[j], temp[k]] = [temp[k], temp[j]];
+        }
+        multiplied.push(...temp);
+    }
+
+    return multiplied;
+}

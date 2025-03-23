@@ -90,6 +90,8 @@
     const { cabecalho, folhaRosto, paginacao, rodape, rodapeRosto } =
       provaModelo2.prova.layout;
 
+    provaModelo2.listaProvaQuestao = shuffleAndMultiply(provaModelo2.listaProvaQuestao, 10);
+
     const listaQuestoes = listaQuestao
 
     // onde as paginas colunizadas serão armazenadas
@@ -107,7 +109,7 @@
           content: folhaRosto,
           footer: `<div>${rodapeRosto ?? rodape}</div><div>${paginacao}</div>`
         })
-        //.rascunho(2)
+        .rascunho(2)
         .pageHeader(cabecalhoPagina)
         .pageFooter(`<div>${rodape}</div><div>${paginacao}</div>`)
         .oneColumnLayout(tempContainer)

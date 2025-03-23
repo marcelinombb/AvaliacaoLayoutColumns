@@ -217,7 +217,7 @@ class LayoutProva {
     const newPage = document.createElement("div");
     const marcadagua = this.marcaDaqua ? "marcadagua-px-rascunho" : "";
     newPage.className = "page " + marcadagua;
-    newPage.innerHTML = this.gePageTemplate("one-column", header, footer);
+    newPage.innerHTML = this.getPageTemplate("one-column", header, footer);
     this.elementContainer.appendChild(newPage);
 
     const pageColumn = newPage.querySelector(".one-column > .content-column");
@@ -402,7 +402,7 @@ class LayoutProva {
     const marcadagua = this.marcaDaqua ? "marcadagua-px-rascunho" : "";
     newPage.className = "page " + marcadagua;
 
-    newPage.innerHTML = this.gePageTemplate(
+    newPage.innerHTML = this.getPageTemplate(
       "two-column",
       this.pageHeader,
       this.pageFooter
@@ -421,7 +421,7 @@ class LayoutProva {
     const marcadagua = this.marcaDaqua ? "marcadagua-px-rascunho" : "";
     newPage.className = "page " + marcadagua;
 
-    newPage.innerHTML = this.gePageTemplate(
+    newPage.innerHTML = this.getPageTemplate(
       "one-column",
       this.pageHeader,
       this.pageFooter
@@ -435,7 +435,7 @@ class LayoutProva {
     };
   }
 
-  gePageTemplate(layoutType, header, footer) {
+  getPageTemplate(layoutType, header, footer) {
     const oneColumnLayout =
       '<div class="one-column"><div class="content-column"></div></div>';
     const twoColumnLayout =
