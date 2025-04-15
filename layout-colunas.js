@@ -74,7 +74,6 @@ function waitForImages(container) {
 
 function removeClass(node, className) {
     node.classList.remove(className);
-
     node.querySelectorAll(`.${className}`).forEach(child => {
     child.classList.remove(className);
     });
@@ -182,10 +181,7 @@ function fitOverflow(putInHere, pullOutHere, pageColumn, pageContentHeight) {
 
   if(lastAppendedChild.scrollHeight > pageContentHeight) {
     console.log("Elemento maior que a pagina");
-    lastAppendedChild.classList.remove(DONTSPLIT);
-    lastAppendedChild.querySelectorAll("."+DONTSPLIT).forEach(el => {
-      el.classList.remove(DONTSPLIT);
-    });
+    removeClass(lastAppendedChild, DONTSPLIT)
   }
 
   putInHere.removeChild(lastAppendedChild);
