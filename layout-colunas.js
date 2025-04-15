@@ -1,6 +1,7 @@
 const MM_TO_INCH = 25.4;
 const DEFAULT_DPI = 96;
 const DONTSPLIT = "dontsplit";
+const COLUMNBREAK= "columnbreak"
 
 const TEXT_NODE = 3;
 
@@ -71,12 +72,20 @@ function waitForImages(container) {
   });
 }
 
+function removeClass(node, className) {
+    node.classList.remove(className);
+
+    node.querySelectorAll(`.${className}`).forEach(child => {
+    child.classList.remove(className);
+    });
+}
+
 function splitElement(putInHere, pullOutHere, pageColumn, pageContentHeight) {
 
   const lastContent = putInHere.lastElementChild;
 
-  if (lastContent && (lastContent.classList.contains("columnbreak") || lastContent.querySelector(".columnbreak"))) {
-      return;
+  if (lastContent && (lastContent.classList.contains(COLUMNBREAK) || lastContent.querySelector("."+COLUMNBREAK))) {
+      return COLUMNBREAK;
   }
 
   if (pullOutHere.children.length === 0) return
@@ -87,9 +96,7 @@ function splitElement(putInHere, pullOutHere, pageColumn, pageContentHeight) {
 
   let clone = cloneMe.cloneNode(true);
 
-  //availableHeight -= pageColumn.offsetHeight;
-
-  if(cloneMe.classList.contains("columnbreak")) {
+  if(cloneMe.classList.contains(COLUMNBREAK)) {
     putInHere.appendChild(clone);
     cloneMe.remove();
   } else {
@@ -105,7 +112,11 @@ function splitElement(putInHere, pullOutHere, pageColumn, pageContentHeight) {
     else if(isDontSplit && fitsInPage) {
       cloneMe.remove();
     }
-    else if (isImage || isDontSplit) {
+    else if(isDontSplit && !fitsInPage) {
+      removeClass(cloneMe, DONTSPLIT)
+      clone.remove();
+    }
+    else if (isImage || isDontSplit) {       
       clone.remove();
       return DONTSPLIT
     }
@@ -154,7 +165,7 @@ function fitOverflow(putInHere, pullOutHere, pageColumn, pageContentHeight) {
   ) {
     let node = pullOutHere.childNodes[0];
 
-    if (node.nodeType !== TEXT_NODE && (node.querySelector(".columnbreak") || node.classList.contains("columnbreak"))) {
+    if (node.nodeType !== TEXT_NODE && (node.querySelectorAll('.' + COLUMNBREAK).length || node.classList.contains(COLUMNBREAK))) {
         return;
     }
 
@@ -322,7 +333,7 @@ class LayoutProva {
       fitOverflow(pageColumn, element, pageColumn, pageHeight);
       const isDontSplit = splitElement(pageColumn, element, pageColumn, pageHeight);
       
-      if(isDontSplit === DONTSPLIT) {
+      if(isDontSplit === DONTSPLIT || isDontSplit === COLUMNBREAK) {
         break;
       }
       
@@ -356,7 +367,7 @@ class LayoutProva {
       fitOverflow(currentColumn, element, currentColumn, pageHeight);
       const isDontSplit = splitElement(currentColumn, element, currentColumn, pageHeight);
       
-      if(isDontSplit === DONTSPLIT) {
+      if(isDontSplit === DONTSPLIT || isDontSplit === COLUMNBREAK) {
         break;
       }
       
